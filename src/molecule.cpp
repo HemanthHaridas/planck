@@ -296,7 +296,8 @@ int main(int argc, char const *argv[])
     // Now read the basis sets
     for (std::uint16_t atomIndex = 0; atomIndex < scfCalculator.nAtoms; ++atomIndex)
     {
-        std::string basisFile = "../basis/" + scfCalculator.calculationBasis + "-" + std::to_string(inputMolecule.atomNumbers(atomIndex)) + ".xml";
+        // Updated the path to indicate that the basis folder will be packaged along with the executables
+        std::string basisFile = "./basis/" + scfCalculator.calculationBasis + "-" + std::to_string(inputMolecule.atomNumbers(atomIndex)) + ".xml";
         std::fstream basisPointer(basisFile);
         readBasis(&basisPointer, std::to_string(inputMolecule.atomNumbers(atomIndex)), std::to_string(atomIndex), &errorFlag, &errorMessage);
 

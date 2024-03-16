@@ -54,3 +54,6 @@ foreach(EXECUTABLE_SOURCE ${EXECUTABLE_SOURCES})
     # Set output directory for binary
     set_target_properties(${EXECUTABLE_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endforeach()
+
+# Copy the basis set directory to the bin folder
+file(COPY ${CMAKE_SOURCE_DIR}/basis DESTINATION ${CMAKE_BINARY_DIR}/bin)

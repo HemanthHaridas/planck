@@ -51,7 +51,6 @@ foreach(EXECUTABLE_SOURCE ${EXECUTABLE_SOURCES})
     add_executable(${EXECUTABLE_NAME} ${EXECUTABLE_SOURCE})
     # Link libraries
     target_link_libraries(${EXECUTABLE_NAME} Eigen3::Eigen ${Boost_LIBRARIES})
+    # Set output directory for binary
+    set_target_properties(${EXECUTABLE_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endforeach()
-
-# Set output directory for binary
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

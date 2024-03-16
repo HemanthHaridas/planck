@@ -183,7 +183,7 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
                 // Append the primitives to form contracted gaussians
                 basisShell.cGTO.push_back(primitiveGTO);
             }
-            
+
             // Append contracted gaussians to form basis
             scfCalculator->basisFunctions.push_back(basisShell);
         }

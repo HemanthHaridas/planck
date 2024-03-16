@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<BasisSet>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+		<PGTO Exponent="6.362421394" Coefficient="0.15432896729145232" Normalization="2.8551367530414344"/>
+		<PGTO Exponent="1.158922999" Coefficient="0.5353281422703502" Normalization="0.7960695795692704"/>
+		<PGTO Exponent="0.3136497915" Coefficient="0.44463454217537335" Normalization="0.29870593011949675"/>
+	</CGTO>
+</BasisSet>

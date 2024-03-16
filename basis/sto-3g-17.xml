@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<BasisSet>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+		<PGTO Exponent="601.3456136" Coefficient="0.1543289672977416" Normalization="86.54723602810365"/>
+		<PGTO Exponent="109.5358542" Coefficient="0.5353281422921662" Normalization="24.131110967256205"/>
+		<PGTO Exponent="29.64467686" Coefficient="0.4446345421934933" Normalization="9.054617998272631"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+		<PGTO Exponent="38.96041889" Coefficient="-0.09996722918677718" Normalization="11.114189707153185"/>
+		<PGTO Exponent="9.053563477" Coefficient="0.39951282608712013" Normalization="3.719844241948775"/>
+		<PGTO Exponent="2.944499834" Coefficient="0.700115468877429" Normalization="1.6020229851104202"/>
+	</CGTO>
+	<CGTO AngularMomentumX="1" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="px">
+		<PGTO Exponent="38.96041889" Coefficient="0.15591627499950353" Normalization="138.74572477708347"/>
+		<PGTO Exponent="9.053563477" Coefficient="0.607683718598065" Normalization="22.385382856601492"/>
+		<PGTO Exponent="2.944499834" Coefficient="0.39195739309875194" Normalization="5.497997089538477"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="1" AngularMomentumZ="0" OrbitalType="py">
+		<PGTO Exponent="38.96041889" Coefficient="0.15591627499950353" Normalization="138.74572477708347"/>
+		<PGTO Exponent="9.053563477" Coefficient="0.607683718598065" Normalization="22.385382856601492"/>
+		<PGTO Exponent="2.944499834" Coefficient="0.39195739309875194" Normalization="5.497997089538477"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="1" OrbitalType="pz">
+		<PGTO Exponent="38.96041889" Coefficient="0.15591627499950353" Normalization="138.74572477708347"/>
+		<PGTO Exponent="9.053563477" Coefficient="0.607683718598065" Normalization="22.385382856601492"/>
+		<PGTO Exponent="2.944499834" Coefficient="0.39195739309875194" Normalization="5.497997089538477"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+		<PGTO Exponent="2.129386495" Coefficient="-0.21962036900813922" Normalization="1.2563219964876824"/>
+		<PGTO Exponent="0.5940934274" Coefficient="0.22559543360836065" Normalization="0.4822821107822257"/>
+		<PGTO Exponent="0.232524141" Coefficient="0.9003984260333691" Normalization="0.23864982966314535"/>
+	</CGTO>
+	<CGTO AngularMomentumX="1" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="px">
+		<PGTO Exponent="2.129386495" Coefficient="0.010587604289287424" Normalization="3.6665550260947954"/>
+		<PGTO Exponent="0.5940934274" Coefficient="0.5951670052599436" Normalization="0.743461566632182"/>
+		<PGTO Exponent="0.232524141" Coefficient="0.46200101196890603" Normalization="0.23015750910069385"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="1" AngularMomentumZ="0" OrbitalType="py">
+		<PGTO Exponent="2.129386495" Coefficient="0.010587604289287424" Normalization="3.6665550260947954"/>
+		<PGTO Exponent="0.5940934274" Coefficient="0.5951670052599436" Normalization="0.743461566632182"/>
+		<PGTO Exponent="0.232524141" Coefficient="0.46200101196890603" Normalization="0.23015750910069385"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="1" OrbitalType="pz">
+		<PGTO Exponent="2.129386495" Coefficient="0.010587604289287424" Normalization="3.6665550260947954"/>
+		<PGTO Exponent="0.5940934274" Coefficient="0.5951670052599436" Normalization="0.743461566632182"/>
+		<PGTO Exponent="0.232524141" Coefficient="0.46200101196890603" Normalization="0.23015750910069385"/>
+	</CGTO>
+</BasisSet>

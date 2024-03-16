@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<BasisSet>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+		<PGTO Exponent="30.16787069" Coefficient="0.15432896729329107" Normalization="9.174208069327799"/>
+		<PGTO Exponent="5.495115306" Coefficient="0.5353281422767284" Normalization="2.557953819449832"/>
+		<PGTO Exponent="1.487192653" Coefficient="0.444634542180671" Normalization="0.959810542053418"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+		<PGTO Exponent="1.31483311" Coefficient="-0.09996722918730498" Normalization="0.8751108453953361"/>
+		<PGTO Exponent="0.3055389383" Coefficient="0.3995128260892295" Normalization="0.2928936904219675"/>
+		<PGTO Exponent="0.0993707456" Coefficient="0.7001154688811255" Normalization="0.1261403418281616"/>
+	</CGTO>
+	<CGTO AngularMomentumX="1" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="px">
+		<PGTO Exponent="1.31483311" Coefficient="0.15591627500045951" Normalization="2.006912221888641"/>
+		<PGTO Exponent="0.3055389383" Coefficient="0.607683718601791" Normalization="0.3237973531818364"/>
+		<PGTO Exponent="0.0993707456" Coefficient="0.3919573931011552" Normalization="0.079526757109914"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="1" AngularMomentumZ="0" OrbitalType="py">
+		<PGTO Exponent="1.31483311" Coefficient="0.15591627500045951" Normalization="2.006912221888641"/>
+		<PGTO Exponent="0.3055389383" Coefficient="0.607683718601791" Normalization="0.3237973531818364"/>
+		<PGTO Exponent="0.0993707456" Coefficient="0.3919573931011552" Normalization="0.079526757109914"/>
+	</CGTO>
+	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="1" OrbitalType="pz">
+		<PGTO Exponent="1.31483311" Coefficient="0.15591627500045951" Normalization="2.006912221888641"/>
+		<PGTO Exponent="0.3055389383" Coefficient="0.607683718601791" Normalization="0.3237973531818364"/>
+		<PGTO Exponent="0.0993707456" Coefficient="0.3919573931011552" Normalization="0.079526757109914"/>
+	</CGTO>
+</BasisSet>

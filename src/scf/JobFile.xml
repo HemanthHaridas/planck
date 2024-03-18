@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Data>
+	<Input_Options CalculationType="Energy" BasisSet="sto-3g" Theory="RHF"/>
+	<Molecule_Information NumberAtoms="3" TotalCharge="0" MolMultiplicity="1" TotalElectrons="10">
+		<Geometry AtomName="O" AtomIndex="0" AtomX="-4.5683999999999996" AtomY="2.8883999999999999" AtomZ="-0.0201" AtomicNumber="8" AtomicMass="15.999000000000001"/>
+		<Geometry AtomName="H" AtomIndex="1" AtomX="-5.5088999999999997" AtomY="3.0323000000000002" AtomZ="-0.57210000000000005" AtomicNumber="1" AtomicMass="1.008"/>
+		<Geometry AtomName="H" AtomIndex="2" AtomX="-4.5625999999999998" AtomY="3.6259000000000001" AtomZ="0.79610000000000003" AtomicNumber="1" AtomicMass="1.008"/>
+	</Molecule_Information>
+	<BasisSet AtomNumber="8" AtomIndex="0">
+		<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+			<PGTO Exponent="130.7093214" Coefficient="0.1543289672962566" Normalization="27.551167822078394"/>
+			<PGTO Exponent="23.80886605" Coefficient="0.5353281422870151" Normalization="7.681819989204459"/>
+			<PGTO Exponent="6.443608313" Coefficient="0.44463454218921483" Normalization="2.8824178731686616"/>
+		</CGTO>
+		<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+			<PGTO Exponent="5.033151319" Coefficient="-0.09996722918837482" Normalization="2.3949148825016215"/>
+			<PGTO Exponent="1.169596125" Coefficient="0.399512826093505" Normalization="0.8015618386293724"/>
+			<PGTO Exponent="0.38038896" Coefficient="0.7001154688886181" Normalization="0.34520813393821864"/>
+		</CGTO>
+		<CGTO AngularMomentumX="1" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="px">
+			<PGTO Exponent="5.033151319" Coefficient="0.1559162750015553" Normalization="10.745832634231425"/>
+			<PGTO Exponent="1.169596125" Coefficient="0.6076837186060619" Normalization="1.7337440707285057"/>
+			<PGTO Exponent="0.38038896" Coefficient="0.3919573931039099" Normalization="0.4258189334467701"/>
+		</CGTO>
+		<CGTO AngularMomentumX="0" AngularMomentumY="1" AngularMomentumZ="0" OrbitalType="py">
+			<PGTO Exponent="5.033151319" Coefficient="0.1559162750015553" Normalization="10.745832634231425"/>
+			<PGTO Exponent="1.169596125" Coefficient="0.6076837186060619" Normalization="1.7337440707285057"/>
+			<PGTO Exponent="0.38038896" Coefficient="0.3919573931039099" Normalization="0.4258189334467701"/>
+		</CGTO>
+		<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="1" OrbitalType="pz">
+			<PGTO Exponent="5.033151319" Coefficient="0.1559162750015553" Normalization="10.745832634231425"/>
+			<PGTO Exponent="1.169596125" Coefficient="0.6076837186060619" Normalization="1.7337440707285057"/>
+			<PGTO Exponent="0.38038896" Coefficient="0.3919573931039099" Normalization="0.4258189334467701"/>
+		</CGTO>
+	</BasisSet>
+	<BasisSet AtomNumber="1" AtomIndex="1">
+		<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+			<PGTO Exponent="3.425250914" Coefficient="0.15432896729459913" Normalization="1.7944418337900938"/>
+			<PGTO Exponent="0.6239137298" Coefficient="0.5353281422812658" Normalization="0.5003264922111158"/>
+			<PGTO Exponent="0.168855404" Coefficient="0.44463454218443965" Normalization="0.18773546184636128"/>
+		</CGTO>
+	</BasisSet>
+	<BasisSet AtomNumber="1" AtomIndex="2">
+		<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
+			<PGTO Exponent="3.425250914" Coefficient="0.15432896729459913" Normalization="1.7944418337900938"/>
+			<PGTO Exponent="0.6239137298" Coefficient="0.5353281422812658" Normalization="0.5003264922111158"/>
+			<PGTO Exponent="0.168855404" Coefficient="0.44463454218443965" Normalization="0.18773546184636128"/>
+		</CGTO>
+	</BasisSet>
+	<Output>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.020099999999999996" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="0" IndexB="14"/>
+			<Gaussian LocationX="-4.592416541217097" LocationY="2.8920746201819676" LocationZ="-0.034195832803655631" IntegralX="0.052214019389468125" IntegralY="0.93321824017890276" IntegralZ="0.36166528546846005" IndexA="0" IndexB="15"/>
+			<Gaussian LocationX="-4.5728679540734447" LocationY="2.8890836136003921" LocationZ="-0.022722339870857672" IntegralX="0.5773797681681766" IntegralY="0.98722417568456822" IntegralZ="0.82761610428502641" IndexA="0" IndexB="16"/>
+			<Gaussian LocationX="-4.5696134070884851" LocationY="2.8885856558001413" LocationZ="-0.020812175133273644" IntegralX="0.86142550166172005" IntegralY="0.99651407679592829" IntegralZ="0.94991332397573658" IndexA="0" IndexB="17"/>
+			<Gaussian LocationX="-4.5682518916118449" LocationY="2.9072327476316957" LocationZ="0.00074242524337632247" IntegralX="0.99988772325143205" IntegralY="0.16276602294095643" IntegralZ="0.10822173487181519" IndexA="0" IndexB="18"/>
+			<Gaussian LocationX="-4.5683724464288931" LocationY="2.8919035790847061" LocationZ="-0.016222547459068783" IntegralX="0.99997911146839558" IntegralY="0.71338184644135616" IntegralZ="0.66122187936575716" IndexA="0" IndexB="19"/>
+			<Gaussian LocationX="-4.5683925170004107" LocationY="2.8893515021028793" LocationZ="-0.019046961333735603" IntegralX="0.99999432704886126" IntegralY="0.91235782105655827" IntegralZ="0.89373731731998918" IndexA="0" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.020099999999999996" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="1" IndexB="14"/>
+			<Gaussian LocationX="-4.6866872383516354" LocationY="2.9064983876648594" LocationZ="-0.089525364774165922" IntegralX="0.070741983588722759" IntegralY="0.93987648582462591" IntegralZ="0.40155031169030908" IndexA="1" IndexB="15"/>
+			<Gaussian LocationX="-4.5924165412272089" LocationY="2.8920746201835144" LocationZ="-0.034195832809590328" IntegralX="0.58404098455390041" IntegralY="0.9874893166301989" IntegralZ="0.83089287867414663" IndexA="1" IndexB="16"/>
+			<Gaussian LocationX="-4.5750231692517849" LocationY="2.8894133695431492" LocationZ="-0.023987282750648976" IntegralX="0.8621658843044071" IntegralY="0.99653411891922294" IntegralZ="0.9501944886383179" IndexA="1" IndexB="17"/>
+			<Gaussian LocationX="-4.5676705305875176" LocationY="2.9811558089147598" LocationZ="0.082553954218612738" IntegralX="0.99989927160417524" IntegralY="0.19618389114341631" IntegralZ="0.13603359534282658" IndexA="1" IndexB="18"/>
+			<Gaussian LocationX="-4.5682518916117827" LocationY="2.9072327476396245" LocationZ="0.00074242525215150108" IntegralX="0.99997954771105046" IntegralY="0.71843147892231307" IntegralZ="0.66695906426466178" IndexA="1" IndexB="19"/>
+			<Gaussian LocationX="-4.5683591553624021" LocationY="2.8935936069358763" LocationZ="-0.014352173585000561" IntegralX="0.99999435972177497" IntegralY="0.9128399223571334" IntegralZ="0.8943157834274662" IndexA="1" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="2" IndexB="14"/>
+			<Gaussian LocationX="-4.8948256192654469" LocationY="2.9383443345159996" LocationZ="-0.21168632837270282" IntegralX="0.1383167432037094" IntegralY="0.95474580489756367" IntegralZ="0.50588393852703351" IndexA="2" IndexB="15"/>
+			<Gaussian LocationX="-4.6514263930304525" LocationY="2.9011033471101348" LocationZ="-0.068830004202881281" IntegralX="0.60461845201391773" IntegralY="0.98829010967804054" IntegralZ="0.84086313148647285" IndexA="2" IndexB="16"/>
+			<Gaussian LocationX="-4.5924165412255817" LocationY="2.8920746201832657" LocationZ="-0.034195832808635432" IntegralX="0.86455066434620609" IntegralY="0.9965985607323552" IntegralZ="0.95109904836544301" IndexA="2" IndexB="17"/>
+			<Gaussian LocationX="-4.5663869552453589" LocationY="3.1443690528530226" LocationZ="0.26318398771340584" IntegralX="0.99992476945285003" IntegralY="0.29629307873126887" IntegralZ="0.2254024387731666" IndexA="2" IndexB="18"/>
+			<Gaussian LocationX="-4.5678879818398972" LocationY="2.9535057574268566" LocationZ="0.051953314185492198" IntegralX="0.99998086456514224" IntegralY="0.7338922570974975" IntegralZ="0.68458117065024116" IndexA="2" IndexB="19"/>
+			<Gaussian LocationX="-4.5682518916117925" LocationY="2.9072327476383486" LocationZ="0.00074242525073955966" IntegralX="0.99999446477115894" IntegralY="0.91439169288536937" IntegralZ="0.89617819577699576" IndexA="2" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="3" IndexB="14"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="3" IndexB="15"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="3" IndexB="16"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="3" IndexB="17"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="3" IndexB="18"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="3" IndexB="19"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="3" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="4" IndexB="14"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="4" IndexB="15"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="4" IndexB="16"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="4" IndexB="17"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="4" IndexB="18"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="4" IndexB="19"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="4" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="5" IndexB="14"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="5" IndexB="15"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="5" IndexB="16"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="5" IndexB="17"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="5" IndexB="18"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="5" IndexB="19"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="5" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="6" IndexB="14"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="6" IndexB="15"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="6" IndexB="16"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="6" IndexB="17"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="6" IndexB="18"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="6" IndexB="19"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="6" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="7" IndexB="14"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="7" IndexB="15"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="7" IndexB="16"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="7" IndexB="17"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="7" IndexB="18"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="7" IndexB="19"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="7" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="8" IndexB="14"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="8" IndexB="15"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="8" IndexB="16"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="8" IndexB="17"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="8" IndexB="18"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="8" IndexB="19"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="8" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="9" IndexB="14"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="9" IndexB="15"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="9" IndexB="16"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="9" IndexB="17"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="9" IndexB="18"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="9" IndexB="19"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="9" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="10" IndexB="14"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="10" IndexB="15"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="10" IndexB="16"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="10" IndexB="17"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="10" IndexB="18"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="10" IndexB="19"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="10" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="11" IndexB="14"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="11" IndexB="15"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="11" IndexB="16"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="11" IndexB="17"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="11" IndexB="18"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="11" IndexB="19"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="11" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999987" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="12" IndexB="14"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="12" IndexB="15"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="12" IndexB="16"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="12" IndexB="17"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="12" IndexB="18"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="12" IndexB="19"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="12" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8884000000000003" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="13" IndexB="14"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="13" IndexB="15"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="13" IndexB="16"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="13" IndexB="17"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="13" IndexB="18"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="13" IndexB="19"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="13" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="0"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="1"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="2"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="3"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="4"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="5"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="6"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="7"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="8"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="9"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="10"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="11"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="12"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.020100000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="13"/>
+			<Gaussian LocationX="-4.5683999999999996" LocationY="2.8883999999999999" LocationZ="-0.0201" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="14" IndexB="14"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="14" IndexB="15"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="14" IndexB="16"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="14" IndexB="17"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="14" IndexB="18"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="14" IndexB="19"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="14" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.592416541217097" LocationY="2.8920746201819676" LocationZ="-0.034195832803655631" IntegralX="0.052214019389468125" IntegralY="0.93321824017890276" IntegralZ="0.36166528546846005" IndexA="15" IndexB="0"/>
+			<Gaussian LocationX="-4.6866872383516354" LocationY="2.9064983876648594" LocationZ="-0.089525364774165922" IntegralX="0.070741983588722759" IntegralY="0.93987648582462591" IntegralZ="0.40155031169030908" IndexA="15" IndexB="1"/>
+			<Gaussian LocationX="-4.8948256192654469" LocationY="2.9383443345159996" LocationZ="-0.21168632837270282" IntegralX="0.1383167432037094" IntegralY="0.95474580489756367" IntegralZ="0.50588393852703351" IndexA="15" IndexB="2"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="15" IndexB="3"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="15" IndexB="4"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="15" IndexB="5"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="15" IndexB="6"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="15" IndexB="7"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="15" IndexB="8"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="15" IndexB="9"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="15" IndexB="10"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="15" IndexB="11"/>
+			<Gaussian LocationX="-4.9492578022039071" LocationY="2.9466726610708585" LocationZ="-0.24363376588682267" IntegralX="0.16482705438580472" IntegralY="0.95867307145130842" IntegralZ="0.53738324763600209" IndexA="15" IndexB="12"/>
+			<Gaussian LocationX="-5.2695002667279436" LocationY="2.9956709499012777" LocationZ="-0.43159106563936706" IntegralX="0.46245135406246662" IntegralY="0.98210777650647751" IntegralZ="0.76669542740827412" IndexA="15" IndexB="13"/>
+			<Gaussian LocationX="-5.4148932550832845" LocationY="3.0179166181887132" LocationZ="-0.51692538735350668" IntegralX="0.73871884336316129" IntegralY="0.99293559412473442" IntegralZ="0.90093626260488269" IndexA="15" IndexB="14"/>
+			<Gaussian LocationX="-5.5088999999999997" LocationY="3.0323000000000002" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="15" IndexB="15"/>
+			<Gaussian LocationX="-5.5088999999999988" LocationY="3.0322999999999998" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="15" IndexB="16"/>
+			<Gaussian LocationX="-5.5089000000000006" LocationY="3.0323000000000002" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="15" IndexB="17"/>
+			<Gaussian LocationX="-5.0357500000000002" LocationY="3.3291000000000004" LocationZ="0.11200000000000002" IntegralX="0.21575146391106895" IntegralY="0.54691474379169314" IntegralZ="0.040518946461515402" IndexA="15" IndexB="18"/>
+			<Gaussian LocationX="-5.3630897861787945" LocationY="3.1237645914871255" LocationZ="-0.36128151268078595" IntegralX="0.62336888513548205" IntegralY="0.83029978668265536" IntegralZ="0.37232590287488687" IndexA="15" IndexB="19"/>
+			<Gaussian LocationX="-5.4644416966924574" LocationY="3.0601880363979261" LocationZ="-0.50782033120006342" IntegralX="0.86579825217676187" IntegralY="0.94487487963675998" IntegralZ="0.73989865193125171" IndexA="15" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5728679540734447" LocationY="2.8890836136003921" LocationZ="-0.022722339870857672" IntegralX="0.5773797681681766" IntegralY="0.98722417568456822" IntegralZ="0.82761610428502641" IndexA="16" IndexB="0"/>
+			<Gaussian LocationX="-4.5924165412272089" LocationY="2.8920746201835144" LocationZ="-0.034195832809590328" IntegralX="0.58404098455390041" IntegralY="0.9874893166301989" IntegralZ="0.83089287867414663" IndexA="16" IndexB="1"/>
+			<Gaussian LocationX="-4.6514263930304525" LocationY="2.9011033471101348" LocationZ="-0.068830004202881281" IntegralX="0.60461845201391773" IntegralY="0.98829010967804054" IntegralZ="0.84086313148647285" IndexA="16" IndexB="2"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="16" IndexB="3"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="16" IndexB="4"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="16" IndexB="5"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="16" IndexB="6"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="16" IndexB="7"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="16" IndexB="8"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="16" IndexB="9"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="16" IndexB="10"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="16" IndexB="11"/>
+			<Gaussian LocationX="-4.6721270842415663" LocationY="2.9042706299015006" LocationZ="-0.080979692186437871" IntegralX="0.61200752470859765" IntegralY="0.98857118219131956" IntegralZ="0.84438897468734753" IndexA="16" IndexB="12"/>
+			<Gaussian LocationX="-4.8955745963962567" LocationY="2.9384589308042757" LocationZ="-0.21212591941598519" IntegralX="0.69775046313921152" IntegralY="0.99161022975498969" IntegralZ="0.88340174037969721" IndexA="16" IndexB="13"/>
+			<Gaussian LocationX="-5.1526769006162425" LocationY="2.977796540136818" LocationZ="-0.36302487946854456" IntegralX="0.81137214377388833" IntegralY="0.99511856785235508" IntegralZ="0.93052573070996225" IndexA="16" IndexB="14"/>
+			<Gaussian LocationX="-5.5088999999999988" LocationY="3.0322999999999998" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="16" IndexB="15"/>
+			<Gaussian LocationX="-5.5088999999999997" LocationY="3.0323000000000002" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="16" IndexB="16"/>
+			<Gaussian LocationX="-5.5088999999999997" LocationY="3.0323000000000002" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="16" IndexB="17"/>
+			<Gaussian LocationX="-4.7084102138212041" LocationY="3.534435408512874" LocationZ="0.58528151268078599" IntegralX="0.62336888513548205" IntegralY="0.83029978668265536" IntegralZ="0.37232590287488687" IndexA="16" IndexB="18"/>
+			<Gaussian LocationX="-5.0357499999999993" LocationY="3.3290999999999999" LocationZ="0.11199999999999999" IntegralX="0.7562734328718328" IntegralY="0.89590453235509582" IntegralZ="0.55767759004162876" IndexA="16" IndexB="19"/>
+			<Gaussian LocationX="-5.3073433777847967" LocationY="3.1587334893236227" LocationZ="-0.28068103084133988" IntegralX="0.8878069510033183" IntegralY="0.95425409220952329" IntegralZ="0.77976200397818551" IndexA="16" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5696134070884851" LocationY="2.8885856558001413" LocationZ="-0.020812175133273644" IntegralX="0.86142550166172005" IntegralY="0.99651407679592829" IntegralZ="0.94991332397573658" IndexA="17" IndexB="0"/>
+			<Gaussian LocationX="-4.5750231692517849" LocationY="2.8894133695431492" LocationZ="-0.023987282750648976" IntegralX="0.8621658843044071" IntegralY="0.99653411891922294" IntegralZ="0.9501944886383179" IndexA="17" IndexB="1"/>
+			<Gaussian LocationX="-4.5924165412255817" LocationY="2.8920746201832657" LocationZ="-0.034195832808635432" IntegralX="0.86455066434620609" IntegralY="0.9965985607323552" IntegralZ="0.95109904836544301" IndexA="17" IndexB="2"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="17" IndexB="3"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="17" IndexB="4"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="17" IndexB="5"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="17" IndexB="6"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="17" IndexB="7"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="17" IndexB="8"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="17" IndexB="9"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="17" IndexB="10"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="17" IndexB="11"/>
+			<Gaussian LocationX="-4.5989283164590784" LocationY="2.893070946027072" LocationZ="-0.038017735975982514" IntegralX="0.86544518050749963" IntegralY="0.99662268769581153" IntegralZ="0.95143792125493254" IndexA="17" IndexB="12"/>
+			<Gaussian LocationX="-4.6870509216218315" LocationY="2.9065540325586197" LocationZ="-0.089738818431952361" IntegralX="0.87764190159529454" IntegralY="0.99694925070720852" IntegralZ="0.95603571361795214" IndexA="17" IndexB="13"/>
+			<Gaussian LocationX="-4.8575399855347445" LocationY="2.9326394937995217" LocationZ="-0.18980257524208297" IntegralX="0.90172876176595063" IntegralY="0.99758134951604605" IntegralZ="0.9649941418046607" IndexA="17" IndexB="14"/>
+			<Gaussian LocationX="-5.5089000000000006" LocationY="3.0323000000000002" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="17" IndexB="15"/>
+			<Gaussian LocationX="-5.5088999999999997" LocationY="3.0323000000000002" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="17" IndexB="16"/>
+			<Gaussian LocationX="-5.5088999999999997" LocationY="3.0323000000000002" LocationZ="-0.57210000000000005" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="17" IndexB="17"/>
+			<Gaussian LocationX="-4.607058303307543" LocationY="3.5980119636020742" LocationZ="0.73182033120006329" IntegralX="0.86579825217676187" IntegralY="0.94487487963675998" IntegralZ="0.73989865193125171" IndexA="17" IndexB="18"/>
+			<Gaussian LocationX="-4.7641566222152019" LocationY="3.4994665106763772" LocationZ="0.50468103084133986" IntegralX="0.8878069510033183" IntegralY="0.95425409220952329" IntegralZ="0.77976200397818551" IndexA="17" IndexB="19"/>
+			<Gaussian LocationX="-5.0357499999999993" LocationY="3.3290999999999999" LocationZ="0.11199999999999996" IntegralX="0.92718364139839693" IntegralY="0.97068912058800649" IntegralZ="0.85381030940266722" IndexA="17" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5682518916118449" LocationY="2.9072327476316957" LocationZ="0.00074242524337632247" IntegralX="0.99988772325143205" IntegralY="0.16276602294095643" IntegralZ="0.10822173487181519" IndexA="18" IndexB="0"/>
+			<Gaussian LocationX="-4.5676705305875176" LocationY="2.9811558089147598" LocationZ="0.082553954218612738" IntegralX="0.99989927160417524" IntegralY="0.19618389114341631" IntegralZ="0.13603359534282658" IndexA="18" IndexB="1"/>
+			<Gaussian LocationX="-4.5663869552453589" LocationY="3.1443690528530226" LocationZ="0.26318398771340584" IntegralX="0.99992476945285003" IntegralY="0.29629307873126887" IntegralZ="0.2254024387731666" IndexA="18" IndexB="2"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="18" IndexB="3"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="18" IndexB="4"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="18" IndexB="5"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="18" IndexB="6"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="18" IndexB="7"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="18" IndexB="8"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="18" IndexB="9"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="18" IndexB="10"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="18" IndexB="11"/>
+			<Gaussian LocationX="-4.5660512756482907" LocationY="3.1870524498940789" LocationZ="0.31042220963192874" IntegralX="0.99993143773710047" IntegralY="0.33002637880984781" IntegralZ="0.25722490946739213" IndexA="18" IndexB="12"/>
+			<Gaussian LocationX="-4.5640763619914706" LocationY="3.438172936429408" LocationZ="0.58834023147618009" IntegralX="0.9999706703506106" IntegralY="0.62236933993742405" IntegralZ="0.55943280044723098" IndexA="18" IndexB="13"/>
+			<Gaussian LocationX="-4.5631797332488224" LocationY="3.5521839187920494" LocationZ="0.7145175383295872" IntegralX="0.99998848282164887" IntegralY="0.83009439564218168" IntegralZ="0.79606116500993462" IndexA="18" IndexB="14"/>
+			<Gaussian LocationX="-5.0357500000000002" LocationY="3.3291000000000004" LocationZ="0.11200000000000002" IntegralX="0.21575146391106895" IntegralY="0.54691474379169314" IntegralZ="0.040518946461515402" IndexA="18" IndexB="15"/>
+			<Gaussian LocationX="-4.7084102138212041" LocationY="3.534435408512874" LocationZ="0.58528151268078599" IntegralX="0.62336888513548205" IntegralY="0.83029978668265536" IntegralZ="0.37232590287488687" IndexA="18" IndexB="16"/>
+			<Gaussian LocationX="-4.607058303307543" LocationY="3.5980119636020742" LocationZ="0.73182033120006329" IntegralX="0.86579825217676187" IntegralY="0.94487487963675998" IntegralZ="0.73989865193125171" IndexA="18" IndexB="17"/>
+			<Gaussian LocationX="-4.5625999999999998" LocationY="3.6259000000000001" LocationZ="0.79610000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="18" IndexB="18"/>
+			<Gaussian LocationX="-4.5625999999999998" LocationY="3.6258999999999997" LocationZ="0.79609999999999992" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="18" IndexB="19"/>
+			<Gaussian LocationX="-4.5625999999999998" LocationY="3.6259000000000001" LocationZ="0.79610000000000014" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="18" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683724464288931" LocationY="2.8919035790847061" LocationZ="-0.016222547459068783" IntegralX="0.99997911146839558" IntegralY="0.71338184644135616" IntegralZ="0.66122187936575716" IndexA="19" IndexB="0"/>
+			<Gaussian LocationX="-4.5682518916117827" LocationY="2.9072327476396245" LocationZ="0.00074242525215150108" IntegralX="0.99997954771105046" IntegralY="0.71843147892231307" IntegralZ="0.66695906426466178" IndexA="19" IndexB="1"/>
+			<Gaussian LocationX="-4.5678879818398972" LocationY="2.9535057574268566" LocationZ="0.051953314185492198" IntegralX="0.99998086456514224" IntegralY="0.7338922570974975" IntegralZ="0.68458117065024116" IndexA="19" IndexB="2"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="19" IndexB="3"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="19" IndexB="4"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="19" IndexB="5"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="19" IndexB="6"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="19" IndexB="7"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="19" IndexB="8"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="19" IndexB="9"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="19" IndexB="10"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="19" IndexB="11"/>
+			<Gaussian LocationX="-4.5677603220748519" LocationY="2.9697383568614093" LocationZ="0.069918124569874229" IntegralX="0.99998132651875404" IntegralY="0.73939437475079506" IntegralZ="0.69087270799241851" IndexA="19" IndexB="12"/>
+			<Gaussian LocationX="-4.5663823363539624" LocationY="3.144956368784944" LocationZ="0.26383397722341861" IntegralX="0.99998631295449314" IntegralY="0.80147647434538161" IntegralZ="0.76257814500356802" IndexA="19" IndexB="13"/>
+			<Gaussian LocationX="-4.5647968038026852" LocationY="3.3465650337102382" LocationZ="0.48695667866345294" IntegralX="0.99999205045848361" IntegralY="0.87938526422246832" IntegralZ="0.85433862611973199" IndexA="19" IndexB="14"/>
+			<Gaussian LocationX="-5.3630897861787945" LocationY="3.1237645914871255" LocationZ="-0.36128151268078595" IntegralX="0.62336888513548205" IntegralY="0.83029978668265536" IntegralZ="0.37232590287488687" IndexA="19" IndexB="15"/>
+			<Gaussian LocationX="-5.0357499999999993" LocationY="3.3290999999999999" LocationZ="0.11199999999999999" IntegralX="0.7562734328718328" IntegralY="0.89590453235509582" IntegralZ="0.55767759004162876" IndexA="19" IndexB="16"/>
+			<Gaussian LocationX="-4.7641566222152019" LocationY="3.4994665106763772" LocationZ="0.50468103084133986" IntegralX="0.8878069510033183" IntegralY="0.95425409220952329" IntegralZ="0.77976200397818551" IndexA="19" IndexB="17"/>
+			<Gaussian LocationX="-4.5625999999999998" LocationY="3.6258999999999997" LocationZ="0.79609999999999992" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="19" IndexB="18"/>
+			<Gaussian LocationX="-4.5625999999999998" LocationY="3.6259000000000001" LocationZ="0.79610000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="19" IndexB="19"/>
+			<Gaussian LocationX="-4.5625999999999989" LocationY="3.6259000000000001" LocationZ="0.79610000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="19" IndexB="20"/>
+		</GPT>
+		<GPT>
+			<Gaussian LocationX="-4.5683925170004107" LocationY="2.8893515021028793" LocationZ="-0.019046961333735603" IntegralX="0.99999432704886126" IntegralY="0.91235782105655827" IntegralZ="0.89373731731998918" IndexA="20" IndexB="0"/>
+			<Gaussian LocationX="-4.5683591553624021" LocationY="2.8935936069358763" LocationZ="-0.014352173585000561" IntegralX="0.99999435972177497" IntegralY="0.9128399223571334" IntegralZ="0.8943157834274662" IndexA="20" IndexB="1"/>
+			<Gaussian LocationX="-4.5682518916117925" LocationY="2.9072327476383486" LocationZ="0.00074242525073955966" IntegralX="0.99999446477115894" IntegralY="0.91439169288536937" IntegralZ="0.89617819577699576" IndexA="20" IndexB="2"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="20" IndexB="3"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="20" IndexB="4"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="20" IndexB="5"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="20" IndexB="6"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="20" IndexB="7"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="20" IndexB="8"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="20" IndexB="9"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="20" IndexB="10"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="20" IndexB="11"/>
+			<Gaussian LocationX="-4.5682117339335848" LocationY="2.9123390041345778" LocationZ="0.0063935798978205166" IntegralX="0.9999945040998196" IntegralY="0.91497332713953461" IntegralZ="0.89687644788290166" IndexA="20" IndexB="12"/>
+			<Gaussian LocationX="-4.5676682877773453" LocationY="2.9814409938289219" LocationZ="0.08286957174666576" IntegralX="0.99999503632719366" IntegralY="0.92288094983082358" IntegralZ="0.90637943222808015" IndexA="20" IndexB="13"/>
+			<Gaussian LocationX="-4.5666168932311519" LocationY="3.1151312486250653" LocationZ="0.23082616288512334" IntegralX="0.99999606601778779" IntegralY="0.93837420330990184" IntegralZ="0.92505145472051087" IndexA="20" IndexB="14"/>
+			<Gaussian LocationX="-5.4644416966924574" LocationY="3.0601880363979261" LocationZ="-0.50782033120006342" IntegralX="0.86579825217676187" IntegralY="0.94487487963675998" IntegralZ="0.73989865193125171" IndexA="20" IndexB="15"/>
+			<Gaussian LocationX="-5.3073433777847967" LocationY="3.1587334893236227" LocationZ="-0.28068103084133988" IntegralX="0.8878069510033183" IntegralY="0.95425409220952329" IntegralZ="0.77976200397818551" IndexA="20" IndexB="16"/>
+			<Gaussian LocationX="-5.0357499999999993" LocationY="3.3290999999999999" LocationZ="0.11199999999999996" IntegralX="0.92718364139839693" IntegralY="0.97068912058800649" IntegralZ="0.85381030940266722" IndexA="20" IndexB="17"/>
+			<Gaussian LocationX="-4.5625999999999998" LocationY="3.6259000000000001" LocationZ="0.79610000000000014" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="20" IndexB="18"/>
+			<Gaussian LocationX="-4.5625999999999989" LocationY="3.6259000000000001" LocationZ="0.79610000000000003" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="20" IndexB="19"/>
+			<Gaussian LocationX="-4.5625999999999998" LocationY="3.6259000000000001" LocationZ="0.79609999999999992" IntegralX="1" IntegralY="1" IntegralZ="1" IndexA="20" IndexB="20"/>
+		</GPT>
+	</Output>
+</Data>

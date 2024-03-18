@@ -1,20 +1,4 @@
-#include <boost/algorithm/string/erase.hpp>
-#include <boost/algorithm/string/trim_all.hpp>
-#include <boost/foreach.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <cmath>
-#include <cstdint>
-#include <eigen3/Eigen/Core>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <system_error>
-#include <vector>
-
-#include "tables.h"
+#include "molecule.h"
 
 /*-----------------------------------------------------------------------------
  * Planck
@@ -32,42 +16,6 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
-
-struct cxx_Molecule
-{
-    Eigen::Matrix<double, Eigen::Dynamic, 3> atomCoordinates;
-    Eigen::VectorXd atomMasses;
-    Eigen::VectorXi atomNumbers;
-    std::vector<std::uint16_t> atomBasis;
-};
-
-struct cxx_gto
-{
-    std::double_t orbitalCoeff;
-    std::double_t primitiveExp;
-    std::double_t orbitalNorms;
-};
-
-struct cxx_Basis
-{
-    Eigen::Matrix<cxx_gto, 1, Eigen::Dynamic> cGTO;
-};
-
-struct cxx_Calculator
-{
-    std::int64_t totalCharge;
-    std::string calculationBasis;
-    std::string calculationTheory;
-    std::string calculationType;
-    std::uint16_t molMultiplicity;
-
-    // This block is required only if the theory is UHF
-    std::uint64_t alphaElectrons;
-    std::uint64_t betaElectrons;
-
-    std::uint64_t nAtoms;
-    std::uint64_t nBasis;
-};
 
 void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calculator *scfCalculator, std::error_code *errorFlag, std::string *errorMessage)
 {
@@ -254,60 +202,4 @@ void readBasis(std::fstream *basisPointer, std::string atomNumber, std::string a
     std::istringstream outBuffer(xmlString);
     boost::property_tree::read_xml(outBuffer, outNode);
     boost::property_tree::write_xml("JobFile.xml", outNode, std::locale(), settings);
-}
-
-int main(int argc, char const *argv[])
-{
-    std::error_code errorFlag;
-    std::string errorMessage;
-    cxx_Molecule inputMolecule;
-    cxx_Calculator scfCalculator;
-
-    // Check if the input file has been provided
-    if (argc < 2)
-    {
-        std::string inputFile = "COORD";
-        std::fstream filePointer(inputFile);
-
-        if (!filePointer)
-        {
-            errorFlag = std::make_error_code(std::errc::no_such_file_or_directory);
-            errorMessage = "No input file has been provided. Run planck as planck inputfile";
-            std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
-            exit(errorFlag.value());
-        }
-        else
-        {
-            readInput(&filePointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
-        }
-    }
-
-    std::string inputFile = argv[1];
-    std::fstream filePointer(inputFile);
-    readInput(&filePointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
-
-    // Check if the input file has been read successfully
-    if (errorFlag.value())
-    {
-        std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
-        exit(errorFlag.value());
-    }
-
-    // Now read the basis sets
-    for (std::uint16_t atomIndex = 0; atomIndex < scfCalculator.nAtoms; ++atomIndex)
-    {
-        // Updated the path to indicate that the basis folder will be packaged along with the executables
-        std::string basisFile = "./basis/" + scfCalculator.calculationBasis + "-" + std::to_string(inputMolecule.atomNumbers(atomIndex)) + ".xml";
-        std::fstream basisPointer(basisFile);
-        readBasis(&basisPointer, std::to_string(inputMolecule.atomNumbers(atomIndex)), std::to_string(atomIndex), &errorFlag, &errorMessage);
-
-        // Check if the input file has been read successfully
-        if (errorFlag.value())
-        {
-            std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
-            exit(errorFlag.value());
-        }
-    }
-
-    return 0;
 }

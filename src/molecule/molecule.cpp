@@ -48,7 +48,7 @@ void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calcu
     pTree_Input.put("<xmlattr>.CalculationType", calculationType);
     pTree_Input.put("<xmlattr>.BasisSet", basisSet);
     pTree_Input.put("<xmlattr>.Theory", theoryType);
-    pTree_Base.add_child("Data.Input_Options", pTree_Input);
+    pTree_Base.add_child("Data.Input", pTree_Input);
     // boost::property_tree::write_xml("JobFile.xml", pTree_Base, std::locale(), settings);
 
     // Now read number of atoms and charge and multiplicity
@@ -74,7 +74,7 @@ void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calcu
     pTree_Molecule.put("<xmlattr>.NumberAtoms", nAtoms);
     pTree_Molecule.put("<xmlattr>.TotalCharge", totalCharge);
     pTree_Molecule.put("<xmlattr>.MolMultiplicity", molMultiplicity);
-    pTree_Base.add_child("Data.Molecule_Information", pTree_Molecule);
+    pTree_Base.add_child("Data.Input.Molecule_Information", pTree_Molecule);
     // boost::property_tree::write_xml("JobFile.xml", pTree_Input, std::locale(), settings);
 
     // Now initialize the Eigen Matrix to hold the parameters
@@ -114,13 +114,13 @@ void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calcu
         pTree_Coordinates.put("<xmlattr>.AtomZ", atomZCoord);
         pTree_Coordinates.put("<xmlattr>.AtomicNumber", atomicNumber[atomName]);
         pTree_Coordinates.put("<xmlattr>.AtomicMass", atomicMass[atomName]);
-        pTree_Base.add_child("Data.Molecule_Information.Geometry", pTree_Coordinates);
+        pTree_Base.add_child("Data.Input.Molecule_Information.Geometry", pTree_Coordinates);
         atomIndex++;
     }
 
     // Need to write total number of electrons to the xml file
     totalElectrons = totalElectrons - totalCharge;
-    pTree_Base.get_child("Data.Molecule_Information.<xmlattr>").put("TotalElectrons", totalElectrons);
+    pTree_Base.get_child("Data.Input.Molecule_Information.<xmlattr>").put("TotalElectrons", totalElectrons);
     // boost::property_tree::write_xml("JobFile.xml", pTree_Base, std::locale(), settings);
 
     // Need to verify if the unpaied electron counts and multiplicity match
@@ -140,8 +140,8 @@ void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calcu
                 scfCalculator->alphaElectrons = alphaElectrons;
                 scfCalculator->betaElectrons = betaElectrons;
 
-                pTree_Base.get_child("Data.Molecule_Information.<xmlattr>").put("AlphaElectrons", alphaElectrons);
-                pTree_Base.get_child("Data.Molecule_Information.<xmlattr>").put("BetaElectrons", betaElectrons);
+                pTree_Base.get_child("Data.Input.Molecule_Information.<xmlattr>").put("AlphaElectrons", alphaElectrons);
+                pTree_Base.get_child("Data.Input.Molecule_Information.<xmlattr>").put("BetaElectrons", betaElectrons);
                 // boost::property_tree::write_xml("JobFile.xml", pTree_Base, std::locale(), settings);
                 break;
             }
@@ -183,7 +183,7 @@ void readBasis(std::fstream *basisPointer, std::string atomNumber, std::string a
 
     pTree_Basis.get_child("BasisSet").put("<xmlattr>.AtomNumber", atomNumber);
     pTree_Basis.get_child("BasisSet").put("<xmlattr>.AtomIndex", atomIndex);
-    pTree_Job.add_child("Data.BasisSet", pTree_Basis.get_child("BasisSet"));
+    pTree_Job.add_child("Data.Input.BasisSet", pTree_Basis.get_child("BasisSet"));
 
     // This hack is needed to strip the extra newlines and tabs that appear
     // in the new xml file that gets created automatically.

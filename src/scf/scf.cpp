@@ -36,7 +36,7 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
     boost::property_tree::read_xml(*xmlPointer, jobFile);
 
     // Set the root of the xml tree based on Input_Options and parse the options
-    boost::property_tree::ptree inputRoot = jobFile.get_child("Data.Input_Options");
+    boost::property_tree::ptree inputRoot = jobFile.get_child("Data.Input");
     boost::optional<std::string> calculationType = inputRoot.get_optional<std::string>("<xmlattr>.CalculationType");
     boost::optional<std::string> basisSet = inputRoot.get_optional<std::string>("<xmlattr>.BasisSet");
     boost::optional<std::string> theoryType = inputRoot.get_optional<std::string>("<xmlattr>.Theory");
@@ -46,7 +46,7 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
     scfCalculator->calculationTheory = theoryType.get_value_or("");
 
     // Now start reading the Molecule_Information and parse the options
-    boost::property_tree::ptree moleculeRoot = jobFile.get_child("Data.Molecule_Information");
+    boost::property_tree::ptree moleculeRoot = jobFile.get_child("Data.Input.Molecule_Information");
     boost::optional<std::uint64_t> nAtoms = moleculeRoot.get_optional<std::uint64_t>("<xmlattr>.NumberAtoms");
     boost::optional<std::int64_t> totalCharge = moleculeRoot.get_optional<std::int64_t>("<xmlattr>.TotalCharge");
     boost::optional<std::uint64_t> molMultiplicity = moleculeRoot.get_optional<std::uint64_t>("<xmlattr>.MolMultiplicity");
@@ -81,7 +81,7 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
     }
 
     // Now start reading the Basis_Information and parse the options
-    BOOST_FOREACH (const boost::property_tree::ptree::value_type &basisNode, jobFile.get_child("Data"))
+    BOOST_FOREACH (const boost::property_tree::ptree::value_type &basisNode, jobFile.get_child("Data.Input"))
     {
         // If the node is not a Basis set, step over
         if (basisNode.first == "BasisSet")
@@ -176,6 +176,7 @@ void writeXML_GPT(std::fstream *xmlPointer, const cxx_Calculator *scfCalculator,
             pTree_GaussianProduct.put("<xmlattr>.IndexB", jj);
             pTree_Node.add_child("Gaussian", pTree_GaussianProduct);
         }
+        pTree_Job.put("Data.Output.<xmlattr>.ID", "Gaussians");
         pTree_Job.add_child("Data.Output.GPT", pTree_Node);
     }
 

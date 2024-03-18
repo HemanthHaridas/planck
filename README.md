@@ -2,26 +2,26 @@
 
 ### Planck
 
-<p style="text-align:justify"> Planck is a completely written version of the older <a href=""> plank.py </a> project of mine, which was written in a mixture of CPython and Cython. It was terribly slow, and my programming skills were also not great when I wrote plank.py two years back.</P>
+<p align="justify"> Planck is a rewrite of the previous project <a href="https://github.com/HemanthHaridas/plank.py"> plank.py </a>, which was a mixture of CPython and Cython. The older version suffered from poor performance due to its design and my limited programming skills at the time of its creation.</P>
 
-<p style="text-align:justify"> Planck is written in pure C++ and have OpenMP parallelism included for performance critical sections. However, Planck is not designed to be a drop-in replacement for the commercially available codes like Gaussian, GAMESS or NWChem. Instead it is designed to be set of programs that can be used for pedagogical excercises. So, Planck is distributed under a GPL3 License.</p>
+<p align="justify"> Planck, on the other hand, is written entirely in C++ and incorporates OpenMP parallelism to improve performance in critical sections. However, it is important to note that Planck is not intended to replace commercially available software like Gaussian, GAMESS, or NWChem. Instead, it serves as a set of programs suitable for educational purposes. Planck is distributed under the GPL3 License. </p>
 
-#### Usage Details
+#### Usage Instructions
 
-There are two ways to run planck. 
+There are two ways to run Planck:
 
-1. You can either specify an input file and call planck by using the following command
+1. Specify an input file and call Planck using the following command:
 
 ```bash 
 planck input_file > output_file
 ``` 
 
-2. you can also call planck without specifying an input file.  
+2. Run Planck without specifying an input file:  
 
 ``` bash 
 planck > output_file 
 ``` 
 
-In this case, The code will expect the input file to called **CORD**. 
+In the second case, the code will expect the input file to be named CORD.
 
-It is recommended that you explicitly specify the input file for the calculation. 
+It is highly recommended to explicitly specify the input file for the calculation.

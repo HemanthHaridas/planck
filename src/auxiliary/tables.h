@@ -2,6 +2,7 @@
 #define _TABLES_H
 
 #include <cmath>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <map>

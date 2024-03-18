@@ -1,4 +1,4 @@
-#include<omp.h>
+#include <omp.h>
 
 #include "molecule/molecule.h"
 #include "scf/scf.h"
@@ -14,20 +14,10 @@ int main(int argc, char const *argv[])
     // Check if the input file has been provided
     if (argc < 2)
     {
-        std::string inputFile = "COORD";
-        std::fstream filePointer(inputFile);
-
-        if (!filePointer)
-        {
-            errorFlag = std::make_error_code(std::errc::no_such_file_or_directory);
-            errorMessage = "No input file has been provided. Run planck as planck inputfile";
-            std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
-            exit(errorFlag.value());
-        }
-        else
-        {
-            readInput(&filePointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
-        }
+        errorFlag = std::make_error_code(std::errc::no_such_file_or_directory);
+        errorMessage = "No input file has been provided. Run planck as planck inputfile";
+        std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
+        exit(errorFlag.value());
     }
 
     std::string inputFile = argv[1];
@@ -68,7 +58,7 @@ int main(int argc, char const *argv[])
     std::uint64_t rowIndex = 0;
     std::uint64_t colIndex = 0;
 
-    #pragma omp parallel for
+#pragma omp parallel for
     for (std::uint64_t ii = 0; ii < scfCalculator.nBasis; ++ii)
     {
         for (std::uint64_t ij = 0; ij < scfCalculator.basisFunctions[ii].cGTO.size(); ++ij)

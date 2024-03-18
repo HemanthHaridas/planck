@@ -8,20 +8,10 @@
 
 #### Usage Instructions
 
-There are two ways to run Planck:
-
-1. Specify an input file and call Planck using the following command:
+<p align="justify"> To run Planck, specify an input file and call it using the following command: </p>
 
 ```bash 
 planck input_file > output_file
 ``` 
 
-2. Run Planck without specifying an input file:  
-
-``` bash 
-planck > output_file 
-``` 
-
-In the second case, the code will expect the input file to be named CORD.
-
-It is highly recommended to explicitly specify the input file for the calculation.
+<p align="justify"> It is mandatory to provide an input file when running Planck </p>

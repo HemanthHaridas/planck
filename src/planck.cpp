@@ -3,14 +3,7 @@
 #include "molecule/molecule.h"
 #include "scf/scf.h"
 #include "scf/overlap.h"
-
-void printLicenseAgreement()
-{
-    std::cout << std::setw(62) << "Planck  Copyright (C) 2024  Hemanth Haridas" << "\n" << "\n";
-    std::cout << std::setw(64) << std::left << "This program comes with ABSOLUTELY NO WARRANTY." << "\n";
-    std::cout << std::setw(71) << std::left << "This is free software, and you are welcome to redistribute it" << "\n";
-    std::cout << std::setw(80) << std::left << "under certain conditions; see <https://www.gnu.org/licenses/> for more details." << "\n";
-}
+#include "auxiliary/license.h"
 
 int main(int argc, char const *argv[])
 {
@@ -20,7 +13,8 @@ int main(int argc, char const *argv[])
     cxx_Calculator scfCalculator;
 
     // Print the GPL3 license agreement
-    printLicenseAgreement();
+
+    printLicenseAgreement(licenseAgreement);
 
     // Check if the input file has been provided
     if (argc < 2)
@@ -38,6 +32,7 @@ int main(int argc, char const *argv[])
     // Check if the input file has been read successfully
     if (errorFlag.value())
     {
+        std::cerr << "\n";
         std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
         exit(errorFlag.value());
     }
@@ -63,12 +58,13 @@ int main(int argc, char const *argv[])
     readXML(&xmlPointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
 
     // First we need to calculate gaussian products and store them
+    std::cout << "\n";
     std::cout << std::setw(10) << std::left << "[Planck] There are " << scfCalculator.nPrimitives << " Primtive Gaussians from " << scfCalculator.nBasis << " Contracted Gaussians"
               << "\n";
-
-    std::uint64_t rowIndex = 0;
-    std::uint64_t colIndex = 0;
-
+    std::cout << std::setw(10) << std::left << "[Planck] Allocated " << sizeof(cxx_gptResults) * scfCalculator.resultSCF.gaussianResults.cols() * scfCalculator.resultSCF.gaussianResults.rows() << " B for Gaussian Products."
+              << "\n";
+    std::cout << "\n";
+    
     // Original version
 
     // #pragma omp parallel for
@@ -76,7 +72,7 @@ int main(int argc, char const *argv[])
     //     {
     //         for (std::uint64_t ij = 0; ij < scfCalculator.basisFunctions[ii].cGTO.size(); ++ij)
     //         {
-    //             rowIndex = (ii * scfCalculator.basisFunctions[ii].cGTO.size()) + ij;
+    //             rowIndex = (ii std::cout << std::left <<  scfCalculator.basisFunctions[ii].cGTO.size()) + ij;
     //             cxx_Primitives primtiveGTO_a = scfCalculator.basisFunctions[ii].cGTO[ij];
 
     //             for (std::uint64_t jj = 0; jj < scfCalculator.nBasis; ++jj)
@@ -84,7 +80,7 @@ int main(int argc, char const *argv[])
     //                 for (std::uint64_t ji = 0; ji < scfCalculator.basisFunctions[jj].cGTO.size(); ++ji)
     //                 {
     //                     cxx_Primitives primtiveGTO_b = scfCalculator.basisFunctions[jj].cGTO[ji];
-    //                     colIndex = (jj * scfCalculator.basisFunctions[ii].cGTO.size()) + ji;
+    //                     colIndex = (jj std::cout << std::left <<  scfCalculator.basisFunctions[ii].cGTO.size()) + ji;
 
     //                     cxx_gptResults gptResult;
     //                     gaussianProducts(&primtiveGTO_a, &primtiveGTO_b, &gptResult);
@@ -101,14 +97,11 @@ int main(int argc, char const *argv[])
         {
             for (std::uint64_t ij = 0; ij < scfCalculator.basisFunctions[ii].cGTO.size(); ++ij)
             {
-                rowIndex = (ii * scfCalculator.basisFunctions[ii].cGTO.size()) + ij;
                 cxx_Primitives primtiveGTO_a = scfCalculator.basisFunctions[ii].cGTO[ij];
 
                 for (std::uint64_t ji = 0; ji < scfCalculator.basisFunctions[jj].cGTO.size(); ++ji)
                 {
                     cxx_Primitives primtiveGTO_b = scfCalculator.basisFunctions[jj].cGTO[ji];
-                    colIndex = (jj * scfCalculator.basisFunctions[ii].cGTO.size()) + ji;
-
                     cxx_gptResults gptResult;
                     gaussianProducts(&primtiveGTO_a, &primtiveGTO_b, &gptResult);
                     scfCalculator.resultSCF.gaussianResults(gptResult.indexA, gptResult.indexB) = gptResult;

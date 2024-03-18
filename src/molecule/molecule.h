@@ -67,6 +67,13 @@ struct cxx_gptResults
     std::uint64_t indexB;
 };
 
+struct cxx_Integral
+{
+    std::uint64_t indexA;
+    std::uint64_t indexB;
+    std::double_t result = 0;
+};
+
 // Moved the results to a separate block
 // Everything except replusion integrals in a 2D matrix.
 struct cxx_Results {

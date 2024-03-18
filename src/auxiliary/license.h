@@ -1,6 +1,10 @@
 #pragma once
 
-#include "../molecule/molecule.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 /*-----------------------------------------------------------------------------
  * Planck
@@ -19,6 +23,5 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO_b, cxx_gptResults *gptResults);
-void overlapPrimitives(cxx_Primitives *primitiveGTO_a, cxx_Primitives *primitiveGTO_b, cxx_gptResults *gptResults, std::uint64_t indexA, std::uint64_t indexB, cxx_Integral *integralResult);
-void overlapCartesians(cxx_Calculator *scfCalculator);
+extern std::string licenseAgreement;
+void printLicenseAgreement(std::string licenseAgreement);

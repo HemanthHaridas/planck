@@ -108,6 +108,7 @@ def readBasis(filename: str) -> tp.List[Basis]:
 
 def writeBasis(shells, basisname, element)->None:
     root    =   eTree.Element("BasisSet")
+    counter =   0
     for basis in shells:
         shell   =   eTree.SubElement(root, "CGTO")
         shell.set("AngularMomentumX", str(basis.shell[0]))
@@ -118,6 +119,8 @@ def writeBasis(shells, basisname, element)->None:
             pgto.set("Exponent", str(exponent))
             pgto.set("Coefficient", str(coeff))
             pgto.set("Normalization", str(norm))
+            pgto.set("Index", str(counter))
+            counter += 1
         shell.set("OrbitalType", basis.name)
     basis       =   eTree.ElementTree(root)
     xmlSting    =   eTree.tostring(root, encoding = "utf-8", method = "xml")

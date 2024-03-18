@@ -8,6 +8,8 @@
 #include <cmath>
 #include <cstdint>
 #include <eigen3/Eigen/Core>
+#include <eigen3/Eigen/Dense>
+#include <eigen3/unsupported/Eigen/CXX11/Tensor>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -43,6 +45,12 @@ struct cxx_Primitives
     std::double_t locationX;
     std::double_t locationY;
     std::double_t locationZ;
+
+    std::int64_t angularMomentumX;
+    std::int64_t angularMomentumY;
+    std::int64_t angularMomentumZ;
+
+    std::uint64_t index;
 };
 
 struct cxx_gptResults
@@ -54,6 +62,19 @@ struct cxx_gptResults
     std::double_t integralX;
     std::double_t integralY;
     std::double_t integralZ;
+
+    std::uint64_t indexA;
+    std::uint64_t indexB;
+};
+
+// Moved the results to a separate block
+// Everything except replusion integrals in a 2D matrix.
+struct cxx_Results {
+    Eigen::Matrix<cxx_gptResults, Eigen::Dynamic, Eigen::Dynamic> gaussianResults;
+    Eigen::Matrix<std::double_t, Eigen::Dynamic, Eigen::Dynamic> overlapIntegrals;
+    Eigen::Matrix<std::double_t, Eigen::Dynamic, Eigen::Dynamic> kineticIntegrals;
+    Eigen::Matrix<std::double_t, Eigen::Dynamic, Eigen::Dynamic> nuclearIntegrals;
+    Eigen::Tensor<std::double_t, 4> repulsionIntegrals;
 };
 
 struct cxx_Basis
@@ -85,8 +106,7 @@ struct cxx_Calculator
     std::uint64_t nBasis = 0;
     std::uint64_t nPrimitives = 0;
     std::vector<cxx_Basis> basisFunctions;
-    Eigen::Matrix<cxx_gptResults, Eigen::Dynamic, Eigen::Dynamic> gaussianResults;
-    // Eigen::Matrix<std::double_t, Eigen::Dynamic, Eigen::Dynamic> gaussianIntegrals;
+    cxx_Results resultSCF;
 };
 
 void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calculator *scfCalculator, std::error_code *errorFlag, std::string *errorMessage);

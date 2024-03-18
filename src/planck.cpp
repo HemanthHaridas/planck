@@ -4,12 +4,23 @@
 #include "scf/scf.h"
 #include "scf/overlap.h"
 
+void printLicenseAgreement()
+{
+    std::cout << std::setw(62) << "Planck  Copyright (C) 2024  Hemanth Haridas" << "\n" << "\n";
+    std::cout << std::setw(64) << std::left << "This program comes with ABSOLUTELY NO WARRANTY." << "\n";
+    std::cout << std::setw(71) << std::left << "This is free software, and you are welcome to redistribute it" << "\n";
+    std::cout << std::setw(80) << std::left << "under certain conditions; see <https://www.gnu.org/licenses/> for more details." << "\n";
+}
+
 int main(int argc, char const *argv[])
 {
     std::error_code errorFlag;
     std::string errorMessage;
     cxx_Molecule inputMolecule;
     cxx_Calculator scfCalculator;
+
+    // Print the GPL3 license agreement
+    printLicenseAgreement();
 
     // Check if the input file has been provided
     if (argc < 2)
@@ -58,16 +69,41 @@ int main(int argc, char const *argv[])
     std::uint64_t rowIndex = 0;
     std::uint64_t colIndex = 0;
 
-#pragma omp parallel for
+    // Original version
+
+    // #pragma omp parallel for
+    //     for (std::uint64_t ii = 0; ii < scfCalculator.nBasis; ++ii)
+    //     {
+    //         for (std::uint64_t ij = 0; ij < scfCalculator.basisFunctions[ii].cGTO.size(); ++ij)
+    //         {
+    //             rowIndex = (ii * scfCalculator.basisFunctions[ii].cGTO.size()) + ij;
+    //             cxx_Primitives primtiveGTO_a = scfCalculator.basisFunctions[ii].cGTO[ij];
+
+    //             for (std::uint64_t jj = 0; jj < scfCalculator.nBasis; ++jj)
+    //             {
+    //                 for (std::uint64_t ji = 0; ji < scfCalculator.basisFunctions[jj].cGTO.size(); ++ji)
+    //                 {
+    //                     cxx_Primitives primtiveGTO_b = scfCalculator.basisFunctions[jj].cGTO[ji];
+    //                     colIndex = (jj * scfCalculator.basisFunctions[ii].cGTO.size()) + ji;
+
+    //                     cxx_gptResults gptResult;
+    //                     gaussianProducts(&primtiveGTO_a, &primtiveGTO_b, &gptResult);
+    //                     scfCalculator.resultSCF.gaussianResults(rowIndex, colIndex) = gptResult;
+    //                 }
+    //             }
+    //         }
+    //     }
+
+#pragma omp parallel for collapse(2)
     for (std::uint64_t ii = 0; ii < scfCalculator.nBasis; ++ii)
     {
-        for (std::uint64_t ij = 0; ij < scfCalculator.basisFunctions[ii].cGTO.size(); ++ij)
+        for (std::uint64_t jj = 0; jj < scfCalculator.nBasis; ++jj)
         {
-            rowIndex = (ii * scfCalculator.basisFunctions[ii].cGTO.size()) + ij;
-            cxx_Primitives primtiveGTO_a = scfCalculator.basisFunctions[ii].cGTO[ij];
-
-            for (std::uint64_t jj = 0; jj < scfCalculator.nBasis; ++jj)
+            for (std::uint64_t ij = 0; ij < scfCalculator.basisFunctions[ii].cGTO.size(); ++ij)
             {
+                rowIndex = (ii * scfCalculator.basisFunctions[ii].cGTO.size()) + ij;
+                cxx_Primitives primtiveGTO_a = scfCalculator.basisFunctions[ii].cGTO[ij];
+
                 for (std::uint64_t ji = 0; ji < scfCalculator.basisFunctions[jj].cGTO.size(); ++ji)
                 {
                     cxx_Primitives primtiveGTO_b = scfCalculator.basisFunctions[jj].cGTO[ji];
@@ -75,13 +111,14 @@ int main(int argc, char const *argv[])
 
                     cxx_gptResults gptResult;
                     gaussianProducts(&primtiveGTO_a, &primtiveGTO_b, &gptResult);
-                    scfCalculator.gaussianResults(rowIndex, colIndex) = gptResult;
+                    scfCalculator.resultSCF.gaussianResults(gptResult.indexA, gptResult.indexB) = gptResult;
                 }
             }
         }
     }
     writeXML_GPT(&xmlPointer, &scfCalculator, &errorFlag, &errorMessage);
-
     // Now we can start building the overlap matrix
+    // overlapCartesians(&scfCalculator);
+
     return 0;
 }

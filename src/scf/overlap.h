@@ -19,3 +19,5 @@
  ----------------------------------------------------------------------------*/
 
 void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO_b, cxx_gptResults *gptResults);
+void overlapPrimitives(cxx_Primitives *primitiveGTO_a, cxx_Primitives *primitiveGTO_b, cxx_gptResults *gptResults);
+void overlapCartesians(cxx_Calculator *scfCalculator);

@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <BasisSet>
 	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
-		<PGTO Exponent="13.6267" Coefficient="0.1752298718073924" Normalization="5.054789949484153"/>
-		<PGTO Exponent="1.99935" Coefficient="0.8934823465376933" Normalization="1.198330774091526"/>
+		<PGTO Exponent="13.6267" Coefficient="0.1752298718073924" Normalization="5.054789949484153" Index="0"/>
+		<PGTO Exponent="1.99935" Coefficient="0.8934823465376933" Normalization="1.198330774091526" Index="1"/>
 	</CGTO>
 	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="s">
-		<PGTO Exponent="0.382993" Coefficient="1.0" Normalization="0.3469790227560359"/>
+		<PGTO Exponent="0.382993" Coefficient="1.0" Normalization="0.3469790227560359" Index="2"/>
 	</CGTO>
 </BasisSet>

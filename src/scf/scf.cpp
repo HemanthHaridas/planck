@@ -92,6 +92,7 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
 
             std::uint64_t indexAtom = atomIndex.value_or(0);
 
+            std::uint64_t pgtoIndex = 0;
             // Iterate over the CGTO nodes
             BOOST_FOREACH (const boost::property_tree::ptree::value_type &cgtoNode, basisNode.second)
             {
@@ -123,9 +124,14 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
                             primitiveGTO.primitiveExp = primitiveExp.value_or(0);
                             primitiveGTO.orbitalNorms = orbitalNorms.value_or(0);
 
+                            primitiveGTO.angularMomentumX = cgtoNode.second.get_optional<std::int64_t>("<xmlattr>.AngularMomentumX").value_or(0);
+                            primitiveGTO.angularMomentumY = cgtoNode.second.get_optional<std::int64_t>("<xmlattr>.AngularMomentumY").value_or(0);
+                            primitiveGTO.angularMomentumZ = cgtoNode.second.get_optional<std::int64_t>("<xmlattr>.AngularMomentumZ").value_or(0);
+                            primitiveGTO.index = pgtoIndex;
                             // Append the primitives to form contracted gaussians
                             basisShell.cGTO.push_back(primitiveGTO);
                             scfCalculator->nPrimitives++;
+                            pgtoIndex++;
                         }
                     }
 
@@ -136,8 +142,12 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
             }
         }
     }
-    scfCalculator->gaussianResults.resize(scfCalculator->nPrimitives, scfCalculator->nPrimitives);
-    // scfCalculator->gaussianIntegrals.resize(scfCalculator->nPrimitives * 3, scfCalculator->nPrimitives * 3);
+    // Allocate all arrays
+    scfCalculator->resultSCF.gaussianResults.resize(scfCalculator->nPrimitives, scfCalculator->nPrimitives);
+    scfCalculator->resultSCF.overlapIntegrals.resize(scfCalculator->nPrimitives, scfCalculator->nPrimitives);
+    scfCalculator->resultSCF.kineticIntegrals.resize(scfCalculator->nPrimitives, scfCalculator->nPrimitives);
+    scfCalculator->resultSCF.nuclearIntegrals.resize(scfCalculator->nPrimitives, scfCalculator->nPrimitives);
+    scfCalculator->resultSCF.repulsionIntegrals.resize(scfCalculator->nPrimitives, scfCalculator->nPrimitives, scfCalculator->nPrimitives, scfCalculator->nPrimitives);
 }
 
 // Function to write XML data
@@ -153,25 +163,25 @@ void writeXML_GPT(std::fstream *xmlPointer, const cxx_Calculator *scfCalculator,
         *errorMessage = "Unable to open the JobFile.xml file. Please check if the previous step was successfully completed.";
         return;
     }
-    
+
     // set the prining settings for boost
     boost::property_tree::xml_writer_settings<std::string> settings('\t', 1);
     boost::property_tree::ptree pTree_Job;
 
     boost::property_tree::read_xml("JobFile.xml", pTree_Job);
-    
+
     for (std::uint64_t ii = 0; ii < scfCalculator->nPrimitives; ++ii)
     {
         boost::property_tree::ptree pTree_Node;
         for (std::uint64_t jj = 0; jj < scfCalculator->nPrimitives; ++jj)
         {
             boost::property_tree::ptree pTree_GaussianProduct;
-            pTree_GaussianProduct.put("<xmlattr>.LocationX", scfCalculator->gaussianResults(ii, jj).locationX);
-            pTree_GaussianProduct.put("<xmlattr>.LocationY", scfCalculator->gaussianResults(ii, jj).locationY);
-            pTree_GaussianProduct.put("<xmlattr>.LocationZ", scfCalculator->gaussianResults(ii, jj).locationZ);
-            pTree_GaussianProduct.put("<xmlattr>.IntegralX", scfCalculator->gaussianResults(ii, jj).integralX);
-            pTree_GaussianProduct.put("<xmlattr>.IntegralY", scfCalculator->gaussianResults(ii, jj).integralY);
-            pTree_GaussianProduct.put("<xmlattr>.IntegralZ", scfCalculator->gaussianResults(ii, jj).integralZ);
+            pTree_GaussianProduct.put("<xmlattr>.LocationX", scfCalculator->resultSCF.gaussianResults(ii, jj).locationX);
+            pTree_GaussianProduct.put("<xmlattr>.LocationY", scfCalculator->resultSCF.gaussianResults(ii, jj).locationY);
+            pTree_GaussianProduct.put("<xmlattr>.LocationZ", scfCalculator->resultSCF.gaussianResults(ii, jj).locationZ);
+            pTree_GaussianProduct.put("<xmlattr>.IntegralX", scfCalculator->resultSCF.gaussianResults(ii, jj).integralX);
+            pTree_GaussianProduct.put("<xmlattr>.IntegralY", scfCalculator->resultSCF.gaussianResults(ii, jj).integralY);
+            pTree_GaussianProduct.put("<xmlattr>.IntegralZ", scfCalculator->resultSCF.gaussianResults(ii, jj).integralZ);
             pTree_GaussianProduct.put("<xmlattr>.IndexA", ii);
             pTree_GaussianProduct.put("<xmlattr>.IndexB", jj);
             pTree_Node.add_child("Gaussian", pTree_GaussianProduct);
@@ -202,6 +212,11 @@ void writeXML_GPT(std::fstream *xmlPointer, const cxx_Calculator *scfCalculator,
 // Do this once and store the data
 void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO_b, cxx_gptResults *gptResult)
 {
+    // First set the index of the two primitives
+    gptResult->indexA = primtiveGTO_a->index;
+    gptResult->indexB = primtiveGTO_b->index;
+
+    std::cout << gptResult->indexA << " " << gptResult->indexB << "\n";
     // Calculate the gaussian center and assign them to gaussian products array
     gptResult->locationX = ((primtiveGTO_a->locationX * primtiveGTO_a->primitiveExp) + (primtiveGTO_b->locationX * primtiveGTO_b->primitiveExp)) / (primtiveGTO_a->primitiveExp + primtiveGTO_b->primitiveExp);
     gptResult->locationY = ((primtiveGTO_a->locationY * primtiveGTO_a->primitiveExp) + (primtiveGTO_b->locationY * primtiveGTO_b->primitiveExp)) / (primtiveGTO_a->primitiveExp + primtiveGTO_b->primitiveExp);
@@ -215,3 +230,36 @@ void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO
     gptResult->integralZ = exp(-1 * gaussianExponent * (primtiveGTO_a->locationZ - primtiveGTO_b->locationZ) * (primtiveGTO_a->locationZ - primtiveGTO_b->locationZ));
 }
 
+void overlapPrimitives(cxx_Primitives *primitiveGTO_a, cxx_Primitives *primitiveGTO_b, cxx_gptResults *gptResults)
+{
+    std::cout << primitiveGTO_a->angularMomentumX << " " << primitiveGTO_b->angularMomentumX << "\n";
+}
+
+// void overlapCartesians(cxx_Calculator *scfCalculator)
+// {
+//     std::uint64_t rowIndex;
+//     std::uint64_t colIndex;
+
+    // Loop over all the primitives
+// #pragma omp parallel for collapse(2)
+//     for (std::uint64_t ii = 0; ii < scfCalculator->nBasis; ++ii)
+//     {
+//         for (std::uint64_t jj = 0; jj < scfCalculator->nBasis; ++jj)
+//         {
+//             for (std::uint64_t ij = 0; ij < scfCalculator->basisFunctions[ii].cGTO.size(); ++ij)
+//             {
+//                 rowIndex = (ii * scfCalculator->basisFunctions[ii].cGTO.size()) + ij;
+//                 cxx_Primitives primtiveGTO_a = scfCalculator->basisFunctions[ii].cGTO[ij];
+
+//                 for (std::uint64_t ji = 0; ji < scfCalculator->basisFunctions[jj].cGTO.size(); ++ji)
+//                 {
+//                     cxx_Primitives primtiveGTO_b = scfCalculator->basisFunctions[jj].cGTO[ji];
+//                     colIndex = (jj * scfCalculator->basisFunctions[ii].cGTO.size()) + ji;
+
+//                     #pragma omp critical
+//                     std::cout << "Calculating (" << scfCalculator->basisFunctions[ii].cGTO[ij].index << "," << ji << ") from [" << ii << "," << jj << "]" << "\n";
+//                 }
+//             }
+//         }
+//     }
+// }

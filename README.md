@@ -1,1 +1,1 @@
-[![Actions Status](https://github.com/HemanthHaridas/planck_cpp/workflows/cmake-multi-platform/badge.svg)](https://github.com/HemanthHaridas/planck_cpp/actions)
+![example event parameter](https://github.com/HemanthHaridas/planck_cpp/actions/workflows/cmake-multi-platform.yml/badge.svg)

@@ -230,3 +230,7 @@ void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO
     gptResult->integralZ = exp(-1 * gaussianExponent * (primtiveGTO_a->locationZ - primtiveGTO_b->locationZ) * (primtiveGTO_a->locationZ - primtiveGTO_b->locationZ));
 }
 
+void overlapPrimitives(cxx_Primitives *primitiveGTO_a, cxx_Primitives *primitiveGTO_b, cxx_gptResults *gptResults, std::uint64_t indexA, std::uint64_t indexB, cxx_Integral *integralResult)
+{
+    // Compute the overlap in x-direction
+}

@@ -110,6 +110,6 @@ int main(int argc, char const *argv[])
         }
     }
     writeXML_GPT(&xmlPointer, &scfCalculator, &errorFlag, &errorMessage);
-    
+    overlap(&scfCalculator);
     return 0;
 }

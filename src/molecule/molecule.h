@@ -87,6 +87,7 @@ struct cxx_Results {
 struct cxx_Basis
 {
     std::vector<cxx_Primitives> cGTO;
+    std::uint64_t index;
 };
 
 struct cxx_Molecule

@@ -21,4 +21,5 @@
 
 void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO_b, cxx_gptResults *gptResults);
 void overlapPrimitives(cxx_Primitives *primitiveGTO_a, cxx_Primitives *primitiveGTO_b, cxx_gptResults *gptResults, std::uint64_t indexA, std::uint64_t indexB, cxx_Integral *integralResult);
-void overlapCartesians(cxx_Calculator *scfCalculator);
+// void overlapCartesians(cxx_Calculator *scfCalculator);
+void overlap(cxx_Calculator *scfCalculator);

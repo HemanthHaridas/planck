@@ -82,6 +82,7 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
     }
 
     // Now start reading the Basis_Information and parse the options
+    std::uint64_t cgtoIndex = 0;
     BOOST_FOREACH (const boost::property_tree::ptree::value_type &basisNode, jobFile.get_child("Data.Input"))
     {
         // If the node is not a Basis set, step over
@@ -137,6 +138,8 @@ void readXML(std::fstream *xmlPointer, cxx_Molecule *inputMolecule, cxx_Calculat
                     }
 
                     // Append contracted gaussians to form basis
+                    basisShell.index = cgtoIndex;
+                    cgtoIndex++;
                     scfCalculator->basisFunctions.push_back(basisShell);
                     scfCalculator->nBasis++;
                 }
@@ -233,4 +236,20 @@ void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO
 void overlapPrimitives(cxx_Primitives *primitiveGTO_a, cxx_Primitives *primitiveGTO_b, cxx_gptResults *gptResults, std::uint64_t indexA, std::uint64_t indexB, cxx_Integral *integralResult)
 {
     // Compute the overlap in x-direction
+}
+
+void overlapContracted()
+{
+    // COmpute overlap of two contracted gaussians
+}
+
+void overlap(cxx_Calculator *scfCalculator)
+{
+    for (std::uint64_t ii = 0; ii < scfCalculator->nBasis; ++ii)
+    {
+        for (std::uint64_t jj = 0; jj < scfCalculator->nBasis; ++jj)
+        {
+            std::cout << ii << " " << jj << " " << scfCalculator->basisFunctions[ii].index << " " << scfCalculator->basisFunctions[jj].index << "\n";
+        }
+    }
 }

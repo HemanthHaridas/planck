@@ -1,4 +1,5 @@
 #include "../molecule/molecule.h"
+#include "../math/planck_math.h"
 #include "scf.h"
 
 /*-----------------------------------------------------------------------------
@@ -215,7 +216,7 @@ void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO
     // First set the index of the two primitives
     gptResult->indexA = primtiveGTO_a->index;
     gptResult->indexB = primtiveGTO_b->index;
-    
+
     // Calculate the gaussian center and assign them to gaussian products array
     gptResult->locationX = ((primtiveGTO_a->locationX * primtiveGTO_a->primitiveExp) + (primtiveGTO_b->locationX * primtiveGTO_b->primitiveExp)) / (primtiveGTO_a->primitiveExp + primtiveGTO_b->primitiveExp);
     gptResult->locationY = ((primtiveGTO_a->locationY * primtiveGTO_a->primitiveExp) + (primtiveGTO_b->locationY * primtiveGTO_b->primitiveExp)) / (primtiveGTO_a->primitiveExp + primtiveGTO_b->primitiveExp);
@@ -229,43 +230,3 @@ void gaussianProducts(cxx_Primitives *primtiveGTO_a, cxx_Primitives *primtiveGTO
     gptResult->integralZ = exp(-1 * gaussianExponent * (primtiveGTO_a->locationZ - primtiveGTO_b->locationZ) * (primtiveGTO_a->locationZ - primtiveGTO_b->locationZ));
 }
 
-void overlapPrimitives(cxx_Primitives *primitiveGTO_a, cxx_Primitives *primitiveGTO_b, cxx_gptResults *gptResults, std::uint64_t *indexA, std::uint64_t *indexB, cxx_Integral *integralResult)
-{
-    integralResult->indexA = *indexA;
-    integralResult->indexB = *indexB;
-
-    // Compute integral in x-direction
-    for (std::int64_t ii = 0; ii < primitiveGTO_a->angularMomentumX; ++ii)
-    {
-        for (std::int64_t jj = 0; jj < primitiveGTO_b->angularMomentumX; ++jj)
-        {
-            if ((ii + jj) % 2 == 0)
-            {
-                // Implement the logic for the calculation of primitives
-            }
-        }
-    }
-}
-
-void overlapCartesians(cxx_Calculator *scfCalculator)
-{
-    // Loop over all the primitives
-#pragma omp parallel for collapse(2)
-    for (std::uint64_t ii = 0; ii < scfCalculator->nBasis; ++ii)
-    {
-        for (std::uint64_t jj = 0; jj < scfCalculator->nBasis; ++jj)
-        {
-            for (std::uint64_t ij = 0; ij < scfCalculator->basisFunctions[ii].cGTO.size(); ++ij)
-            {
-                cxx_Primitives primtiveGTO_a = scfCalculator->basisFunctions[ii].cGTO[ij];
-
-                for (std::uint64_t ji = 0; ji < scfCalculator->basisFunctions[jj].cGTO.size(); ++ji)
-                {
-                    cxx_Integral integralResults;
-                    cxx_Primitives primtiveGTO_b = scfCalculator->basisFunctions[jj].cGTO[ji];
-                    overlapPrimitives(&primtiveGTO_a, &primtiveGTO_b, &scfCalculator->resultSCF.gaussianResults(ij, ji), &ii, &jj, &integralResults);
-                }
-            }
-        }
-    }
-}

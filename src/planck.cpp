@@ -110,8 +110,17 @@ int main(int argc, char const *argv[])
         }
     }
     writeXML_GPT(&xmlPointer, &scfCalculator, &errorFlag, &errorMessage);
-    // Now we can start building the overlap matrix
-    // overlapCartesians(&scfCalculator);
 
+    // Now we can start building the overlap matrix
+    overlapCartesians(&scfCalculator);
+    for (std::uint64_t i = 0; i < scfCalculator.nBasis; i++)
+    {
+        for (std::uint64_t j = 0; i < scfCalculator.nBasis; j++)
+        {
+            std::cout << std::setw(20) << std::setprecision(3) << scfCalculator.resultSCF.overlapIntegrals(i,j);
+        }
+        std::cout << "\n";
+    }
+    
     return 0;
 }

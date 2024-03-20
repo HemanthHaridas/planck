@@ -69,6 +69,9 @@ target_include_directories(planck PUBLIC
 # Add source files from auxiliary directory using file globbing
 file(GLOB AuxiliarySources src/auxiliary/*.cpp)
 
+# Add source files from math directory using file globbing
+file(GLOB MathSources src/math/*.cpp)
+
 # Add source files from molecule directory using file globbing
 file(GLOB MoleculeSources src/molecule/*.cpp)
 
@@ -80,6 +83,7 @@ target_sources(planck PRIVATE
     ${MoleculeSources}
     ${ScfSources}
     ${AuxiliarySources}
+    ${MathSources}
 )
 
 # Set the output directory for the planck executable

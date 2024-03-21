@@ -1,5 +1,4 @@
-![example event parameter](https://github.com/HemanthHaridas/planck_cpp/actions/workflows/cmake-multi-platform.yml/badge.svg)  ![](https://tokei.rs/b1/github/HemanthHaridas/planck_cpp)
-
+![](https://github.com/HemanthHaridas/planck_cpp/actions/workflows/cmake-multi-platform.yml/badge.svg) 
 ### Planck
 
 <p align="justify"> Planck is a rewrite of the previous project <a href="https://github.com/HemanthHaridas/plank.py"> plank.py </a>, which was a mixture of CPython and Cython. The older version suffered from poor performance due to its design and my limited programming skills at the time of its creation.</P>
@@ -21,7 +20,7 @@ make
 This will build the executable and place it in the build/bin directory.
 
 Then edit the .bashrc file to set the path to the planck executable.
- 
+
 #### Usage Instructions
 
 <p align="justify"> To run Planck, specify an input file and call it using the following command: </p>

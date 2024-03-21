@@ -245,11 +245,12 @@ void overlapContracted()
 
 void overlap(cxx_Calculator *scfCalculator)
 {
+#pragma omp parallel for collapse(2)
     for (std::uint64_t ii = 0; ii < scfCalculator->nBasis; ++ii)
     {
         for (std::uint64_t jj = 0; jj < scfCalculator->nBasis; ++jj)
         {
-            std::cout << ii << " " << jj << " " << scfCalculator->basisFunctions[ii].index << " " << scfCalculator->basisFunctions[jj].index << "\n";
+            // std::cout << ii << " " << jj << " " << scfCalculator->basisFunctions[ii].index << " " << scfCalculator->basisFunctions[jj].index << "\n";
         }
     }
 }

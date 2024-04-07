@@ -81,6 +81,7 @@ void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calcu
     inputMolecule->atomCoordinates.resize(nAtoms, 3);
     inputMolecule->atomMasses.resize(nAtoms);
     inputMolecule->atomNumbers.resize(nAtoms);
+    inputMolecule->nAtoms = nAtoms;
 
     // Now read the coordinates and atom names and write the xml file
     std::string atomLine;
@@ -202,4 +203,59 @@ void readBasis(std::fstream *basisPointer, std::string atomNumber, std::string a
     std::istringstream outBuffer(xmlString);
     boost::property_tree::read_xml(outBuffer, outNode);
     boost::property_tree::write_xml("JobFile.xml", outNode, std::locale(), settings);
+}
+
+void symmetrizeMolecule(cxx_Molecule *inputMolecule, cxx_Molecule *outputMolecule, std::error_code *errorFlag, std::string *errorMessage)
+{
+    // Need to reset the error flag
+    errorFlag->clear();
+
+    if (!inputMolecule)
+    {
+        *errorFlag = std::make_error_code(std::errc::invalid_argument);
+        *errorMessage = "Input molecule is not defined.";
+        return;
+    }
+
+    Eigen::Matrix<std::double_t, Eigen::Dynamic, Eigen::Dynamic> distanceMatrix;
+    Eigen::Matrix<std::double_t, 3, 3> intertiaMatrix = Eigen::Matrix<std::double_t, 3, 3>::Zero();
+    Eigen::Vector3d centerMass = {0, 0, 0};
+    std::double_t totalMass = 0;
+
+    // Calculate the distance matrix
+    // This can then be used to identify the point group
+
+    distanceMatrix.resize(inputMolecule->nAtoms, inputMolecule->nAtoms);
+
+    for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < inputMolecule->nAtoms; jj++)
+        {
+            distanceMatrix(ii, jj) = pow(inputMolecule->atomCoordinates(ii, 0) - inputMolecule->atomCoordinates(jj, 0), 2) +
+                                     pow(inputMolecule->atomCoordinates(ii, 1) - inputMolecule->atomCoordinates(jj, 1), 2) +
+                                     pow(inputMolecule->atomCoordinates(ii, 2) - inputMolecule->atomCoordinates(jj, 2), 2);
+        }
+    }
+
+    // Now calculate the center of mass of the molecule
+    // Then we can compute the moment of intertia
+
+    for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
+    {
+        centerMass(0) += inputMolecule->atomMasses(ii) * inputMolecule->atomCoordinates(ii, 0);
+        centerMass(1) += inputMolecule->atomMasses(ii) * inputMolecule->atomCoordinates(ii, 1);
+        centerMass(2) += inputMolecule->atomMasses(ii) * inputMolecule->atomCoordinates(ii, 2);
+        totalMass += inputMolecule->atomMasses(ii);
+    }
+
+    // Move the molecule to origin
+    centerMass  =   centerMass / totalMass;
+
+    // for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
+    // {
+    //     for (std::uint64_t jj = 0; jj < inputMolecule->nAtoms; jj++)
+    //     {
+            
+    //     }
+    // }
 }

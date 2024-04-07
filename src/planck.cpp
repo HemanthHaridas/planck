@@ -10,6 +10,7 @@ int main(int argc, char const *argv[])
     std::error_code errorFlag;
     std::string errorMessage;
     cxx_Molecule inputMolecule;
+    cxx_Molecule symmetrizedMolecule;
     cxx_Calculator scfCalculator;
 
     // Print the GPL3 license agreement
@@ -21,19 +22,20 @@ int main(int argc, char const *argv[])
     {
         errorFlag = std::make_error_code(std::errc::no_such_file_or_directory);
         errorMessage = "No input file has been provided. Run planck as planck inputfile";
-        std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
+        std::cerr << "[Planck] => " << std::left << errorMessage << "\n";
         exit(errorFlag.value());
     }
 
     std::string inputFile = argv[1];
     std::fstream filePointer(inputFile);
     readInput(&filePointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
+    symmetrizeMolecule(&inputMolecule, &symmetrizedMolecule, &errorFlag, &errorMessage);
 
     // Check if the input file has been read successfully
     if (errorFlag.value())
     {
         std::cerr << "\n";
-        std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
+        std::cerr << "[Planck] => " << errorMessage << "\n";
         exit(errorFlag.value());
     }
 
@@ -45,10 +47,10 @@ int main(int argc, char const *argv[])
         std::fstream basisPointer(basisFile);
         readBasis(&basisPointer, std::to_string(inputMolecule.atomNumbers(atomIndex)), std::to_string(atomIndex), &errorFlag, &errorMessage);
 
-        // Check if the input file has been read successfully
+        // Check if the basis file has been read successfully
         if (errorFlag.value())
         {
-            std::cerr << std::setw(10) << std::left << "[Error] :" << std::setw(50) << std::left << errorMessage << "\n";
+            std::cerr << std::setw(20) << std::left << "[Error] => " << std::setw(85) << std::left << errorMessage << "\n";
             exit(errorFlag.value());
         }
     }
@@ -56,12 +58,14 @@ int main(int argc, char const *argv[])
     // Once the basis sets are written to JobFile.xml, read the basis set to start the caluclations
     std::fstream xmlPointer("JobFile.xml");
     readXML(&xmlPointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
-
+    
+    // Now print the parsed information 
+    std::cout << std::setw(20) << std::left << "[Planck] => Input File : " << std::setw(85) << std::left << inputFile << "\n";
     // First we need to calculate gaussian products and store them
     std::cout << "\n";
-    std::cout << std::setw(10) << std::left << "[Planck] There are " << scfCalculator.nPrimitives << " Primtive Gaussians from " << scfCalculator.nBasis << " Contracted Gaussians"
+    std::cout << std::setw(20) << std::left << "[Planck] => There are " << scfCalculator.nPrimitives << " Primtive Gaussians from " << scfCalculator.nBasis << " Contracted Gaussians"
               << "\n";
-    std::cout << std::setw(10) << std::left << "[Planck] Allocated " << sizeof(cxx_gptResults) * scfCalculator.resultSCF.gaussianResults.cols() * scfCalculator.resultSCF.gaussianResults.rows() << " B for Gaussian Products."
+    std::cout << std::setw(20) << std::left << "[Planck] => Allocated " << sizeof(cxx_gptResults) * scfCalculator.resultSCF.gaussianResults.cols() * scfCalculator.resultSCF.gaussianResults.rows() << " B for Gaussian Products."
               << "\n";
     std::cout << "\n";
     

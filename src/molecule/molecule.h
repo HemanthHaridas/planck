@@ -76,7 +76,8 @@ struct cxx_Integral
 
 // Moved the results to a separate block
 // Everything except replusion integrals in a 2D matrix.
-struct cxx_Results {
+struct cxx_Results
+{
     Eigen::Matrix<cxx_gptResults, Eigen::Dynamic, Eigen::Dynamic> gaussianResults;
     Eigen::Matrix<std::double_t, Eigen::Dynamic, Eigen::Dynamic> overlapIntegrals;
     Eigen::Matrix<std::double_t, Eigen::Dynamic, Eigen::Dynamic> kineticIntegrals;
@@ -95,6 +96,7 @@ struct cxx_Molecule
     Eigen::Matrix<double, Eigen::Dynamic, 3> atomCoordinates;
     Eigen::VectorXd atomMasses;
     Eigen::VectorXi atomNumbers;
+    std::uint64_t nAtoms;
     std::vector<std::uint16_t> atomBasis;
 };
 
@@ -119,3 +121,4 @@ struct cxx_Calculator
 
 void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calculator *scfCalculator, std::error_code *errorFlag, std::string *errorMessage);
 void readBasis(std::fstream *basisPointer, std::string atomNumber, std::string atomIndex, std::error_code *errorFlag, std::string *errorMessage);
+void symmetrizeMolecule(cxx_Molecule *inputMolecule, cxx_Molecule *outputMolecule, std::error_code *errorFlag, std::string *errorMessage);

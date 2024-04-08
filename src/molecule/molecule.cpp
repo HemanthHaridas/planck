@@ -249,13 +249,21 @@ void symmetrizeMolecule(cxx_Molecule *inputMolecule, cxx_Molecule *outputMolecul
     }
 
     // Move the molecule to origin
-    centerMass  =   centerMass / totalMass;
+    centerMass = centerMass / totalMass;
 
-    // for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
-    // {
-    //     for (std::uint64_t jj = 0; jj < inputMolecule->nAtoms; jj++)
-    //     {
-            
-    //     }
-    // }
+    // Converting to standard orientation
+    for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
+    {
+        outputMolecule->atomCoordinates(ii, 0) = inputMolecule->atomCoordinates(ii, 0) - centerMass(0);
+        outputMolecule->atomCoordinates(ii, 1) = inputMolecule->atomCoordinates(ii, 1) - centerMass(1);
+        outputMolecule->atomCoordinates(ii, 2) = inputMolecule->atomCoordinates(ii, 2) - centerMass(2);
+    }
+
+    // Now calculate the moment of inertia tensor
+    for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < inputMolecule->nAtoms; jj++)
+        {
+        }
+    }
 }

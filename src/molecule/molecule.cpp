@@ -264,6 +264,7 @@ void symmetrizeMolecule(cxx_Molecule *inputMolecule, cxx_Molecule *outputMolecul
     {
         for (std::uint64_t jj = 0; jj < inputMolecule->nAtoms; jj++)
         {
+            
         }
     }
 }

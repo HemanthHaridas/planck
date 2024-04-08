@@ -121,4 +121,4 @@ struct cxx_Calculator
 
 void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calculator *scfCalculator, std::error_code *errorFlag, std::string *errorMessage);
 void readBasis(std::fstream *basisPointer, std::string atomNumber, std::string atomIndex, std::error_code *errorFlag, std::string *errorMessage);
-void symmetrizeMolecule(cxx_Molecule *inputMolecule, cxx_Molecule *outputMolecule, std::error_code *errorFlag, std::string *errorMessage);
+void symmetrizeMolecule(cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);

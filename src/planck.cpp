@@ -4,6 +4,7 @@
 #include "scf/scf.h"
 #include "scf/overlap.h"
 #include "auxiliary/license.h"
+#include "auxiliary/inputoutput.h"
 
 int main(int argc, char const *argv[])
 {
@@ -29,7 +30,18 @@ int main(int argc, char const *argv[])
     std::string inputFile = argv[1];
     std::fstream filePointer(inputFile);
     readInput(&filePointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
-    symmetrizeMolecule(&inputMolecule, &symmetrizedMolecule, &errorFlag, &errorMessage);
+
+    // Now print the parsed information 
+    std::cout << std::setw(20) << std::left << "[Planck] => Input File : " << std::setw(85) << std::left << inputFile << "\n";
+
+    // Print the input orientation
+    std::cout << std::setw(20) << std::left << "[Planck] => Begin Input Orientation  " << "\n";
+    printCoordinates(&inputMolecule);
+    std::cout << std::setw(20) << std::left << "[Planck] => End Input Orientation  " << "\n";
+
+    // Now reorient molecule to standard orientation
+    symmetrizeMolecule(&inputMolecule, &errorFlag, &errorMessage);
+    printCoordinates(&inputMolecule);
 
     // Check if the input file has been read successfully
     if (errorFlag.value())
@@ -59,8 +71,6 @@ int main(int argc, char const *argv[])
     std::fstream xmlPointer("JobFile.xml");
     readXML(&xmlPointer, &inputMolecule, &scfCalculator, &errorFlag, &errorMessage);
     
-    // Now print the parsed information 
-    std::cout << std::setw(20) << std::left << "[Planck] => Input File : " << std::setw(85) << std::left << inputFile << "\n";
     // First we need to calculate gaussian products and store them
     std::cout << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] => There are " << scfCalculator.nPrimitives << " Primtive Gaussians from " << scfCalculator.nBasis << " Contracted Gaussians"

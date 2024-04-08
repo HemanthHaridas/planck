@@ -99,9 +99,9 @@ void readInput(std::fstream *filePointer, cxx_Molecule *inputMolecule, cxx_Calcu
         atomBuffer >> atomName >> atomXCoord >> atomYCoord >> atomZCoord;
 
         // Set the coordinates information to the atomCoordinates
-        inputMolecule->atomCoordinates(atomIndex, 0) = atomXCoord;
-        inputMolecule->atomCoordinates(atomIndex, 1) = atomYCoord;
-        inputMolecule->atomCoordinates(atomIndex, 2) = atomZCoord;
+        inputMolecule->atomCoordinates(atomIndex, 0) = atomXCoord * 1.8897259885789;
+        inputMolecule->atomCoordinates(atomIndex, 1) = atomYCoord * 1.8897259885789;
+        inputMolecule->atomCoordinates(atomIndex, 2) = atomZCoord * 1.8897259885789;
 
         // Set the atom number and mass information to corresponding arrays
         inputMolecule->atomNumbers(atomIndex) = atomicNumber[atomName];
@@ -205,7 +205,7 @@ void readBasis(std::fstream *basisPointer, std::string atomNumber, std::string a
     boost::property_tree::write_xml("JobFile.xml", outNode, std::locale(), settings);
 }
 
-void symmetrizeMolecule(cxx_Molecule *inputMolecule, cxx_Molecule *outputMolecule, std::error_code *errorFlag, std::string *errorMessage)
+void symmetrizeMolecule(cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage)
 {
     // Need to reset the error flag
     errorFlag->clear();
@@ -251,20 +251,37 @@ void symmetrizeMolecule(cxx_Molecule *inputMolecule, cxx_Molecule *outputMolecul
     // Move the molecule to origin
     centerMass = centerMass / totalMass;
 
+    // outputMolecule->atomCoordinates.resize(inputMolecule->nAtoms, inputMolecule->nAtoms);
+    // outputMolecule->nAtoms = inputMolecule->nAtoms;
+
     // Converting to standard orientation
     for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
     {
-        outputMolecule->atomCoordinates(ii, 0) = inputMolecule->atomCoordinates(ii, 0) - centerMass(0);
-        outputMolecule->atomCoordinates(ii, 1) = inputMolecule->atomCoordinates(ii, 1) - centerMass(1);
-        outputMolecule->atomCoordinates(ii, 2) = inputMolecule->atomCoordinates(ii, 2) - centerMass(2);
+        inputMolecule->atomCoordinates(ii, 0) = inputMolecule->atomCoordinates(ii, 0) - centerMass(0);
+        inputMolecule->atomCoordinates(ii, 1) = inputMolecule->atomCoordinates(ii, 1) - centerMass(1);
+        inputMolecule->atomCoordinates(ii, 2) = inputMolecule->atomCoordinates(ii, 2) - centerMass(2);
     }
 
     // Now calculate the moment of inertia tensor
     for (std::uint64_t ii = 0; ii < inputMolecule->nAtoms; ii++)
     {
-        for (std::uint64_t jj = 0; jj < inputMolecule->nAtoms; jj++)
-        {
-            
-        }
+        intertiaMatrix(0, 0) = intertiaMatrix(0, 0) + inputMolecule->atomMasses(ii) * (pow(inputMolecule->atomCoordinates(ii, 1), 2) + pow(inputMolecule->atomCoordinates(ii, 2), 2)); // Ixx
+        intertiaMatrix(1, 1) = intertiaMatrix(1, 1) + inputMolecule->atomMasses(ii) * (pow(inputMolecule->atomCoordinates(ii, 0), 2) + pow(inputMolecule->atomCoordinates(ii, 2), 2)); // Iyy
+        intertiaMatrix(2, 2) = intertiaMatrix(2, 2) + inputMolecule->atomMasses(ii) * (pow(inputMolecule->atomCoordinates(ii, 0), 2) + pow(inputMolecule->atomCoordinates(ii, 1), 2)); // Izz
+
+        intertiaMatrix(0, 1) = intertiaMatrix(0, 1) - inputMolecule->atomMasses(ii) * (inputMolecule->atomCoordinates(ii, 0) * inputMolecule->atomCoordinates(ii, 1)); // Ixy
+        intertiaMatrix(0, 2) = intertiaMatrix(0, 2) - inputMolecule->atomMasses(ii) * (inputMolecule->atomCoordinates(ii, 0) * inputMolecule->atomCoordinates(ii, 2)); // Ixz
+        intertiaMatrix(1, 2) = intertiaMatrix(1, 2) - inputMolecule->atomMasses(ii) * (inputMolecule->atomCoordinates(ii, 1) * inputMolecule->atomCoordinates(ii, 2)); // Iyz
     }
+
+    intertiaMatrix(1, 0) = intertiaMatrix(0, 1);
+    intertiaMatrix(2, 0) = intertiaMatrix(0, 2);
+    intertiaMatrix(2, 1) = intertiaMatrix(1, 2);
+
+    // Compute the eigenvalues and eigenvectors of the inertia matrix
+    Eigen::SelfAdjointEigenSolver<Eigen::Matrix<std::double_t, 3, 3>> eigenSolver;
+    eigenSolver.compute(intertiaMatrix);
+
+    Eigen::Vector3d eigenValues = eigenSolver.eigenvalues();
+    Eigen::Matrix3d eigenVectors = eigenSolver.eigenvectors();
 }

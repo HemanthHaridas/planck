@@ -1,10 +1,11 @@
 #pragma once
 
-#include <cmath>
-#include <cstdint>
-#include <string>
 #include <system_error>
-#include <vector>
+
+#include "../external/libmsym/install/include/libmsym/msym.h"
+#include "../external/libmsym/install/include/libmsym/msym_EXPORTS.h"
+#include "../external/libmsym/install/include/libmsym/msym_error.h"
+#include "planck_base.h"
 
 /*-----------------------------------------------------------------------------
  * Planck
@@ -23,6 +24,5 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-std::double_t factorial(const std::int64_t number);
-std::double_t doublefactorial(const std::int64_t number);
-std::double_t combination(const std::int64_t number, const std::int64_t choice);
+// void calculateInertia(cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);
+void detectSymmetry(cxx_Molecule *inputMolecule, std::uint64_t nAtoms, std::error_code *errorFlag, std::string *errorMessage);

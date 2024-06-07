@@ -1,11 +1,5 @@
 #pragma once
 
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-
 /*-----------------------------------------------------------------------------
  * Planck
  * Copyright (C) 2024 Hemanth Haridas, University of Utah
@@ -23,5 +17,14 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-extern std::string licenseAgreement;
-void printLicenseAgreement(std::string licenseAgreement);
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <system_error>
+
+#include "planck_base.h"
+
+void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);
+void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule);
+
+void writeChk(std::fstream *chkPointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);

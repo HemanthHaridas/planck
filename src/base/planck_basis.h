@@ -1,13 +1,4 @@
-#ifndef _TABLES_H
-#define _TABLES_H
-
-#include <cmath>
-#include <cstdint>
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <string>
-#include <vector>
+#pragma once
 
 /*-----------------------------------------------------------------------------
  * Planck
@@ -26,15 +17,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-/*
- * This is a lookup table for atomic masses, atomic numbers and atomic radii for
- * elements from Hydrogen to Einsteinium.
- *
- * Data obtained from PubChem
- */
+#include <boost/foreach.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
-extern std::map<std::string, double> atomicMass;
-extern std::map<std::string, std::uint32_t> atomicNumber;
-extern std::map<std::string, std::double_t> atomicRadius;
+#include "planck_base.h"
 
-#endif
+void readBasis(cxx_Molecule *inputMolecule, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);

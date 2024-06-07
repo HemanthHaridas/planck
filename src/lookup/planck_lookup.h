@@ -1,5 +1,4 @@
-#include "license.h"
-#include <iomanip>
+#pragma once
 
 /*-----------------------------------------------------------------------------
  * Planck
@@ -18,12 +17,17 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-std::string licenseAgreement = R"(
-[Planck] => Planck
-[Planck] => Copyright (C) 2024 Hemanth Haridas, University of Utah
-[Planck] => Contact: hemanthhari23@gmail.com)";
+#include <cmath>
+#include <map>
+#include <string>
 
-void printLicenseAgreement(std::string licenseAgreement)
-{
-    std::cout << std::setw(30) << std::left << licenseAgreement << "\n" << "\n";
-}
+/*
+ * This is a lookup table for atomic masses, atomic numbers and atomic radii for
+ * elements from Hydrogen to Einsteinium.
+ *
+ * Data obtained from PubChem
+ */
+
+extern std::map<std::string, double> atomicMass;
+extern std::map<std::string, std::uint64_t> atomicNumber;
+extern std::map<std::string, std::double_t> atomicRadius;

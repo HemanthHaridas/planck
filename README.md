@@ -8,8 +8,8 @@
 <p align="justify"> Before installing planck, you must install boost which is a dependency for Planck. </p>
 
 ```
-git clone https://github.com/HemanthHaridas/planck_cpp.git
-cd planck_cpp
+git clone https://github.com/HemanthHaridas/planck.git
+cd planck
 mkdir build
 cmake cmake -DCMAKE_INSTALL_PREFIX=/path/to/install ..
 make

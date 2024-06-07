@@ -58,7 +58,7 @@ jobs:
     - name: Install Libmsym
       if: startswith(matrix.os, 'ubuntu')
       run: > 
-              cd planck_cpp/src &&
+              cd ${{ github.workspace }}/src &&
               mkdir external &&
               git clone https://github.com/mcodev31/libmsym.git &&
               cd libmsym &&

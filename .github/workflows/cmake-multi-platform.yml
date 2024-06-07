@@ -55,19 +55,6 @@ jobs:
       if: startsWith(matrix.os, 'ubuntu')
       run: sudo apt-get install libboost-all-dev
       
-    - name: Install Libmsym
-      if: startswith(matrix.os, 'ubuntu')
-      run: > 
-              cd ${{ github.workspace }}/src &&
-              mkdir external &&
-              git clone https://github.com/mcodev31/libmsym.git &&
-              cd libmsym &&
-              mkdir build install &&
-              cd build && 
-              cmake -DBUILD_SHARED_LIBS:BOOL=OFF -DMSYM_BUILD_EXAMPLES:BOOL=OFF -DCMAKE_INSTALL_PREFIX:PATH=../install  &&
-              make &&
-              make install 
-
     - name: Install OpenMP
       if: startswith(matrix.c_compiler, 'clang')
       run: sudo apt-get install libomp-dev

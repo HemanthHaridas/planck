@@ -1,2 +1,5 @@
 /.vscode
 /src/external
+/external
+/build
+/install

@@ -24,6 +24,11 @@
 
 const std::double_t ANGTOBOHR = 1.8897259886;
 
+struct cxx_Result
+{
+
+};
+
 struct cxx_Primitive
 {
     // definition of primitive gaussians
@@ -89,4 +94,11 @@ struct cxx_Calculator
     std::vector<cxx_Contracted> calculation_set;
     std::uint64_t total_basis;
     std::uint64_t total_primitives;
+
+    // arrays to hold integrals;
+    std::double_t *overlap;
+    std::double_t *kinetic;
+    std::double_t *nuclear;
+    std::double_t *electronic;
+    std::double_t *fock;
 };

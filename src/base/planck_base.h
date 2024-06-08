@@ -89,7 +89,8 @@ struct cxx_Calculator
     std::string calculation_basis;
     std::string calculation_type;
     std::string coordinate_type;
-
+    std::string basis_path;
+    
     // array to hold the basis set
     std::vector<cxx_Contracted> calculation_set;
     std::uint64_t total_basis;

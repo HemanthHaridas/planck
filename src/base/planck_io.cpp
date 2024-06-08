@@ -48,6 +48,9 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
         inputMolecule->use_pgsymmetry = 1;
     }
 
+    // now read path to basis set
+    std::getline(*filePointer, planckCalculator->basis_path);
+
     // now read the number of atoms and set up the buffers
     std::getline(*filePointer, headerLine);
     std::stringstream atomBuffer(headerLine);

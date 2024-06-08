@@ -15,9 +15,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
- #include "planck_basis.h"
+#include <iostream>
 
- 
+#include "planck_basis.h"
+
 void readBasis(cxx_Molecule *inputMolecule, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
 {
     // first reset the error flag and error message
@@ -29,7 +30,7 @@ void readBasis(cxx_Molecule *inputMolecule, cxx_Calculator *planckCalculator, st
 
     for (std::uint64_t atomIndex = 0; atomIndex < planckCalculator->total_atoms; atomIndex++)
     {
-        std::string basisFile = "./basis/" + planckCalculator->calculation_basis + "-" + std::to_string(inputMolecule->atom_numbers[atomIndex]) + ".xml";
+        std::string basisFile = planckCalculator->basis_path + "/" + planckCalculator->calculation_basis + "-" + std::to_string(inputMolecule->atom_numbers[atomIndex]) + ".xml";
         std::fstream basisPointer(basisFile);
 
         // now check if the basis file exists

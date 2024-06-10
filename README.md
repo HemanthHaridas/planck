@@ -11,7 +11,7 @@
 git clone https://github.com/HemanthHaridas/planck.git
 cd planck
 mkdir build
-cmake cmake -DCMAKE_INSTALL_PREFIX=/path/to/install ..
+cmake ..
 make
 make install
 ```

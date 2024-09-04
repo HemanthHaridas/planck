@@ -62,20 +62,12 @@ void readBasis(cxx_Molecule *inputMolecule, cxx_Calculator *planckCalculator, st
             BOOST_FOREACH (const boost::property_tree::ptree::value_type &pgtoNode, basisNode.second)
             {
                 cxx_Primitive primitiveGTO;
-                // primitiveGTO.shell_x = basisNode.second.get_optional<std::int64_t>("<xmlattr>.AngularMomentumX").get_value_or(0);
-                // primitiveGTO.shell_y = basisNode.second.get_optional<std::int64_t>("<xmlattr>.AngularMomentumY").get_value_or(0);
-                // primitiveGTO.shell_z = basisNode.second.get_optional<std::int64_t>("<xmlattr>.AngularMomentumZ").get_value_or(0);
 
                 // if the node is not PGTO, get the angular momentum information
                 if (pgtoNode.first != "PGTO")
                 {
                     continue;
                 }
-
-                // first set the location of the primitive gaussian
-                // primitiveGTO.location_x = inputMolecule->standard_coordinates(atomIndex, 0);
-                // primitiveGTO.location_y = inputMolecule->standard_coordinates(atomIndex, 1);
-                // primitiveGTO.location_z = inputMolecule->standard_coordinates(atomIndex, 2);
 
                 // now read the remaining information
                 boost::optional<std::double_t> primitiveExp = pgtoNode.second.get_optional<std::double_t>("<xmlattr>.Exponent");

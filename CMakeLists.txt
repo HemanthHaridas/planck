@@ -4,6 +4,7 @@ project(planck_cpp)
 # Set the minimum C++ standard and use the most recent standard supported by the compiler
 set(CMAKE_CXX_STANDARD 17)  # Minimum C++ standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "/opt/homebrew/Cellar/boost/1.87.0_1/include")
 # set(CMAKE_CXX_EXTENSIONS OFF)  # Disable compiler-specific extensions
 
 # Print the C++ standard being used
@@ -11,6 +12,9 @@ message(STATUS "Using C++ Standard: ${CMAKE_CXX_STANDARD}")
 
 # Set optimization flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ftree-vectorize -Wall")
+
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
 
 # Gather source files
 file(GLOB BASE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/base/*.cpp)
@@ -63,3 +67,6 @@ install(TARGETS planck DESTINATION)
 
 # copy the basis set files
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/basis DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+
+# write the path of basis sets
+file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/planck.defaults "${CMAKE_INSTALL_PREFIX}/bin/basis\n")

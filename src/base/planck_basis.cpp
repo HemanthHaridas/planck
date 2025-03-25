@@ -32,6 +32,7 @@ void readBasis(cxx_Molecule *inputMolecule, cxx_Calculator *planckCalculator, st
     {
         std::string basisFile = planckCalculator->basis_path + "/" + planckCalculator->calculation_basis + "-" + std::to_string(inputMolecule->atom_numbers[atomIndex]) + ".xml";
         std::fstream basisPointer(basisFile);
+        // std::cout << basisFile << "\n";
 
         // now check if the basis file exists
         if (!basisPointer.is_open() || !basisPointer)

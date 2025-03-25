@@ -1,5 +1,5 @@
-energy rhf sto-3g ang 
-/home/hemanthharidas/planck_cpp/install/bin/basis
+energy rhf sto-3g ang 1
+
 3
 0   1
 O     -4.568400    2.888400   -0.020100

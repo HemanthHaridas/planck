@@ -48,8 +48,22 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
         inputMolecule->use_pgsymmetry = 1;
     }
 
-    // now read path to basis set
-    std::getline(*filePointer, planckCalculator->basis_path);
+    // check if defaults.txt file is present
+    // if yes, read in the default basis set path
+    // else read path from input file
+    std::fstream defaultPointer("planck.defaults");
+    if (defaultPointer)
+    {
+        std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Found planck.defaults file" << "\n";
+        std::getline(*filePointer, planckCalculator->basis_path);  // will be immediately overwritten by path read from planck.defaults file
+        std::getline(defaultPointer, planckCalculator->basis_path);
+    }
+    else
+    {
+        std::getline(*filePointer, planckCalculator->basis_path);
+    }
+
+    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Basis sets read from : " << planckCalculator->basis_path << "\n";
 
     // now read the number of atoms and set up the buffers
     std::getline(*filePointer, headerLine);
@@ -74,7 +88,7 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
 
     std::uint64_t atomIndex = 0;
     planckCalculator->total_electrons = 0;
-
+    
     while (std::getline(*filePointer, headerLine) && atomIndex < planckCalculator->total_atoms)
     {
         // buffers to hold the atom information

@@ -54,7 +54,7 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
     std::fstream defaultPointer("planck.defaults");
     if (defaultPointer)
     {
-        std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Found planck.defaults file" << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Found planck.defaults file" << "\n";
         std::getline(*filePointer, planckCalculator->basis_path);  // will be immediately overwritten by path read from planck.defaults file
         std::getline(defaultPointer, planckCalculator->basis_path);
     }
@@ -63,12 +63,13 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
         std::getline(*filePointer, planckCalculator->basis_path);
     }
 
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Basis sets read from : " << planckCalculator->basis_path << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Basis sets read from : " << planckCalculator->basis_path << "\n";
 
     // now read the number of atoms and set up the buffers
     std::getline(*filePointer, headerLine);
     std::stringstream atomBuffer(headerLine);
     atomBuffer >> planckCalculator->total_atoms;
+    // std::cout << planckCalculator->total_atoms << "\n";
 
     inputMolecule->atom_masses = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_atoms);
     inputMolecule->atom_numbers = (std::uint64_t *)malloc(sizeof(std::uint64_t) * planckCalculator->total_atoms);
@@ -166,29 +167,37 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
 
 void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
 {
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Requested Calculation Type : " << planckCalculator->calculation_type << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Requested Basis Set : " << planckCalculator->calculation_basis << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Requested Level Of Theory : " << planckCalculator->calculation_theory << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Requested Calculation Type : " << planckCalculator->calculation_type << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Requested Basis Set : " << planckCalculator->calculation_basis << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Requested Level Of Theory : " << planckCalculator->calculation_theory << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Number Of Atoms : " << planckCalculator->total_atoms << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Input Charge : " << planckCalculator->molecule_charge << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Input Multiplicity : " << planckCalculator->molecule_multiplicity << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Number Of Electrons : " << planckCalculator->total_electrons << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Number Of Atoms : " << planckCalculator->total_atoms << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Input Charge : " << planckCalculator->molecule_charge << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Input Multiplicity : " << planckCalculator->molecule_multiplicity << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Number Of Electrons : " << planckCalculator->total_electrons << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 
     // check if the calculation is unrestricted, if yes print the number of alpha and beta electrons
     if (planckCalculator->calculation_theory[0] == 'u')
     {
-        std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Number Of Alpha Electrons : " << planckCalculator->alpha_electrons << "\n";
-        std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Number Of Beta Electrons : " << planckCalculator->beta_electrons << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Number Of Alpha Electrons : " << planckCalculator->alpha_electrons << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Number Of Beta Electrons : " << planckCalculator->beta_electrons << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     }
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Use Point Group Symmetry : " << inputMolecule->use_pgsymmetry << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Detected Point : " << inputMolecule->point_group << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+    
+    if (inputMolecule->is_reoriented)
+    {
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Use Point Group Symmetry : " << inputMolecule->use_pgsymmetry << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Detected Point Group : " << inputMolecule->point_group << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+    }
 
     // Now dump input coordinates
-    std::cout << std::setw(21) << std::left << "[Planck] => " << std::setw(80) << std::left << "Begin Input Coordinates" << "\n";
+    std::cout << std::setw(21) << std::left << "[Planck]   => " << std::setw(80) << std::left << "Begin Input Coordinates" << "\n";
     for (std::uint64_t atom_index = 0; atom_index < planckCalculator->total_atoms; atom_index++)
     {
         std::cout << std::setw(20) << std::left << "[Planck]"
@@ -198,14 +207,14 @@ void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
                   << std::setw(20) << std::fixed << std::right << inputMolecule->input_coordinates[atom_index * 3 + 2]
                   << "\n";
     }
-    std::cout << std::setw(21) << std::left << "[Planck] => " << std::setw(80) << std::left << "End Input Coordinates" << "\n";
+    std::cout << std::setw(21) << std::left << "[Planck]   => " << std::setw(80) << std::left << "End Input Coordinates" << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 
     // if the point group is not C1, print reoriented coordinates also
     if (inputMolecule->is_reoriented)
     {
-        std::cout << std::setw(21) << std::left << "[Planck] => " << std::setw(80) << std::left << "Begin Standard Coordinates" << "\n";
+        std::cout << std::setw(21) << std::left << "[Planck]   => " << std::setw(80) << std::left << "Begin Standard Coordinates" << "\n";
         for (std::uint64_t atom_index = 0; atom_index < planckCalculator->total_atoms; atom_index++)
         {
             std::cout << std::setw(20) << std::left << "[Planck]"
@@ -215,14 +224,14 @@ void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
                       << std::setw(20) << std::fixed << std::right << inputMolecule->standard_coordinates[atom_index * 3 + 2]
                       << "\n";
         }
-        std::cout << std::setw(21) << std::left << "[Planck] => " << std::setw(80) << std::left << "End Standard Coordinates" << "\n";
+        std::cout << std::setw(21) << std::left << "[Planck]   => " << std::setw(80) << std::left << "End Standard Coordinates" << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     }
 
     // now print basis set information
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Number Of Basis Functions : " << planckCalculator->total_basis << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] => " << std::setw(35) << std::left << " Number Of Primtive Gaussians : " << planckCalculator->total_primitives << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Number Of Basis Functions : " << planckCalculator->total_basis << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Number Of Primtive Gaussians : " << planckCalculator->total_primitives << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 }

@@ -39,7 +39,7 @@ void detectSymmetry(cxx_Molecule *inputMolecule, std::uint64_t nAtoms, std::erro
         0.1     // orthogonalization
     };
 
-    std::cout << std::setw(21) << std::left << "[Planck] => " << std::setw(80) << std::left << "We use libmsym library to detect point groups" << "\n";
+    std::cout << std::setw(21) << std::left << "[Planck]   => " << std::setw(80) << std::left << "We use libmsym library to detect point groups" << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 

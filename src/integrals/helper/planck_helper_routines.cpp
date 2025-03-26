@@ -15,35 +15,25 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include "planck_overlap.h"
+#include "planck_helper_routines.h"
 
-void computeOverlap(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+void computeGaussianProduct(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
 {
     // first clear the error buffers
     errorFlag->clear();
     errorMessage->clear();
 
-    // now loop over contracted basis sets
+    // now set the size of the buffers
+    planckCalculator->gaussian_centers = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_primitives * planckCalculator->total_primitives);
+    planckCalculator->gaussian_exps = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_primitives * planckCalculator->total_primitives);
+
+    // now compute the gaussian centers and products
     for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
     {
-        std::uint64_t nPrimA = planckCalculator->calculation_set[ii].contracted_GTO.size();
-        std::double_t xA = planckCalculator->calculation_set[ii].location_x;
-        std::double_t yA = planckCalculator->calculation_set[ii].location_y;
-        std::double_t zA = planckCalculator->calculation_set[ii].location_z;
         for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
         {
-            std::uint64_t nPrimB = planckCalculator->calculation_set[jj].contracted_GTO.size();
-            std::double_t xB = planckCalculator->calculation_set[jj].location_x;
-            std::double_t yB = planckCalculator->calculation_set[jj].location_y;
-            std::double_t zB = planckCalculator->calculation_set[jj].location_z;
-            // now loop over primitives
-            for (std::uint64_t ij = 0; ij < nPrimA; ij++)
-            {
-                for (std::uint64_t ji = 0; ji < nPrimB; ji++)
-                {
-                    
-                }
-            }
+            /* code */
         }
     }
+    
 }

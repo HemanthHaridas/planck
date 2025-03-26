@@ -102,4 +102,6 @@ struct cxx_Calculator
     std::double_t *nuclear;
     std::double_t *electronic;
     std::double_t *fock;
+    std::double_t *gaussian_centers;
+    std::double_t *gaussian_exps;
 };

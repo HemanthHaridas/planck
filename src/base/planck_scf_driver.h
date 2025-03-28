@@ -16,3 +16,6 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
+
+#include "../integrals/helper/planck_helper_routines.h"
+#include "../integrals/one_electron/planck_overlap.h"

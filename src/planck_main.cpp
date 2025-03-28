@@ -23,6 +23,7 @@
 #include "base/planck_basis.h"
 #include "base/planck_io.h"
 #include "base/planck_symmetry.h"
+#include "base/planck_scf_driver.h"
 
 int main(int argc, char const *argv[])
 {
@@ -87,7 +88,9 @@ int main(int argc, char const *argv[])
     // now read the basis sets
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+
     readBasis(&input_molecule, &planck_calculator, &error_flag, &error_message);
+    
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 
@@ -100,10 +103,13 @@ int main(int argc, char const *argv[])
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
-    // now start SCF
+    std::uint64_t totalMemory;
+
     // preallocate the buffers
-    planck_calculator.gaussian_centers = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
-    planck_calculator.gaussian_exps = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
+    // planck_calculator.gaussian_centers_x = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
+    // planck_calculator.gaussian_centers_y = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
+    // planck_calculator.gaussian_centers_z = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
+    // planck_calculator.gaussian_exps = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
 
     planck_calculator.overlap = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     planck_calculator.kinetic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
@@ -114,11 +120,19 @@ int main(int argc, char const *argv[])
     if (planck_calculator.is_unrestricted)
     {
         planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
+        totalMemory = sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis;
     }
     else
     {
         planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+        totalMemory = sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis;
     }
+
+    // totalMemory = totalMemory + sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives * 4; // size of the auxiliary buffers
+    totalMemory = totalMemory + sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis * 4; // size of the integral buffers
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Allocated Memory in KB : " << totalMemory / 1024 << "\n";
+
+    // computeGaussianProduct(&planck_calculator, &error_flag, &error_message);
 
     // free the allocated buffers
     

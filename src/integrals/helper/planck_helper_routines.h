@@ -21,5 +21,5 @@
 
 #include "../../base/planck_base.h"
 
-void computeGaussianProduct(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);
+void computeGaussianProduct(std::double_t *gaussianCenterX, std::double_t *gaussianCenterY, std::double_t *gaussianCenterZ, std::double_t *gaussianIntegralX, std::double_t *gaussianIntegralY, std::double_t *gaussianIntegralZ, std::error_code *errorFlag, std::string *errorMessage);
 

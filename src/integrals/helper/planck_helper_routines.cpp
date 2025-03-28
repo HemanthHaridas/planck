@@ -14,26 +14,14 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
-
+#include <iostream>
 #include "planck_helper_routines.h"
 
-void computeGaussianProduct(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+void computeGaussianProduct(std::double_t *gaussianCenterX, std::double_t *gaussianCenterY, std::double_t *gaussianCenterZ, std::double_t *gaussianIntegralX, std::double_t *gaussianIntegralY, std::double_t *gaussianIntegralZ, std::error_code *errorFlag, std::string *errorMessage)
 {
     // first clear the error buffers
     errorFlag->clear();
     errorMessage->clear();
 
-    // now set the size of the buffers
-    planckCalculator->gaussian_centers = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_primitives * planckCalculator->total_primitives);
-    planckCalculator->gaussian_exps = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_primitives * planckCalculator->total_primitives);
-
-    // now compute the gaussian centers and products
-    for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
-    {
-        for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
-        {
-            /* code */
-        }
-    }
-    
+    // 
 }

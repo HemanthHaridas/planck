@@ -13,20 +13,35 @@ message(STATUS "Using C++ Standard: ${CMAKE_CXX_STANDARD}")
 # Set optimization flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -ftree-vectorize -Wall")
 
+# include(FetchContent)
+
+# set(FETCHCONTENT_QUIET FALSE)
+# FetchContent_Declare(
+#   Boost
+#   GIT_REPOSITORY https://github.com/boostorg/boost.git
+#   # GIT_TAG boost-1.82.0
+#   GIT_TAG b6928ae5c92e21a04bbe17a558e6e066dbe632f6
+# )
+
+# FetchContent_MakeAvailable(Boost)
+
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Gather source files
+file(GLOB MAIN_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 file(GLOB BASE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/base/*.cpp)
 file(GLOB LOOKUP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/lookup/*.cpp)
+file(GLOB HELPER_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/helper/*.cpp)
 file(GLOB ONE_ELECTRON_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/one_electron/*.cpp)
 file(GLOB TWO_ELECTRON_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/two_electron/*.cpp)
 file(GLOB MATH_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/math/*.cpp)
 
 # Add the executable target
 add_executable(planck 
-    src/planck_main.cpp
+    ${MAIN_SOURCES}
     ${BASE_SOURCES}
+    ${HELPER_SOURCES}
     ${LOOKUP_SOURCES}
     ${ONE_ELECTRON_SOURCES}
     ${TWO_ELECTRON_SOURCES}
@@ -53,6 +68,8 @@ ExternalProject_Get_Property(libmsym install_dir)
 target_include_directories(planck PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/base 
     ${CMAKE_CURRENT_SOURCE_DIR}/src/lookup
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/helper
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/one_electron
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers
 )
 

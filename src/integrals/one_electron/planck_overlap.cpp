@@ -16,6 +16,7 @@
  ----------------------------------------------------------------------------*/
 
 #include "planck_overlap.h"
+#include "helper/planck_helper_routines.h"
 
 void computeOverlap(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
 {
@@ -39,9 +40,19 @@ void computeOverlap(cxx_Calculator *planckCalculator, std::error_code *errorFlag
             // now loop over primitives
             for (std::uint64_t ij = 0; ij < nPrimA; ij++)
             {
+                std::double_t exponentA = planckCalculator->calculation_set[ii].contracted_GTO[ij].primitive_exp;
                 for (std::uint64_t ji = 0; ji < nPrimB; ji++)
                 {
-                    
+                    // need six variables to hold intermediates
+                    std::double_t *gaussianCenterX;
+                    std::double_t *gaussianCenterY;
+                    std::double_t *gaussianCenterZ;
+                    std::double_t *gaussianIntegralX;
+                    std::double_t *gaussianIntegralY;
+                    std::double_t *gaussianIntegralZ;
+
+                    std::double_t exponentB = planckCalculator->calculation_set[jj].contracted_GTO[ji].primitive_exp;
+                    computeGaussianProduct(gaussianCenterX, gaussianCenterY, gaussianCenterZ, gaussianIntegralX, gaussianIntegralY, gaussianIntegralZ, errorFlag, errorMessage);
                 }
             }
         }

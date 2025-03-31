@@ -48,7 +48,7 @@ const inline std::double_t combination(std::int64_t number, std::int64_t choice)
 
 const inline std::double_t doublefactorial(std::int64_t number)
 {
-    // check if number is leass than -1
+    // check if number is less than -1
     if (number < -1)
     {
         return 0;
@@ -60,4 +60,9 @@ const inline std::double_t doublefactorial(std::int64_t number)
         result = result * ii;
     }
     return result;
+}
+
+std::double_t dotproduct(std::double_t xA, std::double_t yA, std::double_t zA, std::double_t xB, std::double_t yB, std::double_t zB)
+{
+    return (xA - xB) * (xA - xB) + (yA - yB) * (yA - yB) + (zA - zB) * (zA - zB);
 }

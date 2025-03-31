@@ -15,8 +15,9 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
+#include <iostream>
 #include "planck_overlap.h"
-#include "helper/planck_helper_routines.h"
+#include "../helper/planck_helper_routines.h"
 
 void computeOverlap(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
 {
@@ -27,34 +28,109 @@ void computeOverlap(cxx_Calculator *planckCalculator, std::error_code *errorFlag
     // now loop over contracted basis sets
     for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
     {
-        std::uint64_t nPrimA = planckCalculator->calculation_set[ii].contracted_GTO.size();
-        std::double_t xA = planckCalculator->calculation_set[ii].location_x;
-        std::double_t yA = planckCalculator->calculation_set[ii].location_y;
-        std::double_t zA = planckCalculator->calculation_set[ii].location_z;
-        for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
+        for (std::uint64_t jj = 0; jj <= ii; jj++)
         {
-            std::uint64_t nPrimB = planckCalculator->calculation_set[jj].contracted_GTO.size();
-            std::double_t xB = planckCalculator->calculation_set[jj].location_x;
-            std::double_t yB = planckCalculator->calculation_set[jj].location_y;
-            std::double_t zB = planckCalculator->calculation_set[jj].location_z;
-            // now loop over primitives
-            for (std::uint64_t ij = 0; ij < nPrimA; ij++)
-            {
-                std::double_t exponentA = planckCalculator->calculation_set[ii].contracted_GTO[ij].primitive_exp;
-                for (std::uint64_t ji = 0; ji < nPrimB; ji++)
-                {
-                    // need six variables to hold intermediates
-                    std::double_t *gaussianCenterX;
-                    std::double_t *gaussianCenterY;
-                    std::double_t *gaussianCenterZ;
-                    std::double_t *gaussianIntegralX;
-                    std::double_t *gaussianIntegralY;
-                    std::double_t *gaussianIntegralZ;
-
-                    std::double_t exponentB = planckCalculator->calculation_set[jj].contracted_GTO[ji].primitive_exp;
-                    computeGaussianProduct(gaussianCenterX, gaussianCenterY, gaussianCenterZ, gaussianIntegralX, gaussianIntegralY, gaussianIntegralZ, errorFlag, errorMessage);
-                }
-            }
+            computeOverlap1(&planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj], errorFlag, errorMessage);
         }
     }
+}
+
+std::double_t computeOverlap1(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage)
+{
+    std::vector<cxx_Gaussians> productGaussians;
+    std::double_t xA = contractedGaussianA->location_x;
+    std::double_t yA = contractedGaussianA->location_y;
+    std::double_t zA = contractedGaussianA->location_z;
+
+    std::int64_t lxA = contractedGaussianA->shell_x;
+    std::int64_t lyA = contractedGaussianA->shell_y;
+    std::int64_t lzA = contractedGaussianA->shell_z;
+
+    std::double_t xB = contractedGaussianB->location_x;
+    std::double_t yB = contractedGaussianB->location_y;
+    std::double_t zB = contractedGaussianB->location_z;
+
+    std::int64_t lxB = contractedGaussianB->shell_x;
+    std::int64_t lyB = contractedGaussianB->shell_y;
+    std::int64_t lzB = contractedGaussianB->shell_z;
+
+    // containers
+    std::double_t locA[] = {xA, yA, zA};
+    std::double_t locB[] = {xB, yB, zB};
+    std::int64_t shellA[] = {lxA, lyA, lzA};
+    std::int64_t shellB[] = {lxB, lyB, lzB};
+
+    computeGaussianProduct(contractedGaussianA, contractedGaussianB, &productGaussians, errorFlag, errorMessage);
+    for (std::uint64_t ii = 0; ii < contractedGaussianA->contracted_GTO.size(); ii++)
+    {
+        for (std::uint64_t jj = 0; jj < contractedGaussianB->contracted_GTO.size(); jj++)
+        {
+            computePrimitive(
+                &contractedGaussianA->contracted_GTO[ii], locA, shellA, 
+                &contractedGaussianB->contracted_GTO[jj], locB, shellB, 
+                &productGaussians[ii * contractedGaussianA->contracted_GTO.size() + jj]
+                );
+        }
+    }
+}
+
+std::double_t computePrimitive(cxx_Primitive *primitiveA, std::double_t *locA, std::int64_t *shellA, cxx_Primitive *primitiveB, std::double_t *locB, std::int64_t *shellB, cxx_Gaussians *productGaussian)
+{
+    std::double_t primitiveOverlap = 0.0;
+    std::double_t aux = 0.0;
+
+    // first do x-diection
+    for (std::uint64_t ii = 0; ii <= shellA[0]; ii++)
+    {
+        for (std::uint64_t jj = 0; jj <= shellB[0]; jj++)
+        {
+            if ((ii + jj) % 2 != 0)
+            {
+                continue;
+            }
+
+            aux = combination(shellA[0], ii) * combination(shellB[0], jj) * doublefactorial(ii + jj - 1);
+            aux = aux * pow(productGaussian->gaussian_center[0] - locA[0], shellA[0] - ii) * pow(productGaussian->gaussian_center[0] - locB[0], shellB[0] - jj);
+            aux = aux / pow(2 * (primitiveA->primitive_exp + primitiveB->primitive_exp), 0.5 * (ii + jj));
+            primitiveOverlap = primitiveOverlap + aux;
+            std::cout << ii << " " << jj << " " << primitiveOverlap << "\n";
+        }
+    }
+
+    // then do y-diection
+    for (std::uint64_t ii = 0; ii <= shellA[1]; ii++)
+    {
+        for (std::uint64_t jj = 0; jj <= shellB[1]; jj++)
+        {
+            if ((ii + jj) % 2 != 0)
+            {
+                continue;
+            }
+
+            aux = combination(shellA[1], ii) * combination(shellB[1], jj) * doublefactorial(ii + jj - 1);
+            aux = aux * pow(productGaussian->gaussian_center[1] - locA[1], shellA[1] - ii) * pow(productGaussian->gaussian_center[1] - locB[1], shellB[0] - jj);
+            aux = aux / pow(2 * (primitiveA->primitive_exp + primitiveB->primitive_exp), 0.5 * (ii + jj));
+            primitiveOverlap = primitiveOverlap + aux;
+            std::cout << ii << " " << jj << " " << primitiveOverlap << "\n";
+        }
+    }
+
+    // then do z-diection
+    for (std::uint64_t ii = 0; ii <= shellA[2]; ii++)
+    {
+        for (std::uint64_t jj = 0; jj <= shellB[2]; jj++)
+        {
+            if ((ii + jj) % 2 != 0)
+            {
+                continue;
+            }
+
+            aux = combination(shellA[2], ii) * combination(shellB[2], jj) * doublefactorial(ii + jj - 1);
+            aux = aux * pow(productGaussian->gaussian_center[2] - locA[2], shellA[2] - ii) * pow(productGaussian->gaussian_center[2] - locB[2], shellB[2] - jj);
+            aux = aux / pow(2 * (primitiveA->primitive_exp + primitiveB->primitive_exp), 0.5 * (ii + jj));
+            primitiveOverlap = primitiveOverlap + aux;
+            std::cout << ii << " " << jj << " " << primitiveOverlap << "\n";
+        }
+    }
+    return primitiveOverlap;
 }

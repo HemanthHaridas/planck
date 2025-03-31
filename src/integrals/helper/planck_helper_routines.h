@@ -20,6 +20,7 @@
 #include <system_error>
 
 #include "../../base/planck_base.h"
+#include "../../math/planck_math.h"
 
-void computeGaussianProduct(std::double_t *gaussianCenterX, std::double_t *gaussianCenterY, std::double_t *gaussianCenterZ, std::double_t *gaussianIntegralX, std::double_t *gaussianIntegralY, std::double_t *gaussianIntegralZ, std::error_code *errorFlag, std::string *errorMessage);
+void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::vector<cxx_Gaussians> *productGaussians, std::error_code *errorFlag, std::string *errorMessage);
 

@@ -41,11 +41,11 @@ file(GLOB MATH_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/math/*.cpp)
 add_executable(planck 
     ${MAIN_SOURCES}
     ${BASE_SOURCES}
+    ${MATH_SOURCES}
     ${HELPER_SOURCES}
     ${LOOKUP_SOURCES}
     ${ONE_ELECTRON_SOURCES}
     ${TWO_ELECTRON_SOURCES}
-    ${MATH_SOURCES}
 )
 
 # Get the dependencies
@@ -70,6 +70,7 @@ target_include_directories(planck PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/lookup
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/helper
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/one_electron
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers
 )
 

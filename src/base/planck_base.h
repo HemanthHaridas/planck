@@ -24,11 +24,6 @@
 
 const std::double_t ANGTOBOHR = 1.8897259886;
 
-struct cxx_Result
-{
-
-};
-
 struct cxx_Primitive
 {
     // definition of primitive gaussians
@@ -102,8 +97,11 @@ struct cxx_Calculator
     std::double_t *nuclear;
     std::double_t *electronic;
     std::double_t *fock;
-    std::double_t *gaussian_centers_x;
-    std::double_t *gaussian_centers_y;
-    std::double_t *gaussian_centers_z;
-    std::double_t *gaussian_exps;
+};
+
+struct cxx_Gaussians
+{
+    std::double_t gaussian_center[3];
+    std::double_t gaussian_exponent;
+    std::double_t gaussian_integral;
 };

@@ -24,6 +24,7 @@
 #include "base/planck_io.h"
 #include "base/planck_symmetry.h"
 #include "base/planck_scf_driver.h"
+#include "math/planck_math.h"
 
 int main(int argc, char const *argv[])
 {
@@ -103,7 +104,7 @@ int main(int argc, char const *argv[])
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
-    std::uint64_t totalMemory;
+    // std::uint64_t totalMemory;
 
     // preallocate the buffers
     // planck_calculator.gaussian_centers_x = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
@@ -120,19 +121,18 @@ int main(int argc, char const *argv[])
     if (planck_calculator.is_unrestricted)
     {
         planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
-        totalMemory = sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis;
+        // totalMemory = sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis;
     }
     else
     {
         planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-        totalMemory = sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis;
+        // totalMemory = sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis;
     }
 
     // totalMemory = totalMemory + sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives * 4; // size of the auxiliary buffers
-    totalMemory = totalMemory + sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis * 4; // size of the integral buffers
-    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Allocated Memory in KB : " << totalMemory / 1024 << "\n";
-
-    // computeGaussianProduct(&planck_calculator, &error_flag, &error_message);
+    // totalMemory = totalMemory + sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis * 4; // size of the integral buffers
+    // std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Allocated Memory in KB : " << totalMemory / 1024 << "\n";
+    computeOverlap(&planck_calculator, &error_flag, &error_message);
 
     // free the allocated buffers
     

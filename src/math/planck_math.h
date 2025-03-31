@@ -23,3 +23,4 @@
 const inline std::double_t factorial(std::int64_t number);
 const inline std::double_t combination(std::int64_t number, std::int64_t choice);
 const inline std::double_t doublefactorial(std::int64_t number);
+std::double_t dotproduct(std::double_t xA, std::double_t yA, std::double_t zA, std::double_t xB, std::double_t yB, std::double_t zB);

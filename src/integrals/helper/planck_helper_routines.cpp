@@ -17,11 +17,43 @@
 #include <iostream>
 #include "planck_helper_routines.h"
 
-void computeGaussianProduct(std::double_t *gaussianCenterX, std::double_t *gaussianCenterY, std::double_t *gaussianCenterZ, std::double_t *gaussianIntegralX, std::double_t *gaussianIntegralY, std::double_t *gaussianIntegralZ, std::error_code *errorFlag, std::string *errorMessage)
+void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::vector<cxx_Gaussians> *productGaussians, std::error_code *errorFlag, std::string *errorMessage)
 {
     // first clear the error buffers
     errorFlag->clear();
     errorMessage->clear();
 
-    // 
+    std::double_t xA = contractedGaussianA->location_x;
+    std::double_t yA = contractedGaussianA->location_y;
+    std::double_t zA = contractedGaussianA->location_z;
+
+    std::double_t xB = contractedGaussianB->location_x;
+    std::double_t yB = contractedGaussianB->location_y;
+    std::double_t zB = contractedGaussianB->location_z;
+
+    std::double_t aux = dotproduct(xA, yA, zA, xB, yB, zB);
+
+    // first clear the product gaussians
+    productGaussians->clear();
+
+    // now loop over primitives
+    for (std::uint64_t ii = 0; ii < contractedGaussianA->contracted_GTO.size(); ii++)
+    {
+        std::double_t expA = contractedGaussianA->contracted_GTO[ii].primitive_exp;
+        for (std::uint64_t jj = 0; jj < contractedGaussianB->contracted_GTO.size(); jj++)
+        {
+            std::double_t expB = contractedGaussianA->contracted_GTO[jj].primitive_exp;
+            cxx_Gaussians gaussian;
+            
+            gaussian.gaussian_center[0] = ((expA * xA) + (expB * xB)) / (expA + expB);
+            gaussian.gaussian_center[1] = ((expA * yA) + (expB * yB)) / (expA + expB);
+            gaussian.gaussian_center[2] = ((expA * zA) + (expB * zB)) / (expA + expB);
+
+            gaussian.gaussian_exponent = (expA * expB) / (expA + expB);
+            gaussian.gaussian_integral = exp(-1 * gaussian.gaussian_exponent * aux);
+
+            productGaussians->push_back(gaussian);
+            // std::cout << xA << " " << yA << " " << zA << " " << expA << " " << xB << " " << yB << " " << zB << " " << expB << " " << gaussian.gaussian_integral << "\n";
+        }
+    }
 }

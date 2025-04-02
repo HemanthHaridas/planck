@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(planck_cpp)
+project(planck_utilities)
 
 # Set the minimum C++ standard and use the most recent standard supported by the compiler
 set(CMAKE_CXX_STANDARD 17)  # Minimum C++ standard

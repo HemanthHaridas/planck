@@ -3,3 +3,4 @@
 /external
 /build*
 /install
+/inputs/*.*

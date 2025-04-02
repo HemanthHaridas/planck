@@ -17,10 +17,11 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include <cmath>
-#include <cstdint>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <format>
+#include <sstream>
+#include <system_error>
 
-std::double_t factorial(std::int64_t number);
-std::double_t combination(std::int64_t number, std::int64_t choice);
-std::double_t doublefactorial(std::int64_t number);
-std::double_t dotproduct(std::double_t xA, std::double_t yA, std::double_t zA, std::double_t xB, std::double_t yB, std::double_t zB);
+void formatBinaryDump(std::fstream *filePointer, std::error_code *errorFlag, std::string *errorMessage);

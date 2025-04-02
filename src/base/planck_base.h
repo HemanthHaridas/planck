@@ -21,8 +21,10 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+// #include <numbers>
 
 const std::double_t ANGTOBOHR = 1.8897259886;
+// const std::double_t PI=355/113;
 
 struct cxx_Primitive
 {
@@ -104,4 +106,13 @@ struct cxx_Gaussians
     std::double_t gaussian_center[3];
     std::double_t gaussian_exponent;
     std::double_t gaussian_integral;
+};
+
+enum cxx_Integrals
+{
+    OVERLAP,
+    KINETIC,
+    NUCLEAR,
+    ELECTRONIC,
+    MULTIPOLE
 };

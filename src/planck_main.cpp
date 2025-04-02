@@ -107,35 +107,46 @@ int main(int argc, char const *argv[])
     // std::uint64_t totalMemory;
 
     // preallocate the buffers
-    // planck_calculator.gaussian_centers_x = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
-    // planck_calculator.gaussian_centers_y = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
-    // planck_calculator.gaussian_centers_z = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
-    // planck_calculator.gaussian_exps = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives);
-
     planck_calculator.overlap = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     planck_calculator.kinetic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     planck_calculator.nuclear = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     planck_calculator.electronic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
 
+    // memset all the buffers to zero to avoid junk values
+    memset(planck_calculator.overlap, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    memset(planck_calculator.kinetic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    memset(planck_calculator.nuclear, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    memset(planck_calculator.electronic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+
     // if theory is uhf => allocate twice bug size for fock matrix
     if (planck_calculator.is_unrestricted)
     {
         planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
-        // totalMemory = sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis;
+        memset(planck_calculator.fock, 0, sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
     }
     else
     {
         planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-        // totalMemory = sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis;
+        memset(planck_calculator.fock, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     }
 
-    // totalMemory = totalMemory + sizeof(std::double_t) * planck_calculator.total_primitives * planck_calculator.total_primitives * 4; // size of the auxiliary buffers
-    // totalMemory = totalMemory + sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis * 4; // size of the integral buffers
-    // std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Allocated Memory in KB : " << totalMemory / 1024 << "\n";
     computeOverlap(&planck_calculator, &error_flag, &error_message);
 
+    // dump integrals
+    dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
+
     // free the allocated buffers
-    
+    free(planck_calculator.overlap);
+    free(planck_calculator.kinetic);
+    free(planck_calculator.nuclear);
+    free(planck_calculator.electronic);
+    free(planck_calculator.fock);
+
+    free(input_molecule.input_coordinates);
+    free(input_molecule.standard_coordinates);
+    free(input_molecule.atom_masses);
+    free(input_molecule.atom_numbers);
+
     // end of the program
     boost::posix_time::ptime endTime = boost::posix_time::microsec_clock::local_time();
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Program Completed On : " << endTime << "\n";

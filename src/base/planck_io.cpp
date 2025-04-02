@@ -235,3 +235,25 @@ void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 }
+
+void dumpIntegral(std::double_t *integral, std::uint64_t dim, std::string integralType, std::string inputFile)
+{
+    // housekeeping
+    std::string fileName = inputFile + "." + integralType;
+    std::fstream filePointer(fileName, std::ios::out | std::ios::binary | std::ios::trunc);
+
+    // check if file is valid
+    if (!filePointer || !filePointer.is_open())
+    {
+        std::cout << "unable to open file";
+    }
+    
+    // write the size of the integral
+    // filePointer.write(reinterpret_cast<char*>(10), sizeof(std::uint64_t));
+
+    // // write the integrals
+    filePointer.write(reinterpret_cast<char*>(integral), sizeof(std::double_t) * dim);
+
+    // close the file pointer after writing
+    // filePointer.close();
+}

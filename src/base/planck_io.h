@@ -26,5 +26,4 @@
 
 void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);
 void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule);
-
-void writeChk(std::fstream *chkPointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);
+void dumpIntegral(std::double_t *integral, std::uint64_t dim, std::string integralType, std::string inputFile);

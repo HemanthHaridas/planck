@@ -84,6 +84,8 @@ std::double_t computeOverlap1(cxx_Contracted *contractedGaussianA, cxx_Contracte
     return primtiveOverlap;
 }
 
+// based on the scheme described in dx.doi.org/doi:10.3888/tmj.14-3
+// Title : Evaluation of Gaussian Molecular Integrals I. Overlap Integrals
 void computePrimitive(cxx_Primitive *primitiveA, std::double_t *locA, std::int64_t *shellA, cxx_Primitive *primitiveB, std::double_t *locB, std::int64_t *shellB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps)
 {
     std::double_t aux = 0.0;
@@ -151,3 +153,5 @@ void computePrimitive(cxx_Primitive *primitiveA, std::double_t *locA, std::int64
     primitiveOverlaps[3] = primitiveOverlaps[3] * primitiveA->orbital_coeff * primitiveA->orbital_norm;
     primitiveOverlaps[3] = primitiveOverlaps[3] * primitiveB->orbital_coeff * primitiveB->orbital_norm;
 }
+
+// TODO: Rewrite this to take function input from user

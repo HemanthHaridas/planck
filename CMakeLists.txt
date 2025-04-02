@@ -10,8 +10,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Print the C++ standard being used
 message(STATUS "Using C++ Standard: ${CMAKE_CXX_STANDARD}")
 
-# Set optimization flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -ftree-vectorize -Wall -pedantic")
+# Set optimization flags based on OS
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -ftree-vectorize")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin") # macOS
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -Rpass=loop-vectorize")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++${CMAKE_CXX_STANDARD} /O2 /W4 /permissive-")
+else()
+    message(WARNING "Unknown system; defaulting to generic flags.")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic")
+endif()
+
+message(STATUS "Building on : ${CMAKE_SYSTEM_NAME} using following compiler flags : ${CMAKE_CXX_FLAGS}")
+
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Rpass=loop-vectorize -Wall -pedantic")
 
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})

@@ -105,7 +105,7 @@ struct cxx_Gaussians
 {
     std::double_t gaussian_center[3];
     std::double_t gaussian_exponent;
-    std::double_t gaussian_integral;
+    std::double_t gaussian_integral[4];
 };
 
 enum cxx_Integrals

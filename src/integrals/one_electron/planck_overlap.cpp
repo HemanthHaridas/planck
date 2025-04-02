@@ -70,7 +70,7 @@ std::double_t computeOverlap1(cxx_Contracted *contractedGaussianA, cxx_Contracte
         for (std::uint64_t jj = 0; jj < contractedGaussianB->contracted_GTO.size(); jj++)
         {
             // compute the integrals over primitives
-            computePrimitive(
+            computePrimitive_Huzinaga(
                 &contractedGaussianA->contracted_GTO[ii], locA, shellA, 
                 &contractedGaussianB->contracted_GTO[jj], locB, shellB, 
                 &productGaussians[ii * contractedGaussianB->contracted_GTO.size() + jj], primtiveOverlaps
@@ -84,9 +84,11 @@ std::double_t computeOverlap1(cxx_Contracted *contractedGaussianA, cxx_Contracte
     return primtiveOverlap;
 }
 
-// based on the scheme described in dx.doi.org/doi:10.3888/tmj.14-3
-// Title : Evaluation of Gaussian Molecular Integrals I. Overlap Integrals
-void computePrimitive(cxx_Primitive *primitiveA, std::double_t *locA, std::int64_t *shellA, cxx_Primitive *primitiveB, std::double_t *locB, std::int64_t *shellB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps)
+// based on the reference implementation in dx.doi.org/doi:10.3888/tmj.14-3
+// Evaluation of Gaussian Molecular Integrals I. Overlap Integrals
+// original reference in 
+//
+void computePrimitive_Huzinaga(cxx_Primitive *primitiveA, std::double_t *locA, std::int64_t *shellA, cxx_Primitive *primitiveB, std::double_t *locB, std::int64_t *shellB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps)
 {
     std::double_t aux = 0.0;
     memset(primitiveOverlaps, 0, 4 * sizeof(std::double_t));
@@ -149,9 +151,20 @@ void computePrimitive(cxx_Primitive *primitiveA, std::double_t *locA, std::int64
     primitiveOverlaps[2] = primitiveOverlaps[2] * pow(M_PI / (primitiveA->primitive_exp + primitiveB->primitive_exp), 0.5);
 
     // now contract the integral
-    primitiveOverlaps[3] = primitiveOverlaps[0] * primitiveOverlaps[1] * primitiveOverlaps[2];
+    primitiveOverlaps[3] = primitiveOverlaps[0] * primitiveOverlaps[1] * primitiveOverlaps[2] * productGaussian->gaussian_integral[4];
     primitiveOverlaps[3] = primitiveOverlaps[3] * primitiveA->orbital_coeff * primitiveA->orbital_norm;
     primitiveOverlaps[3] = primitiveOverlaps[3] * primitiveB->orbital_coeff * primitiveB->orbital_norm;
 }
 
-// TODO: Rewrite this to take function input from user
+void computePrimitive_ObaraSakia(cxx_Primitive *primitiveA, std::double_t *locA, std::int64_t *shellA, cxx_Primitive *primitiveB, std::double_t *locB, std::int64_t *shellB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps)
+{
+    // precompute eta and distances
+    std::double_t eta = primitiveA->primitive_exp + primitiveB->primitive_exp;
+    std::double_t xGA = productGaussian->gaussian_center[0] - locA[0];
+    std::double_t yGA = productGaussian->gaussian_center[1] - locA[1];
+    std::double_t zGA = productGaussian->gaussian_center[2] - locA[2];
+
+    std::double_t xAB = locB[0] - locA[0];
+    std::double_t yAB = locB[1] - locA[1];
+    std::double_t zAB = locB[2] - locA[2];
+}

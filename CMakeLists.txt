@@ -88,4 +88,5 @@ install(TARGETS planck DESTINATION)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/basis DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 
 # write the path of basis sets
+message(STATUS "writing planck.defaults file")
 file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/planck.defaults "${CMAKE_INSTALL_PREFIX}/bin/basis\n")

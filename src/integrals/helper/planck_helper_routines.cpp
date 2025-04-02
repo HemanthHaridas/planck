@@ -50,7 +50,10 @@ void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted 
             gaussian.gaussian_center[2] = ((expA * zA) + (expB * zB)) / (expA + expB);
 
             gaussian.gaussian_exponent = (expA * expB) / (expA + expB);
-            gaussian.gaussian_integral = exp(-1 * gaussian.gaussian_exponent * aux);
+            gaussian.gaussian_integral[0] = exp(-1 * gaussian.gaussian_exponent * (xA - xB) * (xA - xB));
+            gaussian.gaussian_integral[1] = exp(-1 * gaussian.gaussian_exponent * (yA - yB) * (yA - yB));
+            gaussian.gaussian_integral[2] = exp(-1 * gaussian.gaussian_exponent * (zA - zB) * (zA - zB));
+            gaussian.gaussian_integral[3] = exp(-1 * gaussian.gaussian_exponent * aux);
 
             productGaussians->push_back(gaussian);
             // std::cout << xA << " " << yA << " " << zA << " " << expA << " " << xB << " " << yB << " " << zB << " " << expB << " " << gaussian.gaussian_integral << "\n";

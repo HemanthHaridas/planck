@@ -32,12 +32,12 @@ void formatBinaryDump(std::fstream *filePointer, std::fstream *outPointer, std::
     }
 
     // Determine the size of the file
-    filePointer->seekg(0, std::ios::end); // Move to the end of the file
+    filePointer->seekg(0, std::ios::end);           // Move to the end of the file
     std::streampos fileSize = filePointer->tellg(); // Get the file size
-    filePointer->seekg(0, std::ios::beg); // Move back to the start of the file
+    filePointer->seekg(0, std::ios::beg);           // Move back to the start of the file
 
     std::vector<std::double_t> fileContents(fileSize / sizeof(std::double_t));
-    filePointer->read(reinterpret_cast<char*>(fileContents.data()), fileSize);
+    filePointer->read(reinterpret_cast<char *>(fileContents.data()), fileSize);
 
     // check if the filepointer is valid
     if (!outPointer || !outPointer->is_open())
@@ -47,9 +47,9 @@ void formatBinaryDump(std::fstream *filePointer, std::fstream *outPointer, std::
         return;
     }
 
-    // Now write the header section
-    // std::ostringstream oss;
-    // oss << "Number of Basis Functions : " << static_cast<int>(sqrt(fileContents.size()));
+    // now write the header section
+    std::ostringstream oss;
+    oss << "&FCI NORB=" << static_cast<int>(sqrt(fileContents.size())) << "NELEC=";
     // std::string headerLine = oss.str();
     // std::cout << headerLine.size() << "\n";
     // outPointer->write(headerLine.c_str(), headerLine.size());
@@ -72,7 +72,7 @@ int main(int argc, char const *argv[])
 
     // proceed to parsing to the input file
     std::string input_file = argv[1];
-    std::string output_file = input_file + ".formdump";
+    std::string output_file = input_file + ".FCIDUMP";
     std::fstream file_pointer(input_file);
     std::fstream out_pointer(output_file, std::ios::out | std::ios::trunc);
 

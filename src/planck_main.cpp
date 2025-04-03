@@ -114,9 +114,9 @@ int main(int argc, char const *argv[])
     planck_calculator.electronic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
 
     // memset all the buffers to zero to avoid junk values
-    memset(planck_calculator.overlap, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.kinetic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.nuclear, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    memset(planck_calculator.overlap,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    memset(planck_calculator.kinetic,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    memset(planck_calculator.nuclear,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     memset(planck_calculator.electronic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
 
     // if theory is uhf => allocate twice bug size for fock matrix
@@ -135,8 +135,8 @@ int main(int argc, char const *argv[])
     computeKinetic(&planck_calculator, &error_flag, &error_message);
 
     // dump integrals
-    dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
-    dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);
+    // dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
+    // dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);
 
     // free the allocated buffers
     free(planck_calculator.overlap);

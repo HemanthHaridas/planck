@@ -93,3 +93,11 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/basis DESTINATION ${CMAKE_INSTALL_PREFIX}/
 # write the path of basis sets
 message(STATUS "writing planck.defaults file")
 file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/planck.defaults "${CMAKE_INSTALL_PREFIX}/bin/basis\n")
+
+# Build option for the separate package
+option(BUILD_UTILITIES "Build the utilities" OFF)
+
+# Conditional inclusion of the separate package
+if(BUILD_UTILITIES)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/utilities)
+endif()

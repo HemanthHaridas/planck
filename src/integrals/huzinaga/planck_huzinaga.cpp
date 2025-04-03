@@ -85,7 +85,7 @@ std::double_t Huzinaga::computeKinetic(cxx_Contracted *contractedGaussianA, cxx_
     // auxiliary variables
     std::double_t tx = 0, ty = 0, tz = 0;
 
-    std::double_t primtiveOverlaps[5][4]; // primitive overlap in 3 directions and the contracted value
+    std::double_t primtiveOverlaps[5][4];
     std::double_t primitiveKinetic[3];
 
     memset(primitiveKinetic, 0, 3 * sizeof(std::double_t));
@@ -169,8 +169,8 @@ std::double_t Huzinaga::computeKinetic(cxx_Contracted *contractedGaussianA, cxx_
 
 // based on the reference implementation in dx.doi.org/doi:10.3888/tmj.14-3
 // Evaluation of Gaussian Molecular Integrals I. Overlap Integrals
-// original reference in
-//
+// original reference in dx.doi.org/10.1143/JPSJ.21.2313
+// Gaussian-Expansion Methods for Molecular Integrals
 void Huzinaga::computePrimitive(cxx_Primitive *primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive *primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps)
 {
     std::double_t aux = 0.0;

@@ -42,7 +42,7 @@ void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted 
         std::double_t expA = contractedGaussianA->contracted_GTO[ii].primitive_exp;
         for (std::uint64_t jj = 0; jj < contractedGaussianB->contracted_GTO.size(); jj++)
         {
-            std::double_t expB = contractedGaussianA->contracted_GTO[jj].primitive_exp;
+            std::double_t expB = contractedGaussianB->contracted_GTO[jj].primitive_exp;
             cxx_Gaussians gaussian;
             
             gaussian.gaussian_center[0] = ((expA * xA) + (expB * xB)) / (expA + expB);

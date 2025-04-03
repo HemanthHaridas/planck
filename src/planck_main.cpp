@@ -55,14 +55,14 @@ int main(int argc, char const *argv[])
     readInput(&file_pointer, &planck_calculator, &input_molecule, &error_flag, &error_message);
 
     // check if input file was parsed correctly
-    if (error_flag && error_flag.value() != 71)
+    if (error_flag && error_flag.value() != std::make_error_code(std::errc::protocol_error).value())
     {
         std::cout << std::setw(21) << std::left << "[Error]   <=  " << std::left << error_message << "\n";
         exit(error_flag.value());
     }
 
     // need a special case to handle rhf -> uhf error
-    if (error_flag.value() == 71)
+    if (error_flag.value() == std::make_error_code(std::errc::protocol_error).value())
     {
         std::cout << std::setw(21) << std::left << "[Warning]  <= " << std::setw(35) << std::left << error_message << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
@@ -78,18 +78,19 @@ int main(int argc, char const *argv[])
             std::cout << std::setw(21) << std::left << "[Error]   <=  " << std::left << error_message << "\n";
             exit(error_flag.value());
         }
+        // std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+        // std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     }
     else
     {
         std::cout << std::setw(21) << std::left << "[Warning]  <= " << std::setw(35) << std::left << "Symmetry detection is turned off by request" << "\n";
         input_molecule.is_reoriented = false;
         input_molecule.standard_coordinates = input_molecule.input_coordinates;
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     }
 
     // now read the basis sets
-    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
-    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
-
     readBasis(&input_molecule, &planck_calculator, &error_flag, &error_message);
     
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
@@ -129,11 +130,13 @@ int main(int argc, char const *argv[])
         planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
         memset(planck_calculator.fock, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     }
-
+     
     computeOverlap(&planck_calculator, &error_flag, &error_message);
+    computeKinetic(&planck_calculator, &error_flag, &error_message);
 
     // dump integrals
     dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
+    dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);
 
     // free the allocated buffers
     free(planck_calculator.overlap);

@@ -17,5 +17,13 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include "../integrals/helper/planck_helper_routines.h"
-#include "../integrals/planck_integrals.h"
+#include <system_error>
+
+#include "../../base/planck_base.h"
+
+namespace Huzinaga
+{
+    std::double_t computeKinetic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
+    std::double_t computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
+    void computePrimitive(cxx_Primitive *primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive *primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps);
+}

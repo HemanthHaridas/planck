@@ -17,5 +17,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include "../integrals/helper/planck_helper_routines.h"
-#include "../integrals/planck_integrals.h"
+#include <system_error>
+
+#include "../base/planck_base.h"
+#include "./huzinaga/planck_huzinaga.h"
+
+void computeOverlap(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);
+void computeKinetic(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);

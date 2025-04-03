@@ -159,6 +159,7 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
         *errorFlag = std::make_error_code(std::errc::protocol_error);
         *errorMessage = "A Combination Of " + std::to_string(planckCalculator->total_electrons) + " And A Multiplicty Of " + std::to_string(planckCalculator->molecule_multiplicity) + " Is Not Allowed For Restricted Shell Calculations. The Calculations Will Be Converted To Unrestricted Shell.";
         planckCalculator->calculation_theory.replace(0, 1, "u");
+        return;
     }
 
     // if successful, set the erroflag to zero

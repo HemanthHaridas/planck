@@ -18,6 +18,7 @@
  ----------------------------------------------------------------------------*/
 
 #include <numeric>
+#include <cstring>
 #include <system_error>
 #include "../../base/planck_base.h"
 

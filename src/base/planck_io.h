@@ -21,7 +21,7 @@
 #include <iostream>
 #include <sstream>
 #include <system_error>
-
+#include <functional>
 #include "planck_base.h"
 
 void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);

@@ -20,6 +20,7 @@
 #include <cmath>
 #include <map>
 #include <string>
+#include <cstdint>
 
 /*
  * This is a lookup table for atomic masses, atomic numbers and atomic radii for

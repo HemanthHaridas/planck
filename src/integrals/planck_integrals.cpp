@@ -54,3 +54,21 @@ void computeKinetic(cxx_Calculator *planckCalculator, std::error_code *errorFlag
         // std::cout << "\n";
     }    
 }
+
+void computeNuclear(std::double_t *atomCoords, std::uint64_t  *atomNumbers, std::uint64_t nAtoms, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+{
+    // first clear the error buffers
+    errorFlag->clear();
+    errorMessage->clear();
+
+    // now loop over contracted basis sets
+    for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
+        {
+            planckCalculator->nuclear[ii * planckCalculator->total_basis + jj] = Huzinaga::computeNuclear(atomCoords, atomNumbers, nAtoms, &planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj], errorFlag, errorMessage);
+            // std::cout << std::setw(10) << std::left << ii << std::setw(10) << std::left << jj << std::setw(5) << std::setprecision(2) << std::right << planckCalculator->kinetic[ii * planckCalculator->total_basis + jj] << "\n";
+        }
+        // std::cout << "\n";
+    }    
+}

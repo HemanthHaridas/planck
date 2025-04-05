@@ -60,3 +60,20 @@ void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted 
         }
     }
 }
+
+std::double_t boysFunction(std::uint64_t boysIndex, std::double_t boysParam)
+{
+    // for some reason the indices in the boys lookup table are swapped
+    std::uint64_t yIndex = boysIndex;
+    std::uint64_t xIndex = boysParam / 0.1;
+
+    // now compute the value for boys function as a six term taylor series
+    std::double_t boysValue = boysTable[xIndex][yIndex];
+    std::double_t delta = boysParam - (0.1 * xIndex);
+
+    for (std::uint64_t ii = 1; ii <= 6; ii++)
+    {
+        boysValue = boysValue + pow(-1, ii) * (boysTable[xIndex][yIndex + ii] / factorial(ii)) * pow(delta, ii);
+    }
+    return boysValue;
+}

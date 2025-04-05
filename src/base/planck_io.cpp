@@ -69,7 +69,6 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
     std::getline(*filePointer, headerLine);
     std::stringstream atomBuffer(headerLine);
     atomBuffer >> planckCalculator->total_atoms;
-    // std::cout << planckCalculator->total_atoms << "\n";
 
     inputMolecule->atom_masses = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_atoms);
     inputMolecule->atom_numbers = (std::uint64_t *)malloc(sizeof(std::uint64_t) * planckCalculator->total_atoms);
@@ -112,6 +111,42 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
     }
     planckCalculator->total_electrons = planckCalculator->total_electrons + planckCalculator->molecule_charge;
 
+    if (!filePointer->eof()) 
+    {
+        // need an empty line to separate the blocks
+        std::getline(*filePointer, headerLine);
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " SCF Control Variables read from input" << "\n";
+        std::unordered_map<std::string, std::function<void(std::string)>> handlers = {
+            {"MAXITER", [planckCalculator](std::string value) { planckCalculator->max_iter = std::stoi(value); }},
+            {"MAXSCF",  [planckCalculator](std::string value) { planckCalculator->max_scf  = std::stoi(value); }},
+            {"TOLSCF",  [planckCalculator](std::string value) { planckCalculator->tol_scf  = std::stod(value); }},
+            {"TOLERI",  [planckCalculator](std::string value) { planckCalculator->tol_eri  = std::stod(value); }}
+        };
+    
+        // now check if there are values for SCF control
+        while (!filePointer->eof())
+        {
+            std::getline(*filePointer, headerLine);
+            std::string controlVariable, controlValue;
+            std::stringstream scfBuffer(headerLine);
+            scfBuffer >> controlVariable >> controlValue;
+
+            // Check if the control variable exists in the map
+            auto it = handlers.find(controlVariable);
+            if (it != handlers.end()) 
+            {
+                // Call the corresponding handler to set the variable
+                it->second(controlValue);
+            } 
+            else 
+            {
+                *errorMessage = "Unknown control variable: " + controlVariable;
+                *errorFlag = std::make_error_code(std::errc::invalid_argument);
+                return;
+            }
+        }
+    }
+
     // now convert the coordinates
     if (planckCalculator->coordinate_type == "ang")
     {
@@ -127,10 +162,10 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
     bool checkMultiplicity = false;
     std::int64_t unpairedElectrons = planckCalculator->molecule_multiplicity - 1;
 
-    if (unpairedElectrons > static_cast<int64_t>(planckCalculator->total_electrons / 2 + 1))
+    if (unpairedElectrons > static_cast<int64_t>(planckCalculator->total_electrons))
     {
         *errorFlag = std::make_error_code(std::errc::invalid_argument);
-        *errorMessage = "You Cannot Have " + std::to_string(unpairedElectrons) + " Extra Unpaired Electrons With A Total Electron Count Of " + std::to_string(planckCalculator->total_electrons);
+        *errorMessage = "You Cannot Have " + std::to_string(unpairedElectrons) + " Unpaired Electrons With A Total Electron Count Of " + std::to_string(planckCalculator->total_electrons);
         return;
     }
 
@@ -140,8 +175,15 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
         if (unpairedElectrons == ii)
         {
             checkMultiplicity = true;
-            planckCalculator->alpha_electrons = (planckCalculator->total_electrons / 2) + unpairedElectrons;
-            planckCalculator->beta_electrons = planckCalculator->total_electrons - planckCalculator->alpha_electrons;
+            planckCalculator->alpha_electrons = (planckCalculator->total_electrons / 2) + (unpairedElectrons / 2);
+            planckCalculator->beta_electrons  = planckCalculator->total_electrons - planckCalculator->alpha_electrons;
+
+            if (planckCalculator->alpha_electrons < planckCalculator->beta_electrons)
+            {
+                std::uint64_t _ = planckCalculator->alpha_electrons;
+                planckCalculator->alpha_electrons = (planckCalculator->beta_electrons);
+                planckCalculator->beta_electrons = _; 
+            }
             break;
         }
     }
@@ -177,6 +219,14 @@ void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Input Charge : " << planckCalculator->molecule_charge << "\n";
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Input Multiplicity : " << planckCalculator->molecule_multiplicity << "\n";
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Number Of Electrons : " << planckCalculator->total_electrons << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+
+    // now print the SCF control variables
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Max SCF Steps : " << planckCalculator->max_scf << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Max GEOM Iter : " << planckCalculator->max_iter << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " SCF Tolerance : " << planckCalculator->tol_scf << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " ERI Tolerance : " << planckCalculator->tol_eri << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 

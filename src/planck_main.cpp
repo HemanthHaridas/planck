@@ -44,7 +44,7 @@ int main(int argc, char const *argv[])
     // check if an input file is provided. Exit if not input file is provided
     if (argc < 2)
     {
-        std::cout << std::setw(20) << std::left << "[Error]   <= " << std::left << " Unable To Find An Input File. Please Run Planck As : planck input " << "\n";
+        std::cout << std::setw(20) << std::left << "[Error]    <= " << std::left << " Unable To Find An Input File. Please Run Planck As : planck input " << "\n";
         exit(-1);
     }
 
@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
     // check if input file was parsed correctly
     if (error_flag && error_flag.value() != std::make_error_code(std::errc::protocol_error).value())
     {
-        std::cout << std::setw(21) << std::left << "[Error]   <=  " << std::left << error_message << "\n";
+        std::cout << std::setw(21) << std::left << "[Error]    <= " << std::left << error_message << "\n";
         exit(error_flag.value());
     }
 

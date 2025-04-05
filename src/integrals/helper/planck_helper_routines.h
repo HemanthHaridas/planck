@@ -21,6 +21,7 @@
 
 #include "../../base/planck_base.h"
 #include "../../math/planck_math.h"
+#include "../../lookup/planck_lookup.h"
 
 void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::vector<cxx_Gaussians> *productGaussians, std::error_code *errorFlag, std::string *errorMessage);
-
+std::double_t boysFunction(std::uint64_t boysIndex, std::double_t boysParam);

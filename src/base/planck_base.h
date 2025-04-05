@@ -24,6 +24,11 @@
 // #include <numbers>
 
 const std::double_t ANGTOBOHR = 1.8897259886;
+const std::uint64_t MAXSCF    = 120;
+const std::uint64_t MAXITER   = 120;
+const std::double_t TOLSCF    = 1.0E-14;
+const std::double_t TOLERI    = 1.0E-14;
+
 // const std::double_t PI=355/113;
 
 struct cxx_Primitive
@@ -82,12 +87,16 @@ struct cxx_Calculator
     bool is_unrestricted;
 
     // variables to hold calculation interface
-    std::string calculation_theory;
-    std::string calculation_basis;
-    std::string calculation_type;
-    std::string coordinate_type;
+    std::double_t tol_eri = TOLERI;
+    std::double_t tol_scf = TOLSCF;
     std::string basis_path;
-    
+    std::string calculation_basis;
+    std::string calculation_theory;
+    std::string calculation_type;
+    std::string coordinate_type;  
+    std::uint64_t max_iter = MAXITER;
+    std::uint64_t max_scf  = MAXSCF;
+
     // array to hold the basis set
     std::vector<cxx_Contracted> calculation_set;
     std::uint64_t total_basis;

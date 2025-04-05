@@ -31,3 +31,4 @@
 extern std::map<std::string, double> atomicMass;
 extern std::map<std::string, std::uint64_t> atomicNumber;
 extern std::map<std::string, std::double_t> atomicRadius;
+extern const std::double_t boysTable[][31];

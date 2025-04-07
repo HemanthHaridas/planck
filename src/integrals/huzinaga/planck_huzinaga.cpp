@@ -168,44 +168,6 @@ std::double_t Huzinaga::computeKinetic(cxx_Contracted *contractedGaussianA, cxx_
     return primitiveKinetic[0] + primitiveKinetic[1] + primitiveKinetic[2];
 }
 
-std::double_t Huzinaga::computeNuclear(std::double_t *atomCoords, std::uint64_t *atomicNumbers, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage)
-{
-    std::vector<cxx_Gaussians> productGaussians;
-    std::double_t xA = contractedGaussianA->location_x;
-    std::double_t yA = contractedGaussianA->location_y;
-    std::double_t zA = contractedGaussianA->location_z;
-
-    std::int64_t lxA = contractedGaussianA->shell_x;
-    std::int64_t lyA = contractedGaussianA->shell_y;
-    std::int64_t lzA = contractedGaussianA->shell_z;
-
-    std::double_t xB = contractedGaussianB->location_x;
-    std::double_t yB = contractedGaussianB->location_y;
-    std::double_t zB = contractedGaussianB->location_z;
-
-    std::int64_t lxB = contractedGaussianB->shell_x;
-    std::int64_t lyB = contractedGaussianB->shell_y;
-    std::int64_t lzB = contractedGaussianB->shell_z;
-
-    // // auxiliary variables
-    // std::double_t tx = 0, ty = 0, tz = 0;
-
-    std::double_t primitiveNuclear[3];
-
-    memset(primitiveNuclear, 0, 3 * sizeof(std::double_t));
-
-    // compute the gaussian products
-    computeGaussianProduct(contractedGaussianA, contractedGaussianB, &productGaussians, errorFlag, errorMessage);
-
-    for (std::uint64_t ii = 0; ii < contractedGaussianA->contracted_GTO.size(); ii++)
-    {
-        for (std::uint64_t jj = 0; jj < contractedGaussianB->contracted_GTO.size(); jj++)
-        {
-            /* code */
-        }
-    }
-}
-
 // based on the reference implementation in dx.doi.org/doi:10.3888/tmj.14-3
 // Evaluation of Gaussian Molecular Integrals I. Overlap Integrals
 // original reference in dx.doi.org/10.1143/JPSJ.21.2313
@@ -267,93 +229,343 @@ void Huzinaga::computePrimitive(cxx_Primitive *primitiveA, std::double_t xA, std
     primitiveOverlaps[3] = primitiveOverlaps[3] * pow(M_PI / (primitiveA->primitive_exp + primitiveB->primitive_exp), 1.5);
 }
 
-void Huzinaga::computeNuclear(std::double_t *atomCoords, std::uint64_t *atomicNumbers, std::uint64_t nAtoms, cxx_Primitive *primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive *primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps)
+// std::double_t Huzinaga::computeNuclear(std::double_t *atomCoords, std::uint64_t *atomicNumbers, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage)
+// {
+//     std::vector<cxx_Gaussians> productGaussians;
+//     std::double_t xA = contractedGaussianA->location_x;
+//     std::double_t yA = contractedGaussianA->location_y;
+//     std::double_t zA = contractedGaussianA->location_z;
+
+//     std::int64_t lxA = contractedGaussianA->shell_x;
+//     std::int64_t lyA = contractedGaussianA->shell_y;
+//     std::int64_t lzA = contractedGaussianA->shell_z;
+
+//     std::double_t xB = contractedGaussianB->location_x;
+//     std::double_t yB = contractedGaussianB->location_y;
+//     std::double_t zB = contractedGaussianB->location_z;
+
+//     std::int64_t lxB = contractedGaussianB->shell_x;
+//     std::int64_t lyB = contractedGaussianB->shell_y;
+//     std::int64_t lzB = contractedGaussianB->shell_z;
+
+//     // set up the temporay buffers
+//     std::double_t primitiveIntegrals = 0.0;
+//     std::double_t primitiveIntegral  = 0.0;
+
+//     // memset(primitiveIntegrals, 0, sizeof(std::double_t) * contractedGaussianA->contracted_GTO.size() * contractedGaussianB->contracted_GTO.size());
+
+//     // compute the gaussian products
+//     computeGaussianProduct(contractedGaussianA, contractedGaussianB, &productGaussians, errorFlag, errorMessage);
+
+//     for (std::uint64_t ii = 0; ii < contractedGaussianA->contracted_GTO.size(); ii++)
+//     {
+//         for (std::uint64_t jj = 0; jj < contractedGaussianB->contracted_GTO.size(); jj++)
+//         {
+//             primitiveIntegrals = Huzinaga::computeNuclearPrimitive(
+//                 atomCoords, atomicNumbers, nAtoms,
+//                 &contractedGaussianA->contracted_GTO[ii], xA, yA, zA, lxA, lyA, lzA,
+//                 &contractedGaussianB->contracted_GTO[jj], xB, yB, zB, lxB, lyB, lzB,
+//                 &productGaussians[ii * contractedGaussianB->contracted_GTO.size() + jj]
+//                 );
+
+//             // contract the integral
+//             primitiveIntegral = primitiveIntegral + primitiveIntegrals;
+//         }
+//     }
+//     return primitiveIntegral;
+// }
+
+// std::double_t Huzinaga::computeNuclearPrimitive(std::double_t *atomCoords, std::uint64_t *atomicNumbers, std::uint64_t nAtoms, cxx_Primitive *primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive *primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, cxx_Gaussians *productGaussian)
+// {
+//     std::double_t gamma = primitiveA->primitive_exp + primitiveB->primitive_exp;
+//     std::double_t epsilon = 1.0 / (4 * gamma);
+
+//     std::double_t gaussX = productGaussian->gaussian_center[0];
+//     std::double_t gaussY = productGaussian->gaussian_center[1];
+//     std::double_t gaussZ = productGaussian->gaussian_center[2];
+
+//     // set up the temporay buffers
+//     // calculate the maximum array size required to hold intermediates
+//     std::int64_t nX = lxA + lxB + 1;
+//     std::int64_t nY = lyA + lyB + 1;
+//     std::int64_t nZ = lzA + lzB + 1;
+
+//     std::uint64_t xSize = (pow(nX, 3) / 16) + (pow(nX, 2) / 4) + nX;
+//     std::uint64_t ySize = (pow(nY, 3) / 16) + (pow(nY, 2) / 4) + nY;
+//     std::uint64_t zSize = (pow(nZ, 3) / 16) + (pow(nZ, 2) / 4) + nZ;
+
+//     // now setup buffers
+//     std::vector <nuclearInt> primitiveX(xSize);
+//     std::vector <nuclearInt> primitiveY(ySize);
+//     std::vector <nuclearInt> primitiveZ(zSize);
+
+//     std::double_t result = 0.0;
+//     std::double_t boysParam;
+//     std::double_t boysIndex;
+//     std::double_t aux = 0.0;
+
+//     // now calculate the integral between the atomic charge distribution and the gaussians
+//     for (std::uint64_t ii = 0; ii < nAtoms; ii++)
+//     {
+//         // first extract atom coords
+//         std::double_t xCoord = atomCoords[ii * 3 + 0];
+//         std::double_t yCoord = atomCoords[ii * 3 + 1];
+//         std::double_t zCoord = atomCoords[ii * 3 + 2];
+
+//         Huzinaga::computeNuclearPrimitive0(xCoord, xA, lxA, xB, lxB, gamma, epsilon, gaussX, &primitiveX);
+//         Huzinaga::computeNuclearPrimitive0(yCoord, yA, lyA, yB, lyB, gamma, epsilon, gaussY, &primitiveY);
+//         Huzinaga::computeNuclearPrimitive0(zCoord, zA, lzA, zB, lzB, gamma, epsilon, gaussZ, &primitiveZ);
+
+//         // std::cout << xCoord << " " << yCoord << " " << zCoord << "\n";
+//         // std::cout << gaussCoord[0] << " " << gaussCoord[1] << " " << gaussCoord[2] << "\n";
+//         // aggregate the results
+//         for (auto val1 : primitiveX)
+//         {
+//             for (auto val2 : primitiveY)
+//             {
+//                 for (auto val3 : primitiveZ)
+//                 {
+//                     boysIndex = (val1.x + val2.x + val3.x) - (2 * (val1.y + val2.y + val3.y)) - (val1.z + val2.z + val3.z);
+//                     boysParam = dotproduct(xCoord, yCoord, zCoord, gaussX, gaussY, gaussZ) * gamma;
+//                     aux       = val1.result * val2.result * val3.result * boysFunction(boysIndex, boysParam) * atomicNumbers[ii] * -1.0;
+//                     result    = aux + result;
+//                 }
+//             }
+//         }
+//     }
+
+//     result = result * primitiveA->orbital_coeff * primitiveA->orbital_norm;
+//     result = result * primitiveB->orbital_coeff * primitiveB->orbital_norm;
+//     return result * (2 * M_PI / gamma);
+// }
+
+// void Huzinaga::computeNuclearPrimitive0(std::double_t atomCoord, std::double_t coordA, std::int64_t shellA, std::double_t coordB, std::int64_t shellB, std::double_t gamma, std::double_t epsilon, std::double_t gaussCoord, std::vector <nuclearInt> *primitiveResults)
+// {
+//     std::int64_t  iiMax    = shellA + shellB;
+//     for (std::uint64_t ii = 0; ii <= iiMax; ii++)
+//     {
+//         std::int64_t jjMax = ii / 2;
+//         for (std::uint64_t jj = 0; jj <= jjMax; jj++)
+//         {
+//             std::int64_t kkMax = (ii - 2 * (jj)) / 2;
+//             for (std::uint64_t kk = 0; kk <= kkMax; kk++)
+//             {
+//                 nuclearInt result;
+//                 result.result = Huzinaga::computeNuclearPrimitive2(ii, jj, kk, shellA, coordA, shellB, coordB, atomCoord, gaussCoord, gamma, epsilon);
+//                 result.x = ii;
+//                 result.y = jj;
+//                 result.z = kk;
+//                 primitiveResults->push_back(result);
+//             }
+//         }
+//     }
+//     primitiveResults->shrink_to_fit();
+// }
+
+// std::double_t Huzinaga::computeNuclearPrimitive2(const std::int64_t indexA, const std::int64_t indexB, const std::int64_t indexC, const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::double_t atomCoord, const std::double_t gaussCoord, const std::double_t gamma, const std::double_t epsilon)
+// {
+//     std::double_t result  = Huzinaga::computeNuclearPrimitive1(indexA, shellA, coordA, shellB, coordB, gaussCoord); // compute expansion coefficient
+
+//     result = result * factorial(indexA) * pow(-1, indexA + indexC) * pow(gaussCoord - atomCoord, indexA - 2 * (indexB + indexC));
+//     result = result * pow(epsilon, indexB + indexC);
+//     result = result / factorial(indexB);
+//     result = result / factorial(indexC);
+//     result = result / factorial(indexA - 2 * (indexB + indexC));
+//     return result;
+// }
+
+// std::double_t Huzinaga::computeNuclearPrimitive1(const std::int64_t expandIndex, const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::double_t gaussCoord)
+// {
+//     std::uint64_t iiMin  = std::max(static_cast<std::int64_t>(0), expandIndex - shellB);
+//     std::uint64_t iiMax  = std::min(expandIndex, shellA);
+//     std::double_t result = 0.0;
+//     std::double_t aux    = 0.0;
+//     for (std::uint64_t ii = iiMin; ii <= iiMax; ii++)
+//     {
+//         aux    = combination(shellA, ii) * combination(shellB, expandIndex - ii);
+//         result = result + ((aux) * pow(gaussCoord - coordA, shellA - ii) * pow(gaussCoord - coordB, shellB + ii - expandIndex));
+//     }
+//     return result;
+// }
+
+std::double_t Huzinaga::expansionCoeff2(const std::int64_t indexA, const std::int64_t indexB, const std::int64_t indexC, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t atomCenter, const std::double_t gaussCenter, std::double_t gamma)
 {
+    std::double_t epsilon = 1 / (4 * gamma);
+    std::double_t expansionCoeff = Huzinaga::expansionCoeff1(indexA, shellA, centerA, shellB, centerB, gaussCenter);
+    expansionCoeff = expansionCoeff * factorial(indexA);
+    expansionCoeff = expansionCoeff * pow(-1, indexA + indexC);
+    expansionCoeff = expansionCoeff * pow(gaussCenter - atomCenter, indexA - (2 * indexB) - (2 * indexC));
+    expansionCoeff = expansionCoeff * pow(epsilon, indexB + indexC);
+    expansionCoeff = expansionCoeff / factorial(indexC);
+    expansionCoeff = expansionCoeff / factorial(indexB);
+    expansionCoeff = expansionCoeff / factorial(indexA - (2 * indexB) - (2 * indexC));
+    return expansionCoeff;
+}
+
+std::double_t Huzinaga::expansionCoeff1(const std::int64_t expIndex, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t gaussCenter)
+{
+    std::double_t expansionCoeff = 0.0;
+    std::double_t aux;
+    std::int64_t cMin = std::max(static_cast<int64_t>(0), expIndex - shellB);
+    std::int64_t cMax = std::min(expIndex, shellA);
+
+    for (std::int64_t ii = cMin; ii <= cMax; ii++)
+    {
+        aux = combination(shellA, ii);
+        aux = aux * combination(shellB, expIndex - ii);
+        aux = aux * pow(gaussCenter - centerA, shellA - ii);
+        aux = aux * pow(gaussCenter - centerB, shellB + ii - expIndex);
+        expansionCoeff = expansionCoeff + aux;
+    }
+    return expansionCoeff;
+}
+
+// Benchmark implementation
+// Do not uncomment
+// std::double_t Huzinaga::computePrimitive(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, const std::int64_t lxA, const std::int64_t lyA, const std::int64_t lzA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB, const std::int64_t lxB, const std::int64_t lyB, const std::int64_t lzB, const std::double_t *atomCoords, const std::uint64_t *atomCharges, const std::uint64_t nAtoms)
+// {
+//     std::double_t primitiveIntegral = 0.0;
+//     std::double_t gamma = primitiveA->primitive_exp + primitiveB->primitive_exp;
+//     cxx_Gaussians productGaussian = computeGaussianProduct(primitiveA, xA, yA, zA, primitiveB, xB, yB, zB);
+
+//     for (std::uint64_t ii = 0; ii < nAtoms; ii++)
+//     {
+//         std::double_t xCoord = atomCoords[ii * 3 + 0];
+//         std::double_t yCoord = atomCoords[ii * 3 + 1];
+//         std::double_t zCoord = atomCoords[ii * 3 + 2];
+
+//         for (std::int64_t xi = 0; xi <= lxA + lxB; xi++)
+//         {
+//             for (std::int64_t xj = 0; xj <= (xi / 2); xj++)
+//             {
+//                 for (std::int64_t xk = 0; xk <= (xi - 2 * xj) / 2; xk++)
+//                 {
+//                     std::double_t xDir = Huzinaga::expansionCoeff2(xi, xj, xk, lxA, xA, lxB, xB, xCoord, productGaussian.gaussian_center[0], gamma);
+//                     std::cout << xi << " " << xj << " " << xk << " " << xDir << "\n";
+//                     for (std::int64_t yi = 0; yi <= lyA + lyB; yi++)
+//                     {
+//                         for (std::int64_t yj = 0; yj <= (yi / 2); yj++)
+//                         {
+//                             for (std::int64_t yk = 0; yk <= (yi - 2 * yj) / 2; yk++)
+//                             {
+//                                 std::double_t yDir = Huzinaga::expansionCoeff2(yi, yj, yk, lyA, yA, lyB, yB, yCoord, productGaussian.gaussian_center[1], gamma);
+//                                 std::cout << yi << " " << yj << " " << yk << " " << yDir << "\n";
+//                                 for (std::int64_t zi = 0; zi <= lzA + lzB; zi++)
+//                                 {
+//                                     for (std::int64_t zj = 0; zj <= (zi / 2); zj++)
+//                                     {
+//                                         for (std::int64_t zk = 0; zk <= (zi - 2 * zj) / 2; zk++)
+//                                         {
+//                                             std::double_t zDir = Huzinaga::expansionCoeff2(zi, zj, zk, lzA, zA, lzB, zB, zCoord, productGaussian.gaussian_center[2], gamma);
+//                                             std::cout << zi << " " << zj << " " << zk << " " << zDir << "\n";
+//                                             std::double_t boysP = dotproduct(xCoord, yCoord, zCoord, productGaussian.gaussian_center[0], productGaussian.gaussian_center[1], productGaussian.gaussian_center[2]);
+//                                             std::uint64_t boysI = (xi + yi + zi) - 2 * (xj + yj + zj) - (xk + yk + zk);
+//                                             std::double_t boysF = boysFunction(boysI, boysP);
+//                                             primitiveIntegral = primitiveIntegral + (xDir * yDir * zDir * boysF) * atomCharges[ii] * -1;
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     primitiveIntegral = primitiveIntegral * primitiveA->orbital_coeff * primitiveA->orbital_norm;
+//     primitiveIntegral = primitiveIntegral * primitiveB->orbital_coeff * primitiveB->orbital_norm;
+//     return primitiveIntegral * (2 * M_PI / gamma) * productGaussian.gaussian_integral[3];
+// }
+
+std::double_t Huzinaga::computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage)
+{
+
+    std::double_t xA = contractedGaussianA->location_x;
+    std::double_t yA = contractedGaussianA->location_y;
+    std::double_t zA = contractedGaussianA->location_z;
+
+    std::int64_t lxA = contractedGaussianA->shell_x;
+    std::int64_t lyA = contractedGaussianA->shell_y;
+    std::int64_t lzA = contractedGaussianA->shell_z;
+
+    std::double_t xB = contractedGaussianB->location_x;
+    std::double_t yB = contractedGaussianB->location_y;
+    std::double_t zB = contractedGaussianB->location_z;
+
+    std::int64_t lxB = contractedGaussianB->shell_x;
+    std::int64_t lyB = contractedGaussianB->shell_y;
+    std::int64_t lzB = contractedGaussianB->shell_z;
+
+    std::double_t primitiveIntegral = 0.0;
+
+    for (std::uint64_t ii = 0; ii < contractedGaussianA->contracted_GTO.size(); ii++)
+    {
+        for (std::uint64_t jj = 0; jj < contractedGaussianB->contracted_GTO.size(); jj++)
+        {
+            std::double_t primitiveIntegrals = Huzinaga::computePrimitive(
+                &contractedGaussianA->contracted_GTO[ii], xA, yA, zA, lxA, lyA, lzA,
+                &contractedGaussianB->contracted_GTO[jj], xB, yB, zB, lxB, lyB, lzB,
+                atomCoords, atomCharges, nAtoms);
+
+            // contract the integral
+            primitiveIntegral = primitiveIntegral + primitiveIntegrals;
+        }
+    }
+    return primitiveIntegral;
+}
+
+std::vector<nuclearInt> testComponents(const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::double_t atomCoord, const std::double_t gaussCoord, const std::double_t gamma)
+{
+    std::vector<nuclearInt> results;
+    for (std::int64_t ii = 0; ii <= shellA + shellB; ii++)
+    {
+        for (std::int64_t jj = 0; jj <= (ii / 2); jj++)
+        {
+            for (std::int64_t kk = 0; kk <= (ii - 2 * jj) / 2; kk++)
+            {
+                nuclearInt result;
+                result.result = Huzinaga::expansionCoeff2(ii, jj, kk, shellA, coordA, shellB, coordB, atomCoord, gaussCoord, gamma);
+                result.x = ii;
+                result.y = jj;
+                result.z = kk;
+                results.push_back(result);
+            }
+        }
+    }
+    return results;
+}
+
+std::double_t Huzinaga::computePrimitive(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, const std::int64_t lxA, const std::int64_t lyA, const std::int64_t lzA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB, const std::int64_t lxB, const std::int64_t lyB, const std::int64_t lzB, const std::double_t *atomCoords, const std::uint64_t *atomCharges, const std::uint64_t nAtoms)
+{
+    std::double_t primitiveIntegral = 0.0;
     std::double_t gamma = primitiveA->primitive_exp + primitiveB->primitive_exp;
-    std::double_t epsilon = pow(4 * gamma, -1);
-    std::double_t *gaussCoord = productGaussian->gaussian_center;
+    cxx_Gaussians productGaussian = computeGaussianProduct(primitiveA, xA, yA, zA, primitiveB, xB, yB, zB);
 
-    // calculate the maximum array size required to hold intermediates
-    std::int64_t nX = lxA + lxB + 1;
-    std::int64_t nY = lyA + lyB + 1;
-    std::int64_t nZ = lzA + lzB + 1;
-
-    std::int64_t xSize = (pow(nX, 3) / 16) + (pow(nX, 2) / 4) + nX;
-    std::int64_t ySize = (pow(nY, 3) / 16) + (pow(nY, 2) / 4) + nY;
-    std::int64_t zSize = (pow(nZ, 3) / 16) + (pow(nZ, 2) / 4) + nZ;
-
-    // now setup buffers
-    std::vector<std::double_t> xIntermediates(xSize);
-    std::vector<std::double_t> yIntermediates(ySize);
-    std::vector<std::double_t> zIntermediates(zSize);
-
-    // now calculate the integral between the atomic charge distribution and the gaussians
     for (std::uint64_t ii = 0; ii < nAtoms; ii++)
     {
-        // first extract atom coords
         std::double_t xCoord = atomCoords[ii * 3 + 0];
         std::double_t yCoord = atomCoords[ii * 3 + 1];
         std::double_t zCoord = atomCoords[ii * 3 + 2];
 
-        computeNuclearPrimitive(xCoord, xA, lxA, xB, lxB, epsilon, gaussCoord[0], &xIntermediates);
-        computeNuclearPrimitive(yCoord, yA, lyA, yB, lyB, epsilon, gaussCoord[1], &yIntermediates);
-        computeNuclearPrimitive(zCoord, zA, lzA, zB, lzB, epsilon, gaussCoord[2], &zIntermediates);
+        std::vector<nuclearInt> xDir = testComponents(lxA, xA, lxB, xB, xCoord, productGaussian.gaussian_center[0], gamma);
+        std::vector<nuclearInt> yDir = testComponents(lyA, yA, lyB, yB, yCoord, productGaussian.gaussian_center[1], gamma);
+        std::vector<nuclearInt> zDir = testComponents(lzA, zA, lzB, zB, zCoord, productGaussian.gaussian_center[2], gamma);
 
-        // now compute the combinations
-        for (std::uint64_t ij = 0; ij < xIntermediates.size(); ij++)
+        for (auto xVal : xDir)
         {
-            for (std::uint64_t jk = 0; jk < yIntermediates.size(); jk++)
+            for (auto yVal : yDir)
             {
-                for (std::uint64_t kl = 0; kl < zIntermediates.size(); kl++)
+                for (auto zVal : zDir)
                 {
-                    
+                    std::double_t boysP = dotproduct(xCoord, yCoord, zCoord, productGaussian.gaussian_center[0], productGaussian.gaussian_center[1], productGaussian.gaussian_center[2]);
+                    std::uint64_t boysI = (xVal.x + yVal.x + zVal.x) - 2 * (xVal.y + yVal.y + zVal.y) - (xVal.z + yVal.z + zVal.z);
+                    std::double_t boysF = boysFunction(boysI, boysP);
+                    primitiveIntegral = primitiveIntegral + (xVal.result * yVal.result * zVal.result * boysF) * atomCharges[ii] * -1;
                 }
             }
         }
     }
-}
-
-void Huzinaga::computeNuclearPrimitive(std::double_t atomCoord, std::double_t coordA, std::int64_t shellA, std::double_t coordB, std::int64_t shellB, std::double_t gammaExp, std::double_t gaussCoord, std::vector<std::double_t> *primitiveResults)
-{
-    std::int64_t iiMax = shellA + shellB;
-    std::double_t result = 0.0;
-    for (std::uint64_t ii = 0; ii <= iiMax; ii++)
-    {
-        std::int64_t jjMax = ii / 2;
-        for (std::uint64_t jj = 0; jj <= jjMax; jj++)
-        {
-            std::int64_t kkMax = (ii - 2 * (jjMax)) / 2;
-            for (std::uint64_t kk = 0; kk <= kkMax; kk++)
-            {
-                Huzinaga::computeNuclearPrimitive2(ii, jj, kk, shellA, coordA, shellB, coordB, atomCoord, gaussCoord, gammaExp, &result);
-                primitiveResults->push_back(result);
-            }
-        }
-    }
-}
-
-void Huzinaga::computeNuclearPrimitive2(std::int64_t indexA, std::int64_t indexB, std::int64_t indexC, std::int64_t shellA, std::double_t coordA, std::int64_t shellB, std::double_t coordB, std::double_t atomCoord, std::double_t gaussCoord, std::double_t gammaExp, std::double_t *result)
-{
-    Huzinaga::computeNuclearPrimitive1(indexA, shellA, coordA, shellB, coordB, gaussCoord, result); // compute expansion coefficient
-
-    std::int64_t  boysIndex = indexA - (2 * indexB) - indexC;
-    std::double_t boysParam = pow(atomCoord - gaussCoord, 2);
-    
-    *(result) = *(result)*factorial(indexA) * pow(-1, indexA + indexC) * pow(gaussCoord - atomCoord, indexA - 2 * (indexB + indexC));
-    *(result) = *(result)*pow(gammaExp, indexB + indexC);
-    *(result) = *(result) / (factorial(indexB) * factorial(indexC));
-    *(result) = *(result) / factorial(indexA - 2 * (indexB + indexC));
-    *(result) = *(result) * boysFunction(boysIndex, boysParam);
-}
-
-void Huzinaga::computeNuclearPrimitive1(std::int64_t expandIndex, std::int64_t shellA, std::double_t coordA, std::int64_t shellB, std::double_t coordB, std::double_t gaussCoord, std::double_t *result)
-{
-    std::uint64_t iiMin = std::max(static_cast<std::int64_t>(0), expandIndex - shellB);
-    std::uint64_t iiMax = std::min(expandIndex, shellA);
-
-    for (std::uint64_t ii = iiMin; ii <= iiMax; ii++)
-    {
-        *result = combination(shellA, ii) * combination(shellB, expandIndex - ii);
-        *result = *(result) + (*(result)*pow(gaussCoord - coordA, shellA - ii) * pow(gaussCoord - shellB, shellB + ii - expandIndex));
-    }
+    primitiveIntegral = primitiveIntegral * primitiveA->orbital_coeff * primitiveA->orbital_norm;
+    primitiveIntegral = primitiveIntegral * primitiveB->orbital_coeff * primitiveB->orbital_norm;
+    return primitiveIntegral * (2 * M_PI / gamma) * productGaussian.gaussian_integral[3];
 }

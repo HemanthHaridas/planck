@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(planck_cpp)
 
 # Set the minimum C++ standard and use the most recent standard supported by the compiler
-set(CMAKE_CXX_STANDARD 17)  # Minimum C++ standard
+set(CMAKE_CXX_STANDARD 20)  # Minimum C++ standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "/opt/homebrew/Cellar/boost/1.87.0_1/include")
 # set(CMAKE_CXX_EXTENSIONS OFF)  # Disable compiler-specific extensions
@@ -14,7 +14,7 @@ message(STATUS "Using C++ Standard: ${CMAKE_CXX_STANDARD}")
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -ftree-vectorize")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin") # macOS
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -Rpass=loop-vectorize")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O1 -Wall -pedantic -Rpass=loop-vectorize")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++${CMAKE_CXX_STANDARD} /O2 /W4 /permissive-")
 else()

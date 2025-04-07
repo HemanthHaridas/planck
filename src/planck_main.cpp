@@ -133,7 +133,8 @@ int main(int argc, char const *argv[])
      
     computeOverlap(&planck_calculator, &error_flag, &error_message);
     computeKinetic(&planck_calculator, &error_flag, &error_message);
-
+    computeNuclear(input_molecule.standard_coordinates, input_molecule.atom_numbers, planck_calculator.total_atoms, &planck_calculator, &error_flag, &error_message);
+    
     // dump integrals
     // dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
     // dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);

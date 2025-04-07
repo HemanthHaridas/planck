@@ -29,6 +29,8 @@ const std::uint64_t MAXITER   = 120;
 const std::double_t TOLSCF    = 1.0E-14;
 const std::double_t TOLERI    = 1.0E-14;
 
+const std::uint64_t MAXM = 60;
+
 // const std::double_t PI=355/113;
 
 struct cxx_Primitive
@@ -124,4 +126,12 @@ enum cxx_Integrals
     NUCLEAR,
     ELECTRONIC,
     MULTIPOLE
+};
+
+struct nuclearInt
+{
+    std::double_t result;
+    std::uint64_t x;
+    std::uint64_t y;
+    std::uint64_t z;
 };

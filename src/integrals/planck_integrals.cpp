@@ -67,8 +67,8 @@ void computeNuclear(std::double_t *atomCoords, std::uint64_t  *atomNumbers, std:
         for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
         {
             planckCalculator->nuclear[ii * planckCalculator->total_basis + jj] = Huzinaga::computeNuclear(atomCoords, atomNumbers, nAtoms, &planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj], errorFlag, errorMessage);
-            // std::cout << std::setw(10) << std::left << ii << std::setw(10) << std::left << jj << std::setw(10) << std::setprecision(2) << std::right << planckCalculator->nuclear[ii * planckCalculator->total_basis + jj] << "\n";
+            std::cout << std::setw(10) << std::left << ii << std::setw(10) << std::left << jj << std::setw(10) << std::setprecision(2) << std::right << planckCalculator->nuclear[ii * planckCalculator->total_basis + jj] << "\n";
         }
-        // std::cout << "\n";
+        std::cout << "\n";
     }    
 }

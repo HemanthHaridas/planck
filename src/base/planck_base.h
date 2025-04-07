@@ -135,3 +135,12 @@ struct nuclearInt
     std::uint64_t y;
     std::uint64_t z;
 };
+
+struct electronInt
+{
+    std::double_t result;
+    std::uint64_t i;
+    std::uint64_t j;
+    std::uint64_t k;
+    std::uint64_t l;
+};

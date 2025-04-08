@@ -1,3 +1,8 @@
+<!-- need to use divs to center images -->
+<div align="center">
+  <img src="./docs/images/planck.png">
+</div>
+
 ### Planck
 
 <p align="justify"> Planck is a rewrite of the previous project <a href="https://github.com/HemanthHaridas/plank.py"> plank.py</a>, which was a mixture of CPython and Cython. The older version suffered from poor performance due to its design and my limited programming skills at the time of its creation.</P>

@@ -451,6 +451,7 @@ std::double_t Huzinaga::computePrimitive(
     primitiveIntegral = primitiveIntegral * (gamma1 * gamma2);
     primitiveIntegral = primitiveIntegral * sqrt(M_PI / (gamma1 + gamma2));
     primitiveIntegral = primitiveIntegral * productGaussianAB.gaussian_integral[3] * productGaussianCD.gaussian_integral[3];
+    return primitiveIntegral;
 }
 
 std::double_t Huzinaga::expansionCoeff3(const std::int64_t expIndexA, const std::int64_t expIndexB, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t gaussCoordAB, const std::double_t gamma)

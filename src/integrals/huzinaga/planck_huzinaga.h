@@ -25,6 +25,7 @@
 namespace Huzinaga
 {
     // main functions
+    std::double_t computeElectronic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, cxx_Contracted *contractedGaussianC, cxx_Contracted *contractedGaussianD, std::error_code *errorFlag, std::string *errorMessage);
     std::double_t computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
     std::double_t computeKinetic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
     std::double_t computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
@@ -34,6 +35,8 @@ namespace Huzinaga
     std::double_t expansionCoeff1(const std::int64_t expIndex, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t gaussCenter);
     std::double_t computePrimitive(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, const std::int64_t lxA, const std::int64_t lyA, const std::int64_t lzA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB, const std::int64_t lxB, const std::int64_t lyB, const std::int64_t lzB, const std::double_t *atomCoords, const std::uint64_t *atomCharges, const std::uint64_t nAtoms);
     std::double_t computePrimitive(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, const std::int64_t lxA, const std::double_t lyA, const std::double_t lzA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB, const std::int64_t lxB, const std::double_t lyB, const std::double_t lzB, cxx_Primitive *primitiveC, const std::double_t xC, const std::double_t yC, const std::double_t zC, const std::int64_t lxC, const std::double_t lyC, const std::double_t lzC, cxx_Primitive *primitiveD, const std::double_t xD, const std::double_t yD, const std::double_t zD, const std::int64_t lxD, const std::double_t lyD, const std::double_t lzD);
+    std::double_t expansionCoeff3(const std::int64_t expIndexA, const std::int64_t expIndexB, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t gaussCoordAB, const std::double_t gamma);
+    std::vector<electronInt> Intermediates(const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::int64_t shellC, const std::double_t coordC, const std::int64_t shellD, const std::double_t coordD, const std::double_t gaussCoordAB, const std::double_t gaussCoordCD, const std::double_t gammaA, const std::double_t gammaB);
     std::vector<nuclearInt> Intermediates(const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::double_t atomCoord, const std::double_t gaussCoord, const std::double_t gamma);
 
     // for overlap and kinetic energy integrals

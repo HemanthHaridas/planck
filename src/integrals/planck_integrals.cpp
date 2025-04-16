@@ -43,7 +43,7 @@ void computeKinetic(cxx_Calculator *planckCalculator, std::error_code *errorFlag
     errorFlag->clear();
     errorMessage->clear();
 
-   // now loop over contracted basis sets
+    // now loop over contracted basis sets
     for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
     {
         for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
@@ -52,10 +52,10 @@ void computeKinetic(cxx_Calculator *planckCalculator, std::error_code *errorFlag
             // std::cout << std::setw(10) << std::left << ii << std::setw(10) << std::left << jj << std::setw(5) << std::setprecision(2) << std::right << planckCalculator->kinetic[ii * planckCalculator->total_basis + jj] << "\n";
         }
         // std::cout << "\n";
-    }    
+    }
 }
 
-void computeNuclear(std::double_t *atomCoords, std::uint64_t  *atomNumbers, std::uint64_t nAtoms, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+void computeNuclear(std::double_t *atomCoords, std::uint64_t *atomNumbers, std::uint64_t nAtoms, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
 {
     // first clear the error buffers
     errorFlag->clear();
@@ -70,5 +70,62 @@ void computeNuclear(std::double_t *atomCoords, std::uint64_t  *atomNumbers, std:
             std::cout << std::setw(10) << std::left << ii << std::setw(10) << std::left << jj << std::setw(10) << std::setprecision(2) << std::right << planckCalculator->nuclear[ii * planckCalculator->total_basis + jj] << "\n";
         }
         std::cout << "\n";
-    }    
+    }
+}
+
+// void computeSchwatz(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+// {
+//     // first clear the error buffers
+//     errorFlag->clear();
+//     errorMessage->clear();
+
+//     // now loop over contracted basis sets
+//     for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
+//     {
+//         for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
+//         {
+//             planckCalculator->electronic[ii * planckCalculator->total_basis + jj * planckCalculator->total_basis + ii * planckCalculator->total_basis + jj] = Huzinaga::computeElectronic(
+//                 &planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj],
+//                 &planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj],
+//                 errorFlag, errorMessage);
+//         }
+//     }
+// }
+
+void computeElectronic(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+{
+    // first clear the error buffers
+    errorFlag->clear();
+    errorMessage->clear();
+
+    // now loop over contracted basis sets
+    for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
+        {
+            std::double_t bra = Huzinaga::computeElectronic(
+                &planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj],
+                &planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj],
+                errorFlag, errorMessage);
+            for (std::uint64_t kk = 0; kk < planckCalculator->total_basis; kk++)
+            {
+                for (std::uint64_t ll = 0; ll < planckCalculator->total_basis; ll++)
+                {
+                    std::double_t ket = Huzinaga::computeElectronic(
+                        &planckCalculator->calculation_set[kk], &planckCalculator->calculation_set[kk],
+                        &planckCalculator->calculation_set[ll], &planckCalculator->calculation_set[ll],
+                        errorFlag, errorMessage);
+                    
+                    // Schwartz Screening
+                    if (((ii * jj) > (kk * ll)) && (sqrt(bra * ket) >= planckCalculator->tol_eri))
+                    {
+                        planckCalculator->electronic[ii * planckCalculator->total_basis + jj * planckCalculator->total_basis + kk * planckCalculator->total_basis + ll] = Huzinaga::computeElectronic(
+                        &planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj],
+                        &planckCalculator->calculation_set[ll], &planckCalculator->calculation_set[ll],
+                        errorFlag, errorMessage);
+                    }
+                }
+            }
+        }
+    }
 }

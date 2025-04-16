@@ -25,3 +25,4 @@
 void computeKinetic(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);
 void computeOverlap(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);
 void computeNuclear(std::double_t *atomCoords, std::uint64_t  *atomNumbers, std::uint64_t nAtoms, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);
+void computeElectronic(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);

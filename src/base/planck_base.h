@@ -143,4 +143,8 @@ struct electronInt
     std::uint64_t j;
     std::uint64_t k;
     std::uint64_t l;
+    std::uint64_t m;
 };
+
+// typedef std::tuple <std::uint64_t, std::uint64_t, std::uint64_t, std::uint64_t> eriShell;
+// std::vector <eriShell> eriShells;

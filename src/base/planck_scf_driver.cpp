@@ -27,37 +27,145 @@
 
 //     // now compute electron nuclear integrals
 //     computeNuclear(inputMolecule->standard_coordinates, inputMolecule->atom_numbers, planckCalculator->total_atoms, planckCalculator, errorFlag, errorMessage);
-    
+
 //     // now compute electron electron integrals
 //     computeElectronic(planckCalculator, errorFlag, errorMessage);
 // }
 
-std::int64_t scfEngine::computeOverlap(cxx_Calculator *planckCalculator)
+std::int64_t scfEngine::scfCycle()
 {
-    // increment the cycle
+    // increment SCF cycle count
     this->cycle++;
 
-    // reset error buffers
+    // first clear the error buffers
     this->errorFlag.clear();
     this->errorMessage.clear();
 
-    // now check if the pointer to planckCalculator is valid
-    if (planckCalculator == nullptr)
+    if (EXIT_SUCCESS != scfEngine::computeOverlap())
+        return this->errorFlag.value();
+    if (EXIT_SUCCESS != scfEngine::computeKinetic())
+        return this->errorFlag.value();
+    if (EXIT_SUCCESS != scfEngine::computeNuclear())
+        return this->errorFlag.value();
+    if (EXIT_SUCCESS != scfEngine::computeElectronic())
+        return this->errorFlag.value();
+}
+
+std::int64_t scfEngine::computeOverlap()
+{
+    std::int64_t basisSize = this->total_basis;
+
+    // now iterate over the contracted basis functions
+    for (std::uint64_t ii = 0; ii < basisSize; ii++)
     {
-        this->errorFlag = std::make_error_code(std::errc::invalid_argument);
-        this->errorMessage = "Unable to find the calculator object.";
-        return EXIT_FAILURE;
+        for (std::uint64_t jj = 0; jj < basisSize; jj++)
+        {
+            this->overlap[ii * basisSize + jj] = Huzinaga::computeOverlap(&this->calculation_set[ii], &this->calculation_set[jj], &this->errorFlag, &this->errorMessage);
+        }
     }
-    
-    // now check if SCF cycles is within limit
-    if (this->cycle >= planckCalculator->max_scf)
+
+    // check if the error code is zero
+    if (errorFlag.value() != 0)
     {
-        this->errorFlag = std::make_error_code(std::errc::value_too_large);
-        this->errorMessage = "Maximum number of SCF cycles reached. Please check the results.";
-        return EXIT_FAILURE;
+        return errorFlag.value();
     }
-    
-    // now calculate overlap and kinetic integrals
-    this->computeOverlap(planckCalculator);
-    this->computeKinetic(planckCalculator);
+
+    // return success
+    return EXIT_SUCCESS;
+}
+
+std::int64_t scfEngine::computeKinetic()
+{
+    std::int64_t basisSize = this->total_basis;
+
+    // now iterate over the contracted basis functions
+    for (std::uint64_t ii = 0; ii < basisSize; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < basisSize; jj++)
+        {
+            this->kinetic[ii * basisSize + jj] = Huzinaga::computeKinetic(&this->calculation_set[ii], &this->calculation_set[jj], &this->errorFlag, &this->errorMessage);
+        }
+    }
+
+    // check if the error code is zero
+    if (errorFlag.value() != 0)
+    {
+        return errorFlag.value();
+    }
+
+    // return success
+    return EXIT_SUCCESS;
+}
+
+std::int64_t scfEngine::computeNuclear()
+{
+    std::int64_t basisSize = this->total_basis;
+
+    // now iterate over the contracted basis functions
+    for (std::uint64_t ii = 0; ii < basisSize; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < basisSize; jj++)
+        {
+            this->nuclear[ii * basisSize + jj] = Huzinaga::computeNuclear(this->standard_coordinates, this->atom_numbers, this->total_atoms, &this->calculation_set[ii], &this->calculation_set[jj], &this->errorFlag, &this->errorMessage);
+        }
+    }
+
+    // check if the error code is zero
+    if (errorFlag.value() != 0)
+    {
+        return errorFlag.value();
+    }
+
+    // return success
+    return EXIT_SUCCESS;
+}
+
+std::int64_t scfEngine::schwartzScreening()
+{
+    std::int64_t basisSize = this->total_basis;
+
+    // now iterate over the contracted basis functions
+    for (std::uint64_t ii = 0; ii < basisSize; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < basisSize; jj++)
+        {
+            this->electronic[ii * basisSize + jj * basisSize + ii * basisSize + jj] = Huzinaga::computeElectronic(
+                &this->calculation_set[ii], &this->calculation_set[jj], &this->calculation_set[ii], &this->calculation_set[jj], &this->errorFlag, &this->errorMessage);
+        }
+    }
+}
+
+std::int64_t scfEngine::computeElectronic()
+{
+    std::int64_t basisSize = this->total_basis;
+
+    // now iterate over the contracted basis functions
+    for (std::uint64_t ii = 0; ii < basisSize; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < basisSize; jj++)
+        {
+            std::double_t bra = this->electronic[ii * basisSize + jj * basisSize + ii * basisSize + jj];
+            for (std::uint64_t kk = 0; kk < basisSize; kk++)
+            {
+                for (std::uint64_t ll = 0; ll < basisSize; ll++)
+                {
+                    std::double_t ket = this->electronic[kk * basisSize + ll * basisSize + kk * basisSize + ll];
+                    if (((ii * jj) >= (kk * ll)) && (sqrt(bra * ket) <= this->tol_eri))
+                    {
+                        this->electronic[ii * basisSize + jj * basisSize + kk * basisSize + ll] = Huzinaga::computeElectronic(
+                            &this->calculation_set[ii], &this->calculation_set[jj], &this->calculation_set[ii], &this->calculation_set[jj], &this->errorFlag, &this->errorMessage);
+                    }
+                }
+            }
+        }
+    }
+
+    // check if the error code is zero
+    if (errorFlag.value() != 0)
+    {
+        return errorFlag.value();
+    }
+
+    // return success
+    return EXIT_SUCCESS;
 }

@@ -131,6 +131,20 @@ int main(int argc, char const *argv[])
         memset(planck_calculator.fock, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     }
 
+    // create an SCF engine
+    scfEngine integralEngine;
+
+    while (integralEngine.cycle <= planck_calculator.max_scf)
+    {
+           integralEngine.scfCycle();
+    }
+
+    if (integralEngine.cycle > planck_calculator.max_scf)
+    {
+        std::cout << std::setw(20) << std::left << "[Error]    <= " << std::left << " Maximum number of SCF cycles reached. Please check your results carefully " << "\n";
+        exit(-1);        
+    }
+
     // dump integrals
     // dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
     // dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);

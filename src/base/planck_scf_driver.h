@@ -18,22 +18,29 @@
  ----------------------------------------------------------------------------*/
 
 #include "../integrals/helper/planck_helper_routines.h"
-#include "../integrals/planck_integrals.h"
+#include "../integrals/huzinaga/planck_huzinaga.h"
+
+// #include "../integrals/planck_integrals.h"
 
 // void scfEngine(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);
-struct scfEngine
+struct scfEngine: private cxx_Calculator, private cxx_Molecule
 {
-private:
+public:
     std::uint64_t cycle = 0;
     std::error_code errorFlag;
     std::string errorMessage;
     std::double_t scfEnergy;
+    // std::vector <eriShell> eriShells;
+
+public:
+    std::int64_t scfCycle();
 
 private:
-    std::int64_t computeOverlap(cxx_Calculator *planckCalculator);
-    std::int64_t computeKinetic(cxx_Calculator *planckCalculator);
+    std::int64_t computeOverlap();
+    std::int64_t computeKinetic();
     std::int64_t computeNuclear();
     std::int64_t computeElectronic();
+    std::int64_t schwartzScreening();
 
     std::int64_t generateCoreHamiltonian();
     std::int64_t generateFockMatrix();

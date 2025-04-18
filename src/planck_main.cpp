@@ -91,7 +91,7 @@ int main(int argc, char const *argv[])
 
     // now read the basis sets
     readBasis(&input_molecule, &planck_calculator, &error_flag, &error_message);
-    
+
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 
@@ -100,7 +100,7 @@ int main(int argc, char const *argv[])
         std::cout << std::setw(21) << std::left << "[Error]   <=  " << std::left << error_message << "\n";
         exit(error_flag.value());
     }
-    
+
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
@@ -108,7 +108,7 @@ int main(int argc, char const *argv[])
     planck_calculator.overlapMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
     planck_calculator.kineticMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
     planck_calculator.nuclearMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
-    planck_calculator.electronicMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_calculator.electronicMatrix.resize(static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis));
 
     // std::uint64_t totalMemory;
 

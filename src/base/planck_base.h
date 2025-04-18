@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <Eigen/Core>
+#include <unsupported/Eigen/CXX11/Tensor>
 
 // #include <numbers>
 
@@ -107,18 +108,18 @@ struct cxx_Calculator
     std::uint64_t total_basis;
     std::uint64_t total_primitives;
 
-    // arrays to hold integrals;
-    std::double_t *overlap;
-    std::double_t *kinetic;
-    std::double_t *nuclear;
-    std::double_t *electronic;
+    // Eigen matrices to hold integrals;
+    Eigen::MatrixXd overlapMatrix;
+    Eigen::MatrixXd kineticMatrix;
+    Eigen::MatrixXd nuclearMatrix;
+    Eigen::Tensor <std::double_t, 4> electronicMatrix;
     // std::double_t *fock;
 
-    // Use Eigen Matrices
-    Eigen::MatrixXd orthoMatrix;
+    // Use Eigen Matrices for intermediates
     Eigen::MatrixXd fockMatrix;
+    Eigen::MatrixXd hamiltonianMatrix;
+    Eigen::MatrixXd orthoMatrix;
     Eigen::MatrixXd coreMatrix;
-    Eigen::MatrixXd overlapMatrix;
 };
 
 struct cxx_Gaussians

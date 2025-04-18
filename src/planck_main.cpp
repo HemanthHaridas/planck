@@ -104,30 +104,36 @@ int main(int argc, char const *argv[])
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
+    // preallocate buffers
+    planck_calculator.overlapMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_calculator.kineticMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_calculator.nuclearMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_calculator.electronicMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis);
+
     // std::uint64_t totalMemory;
 
     // preallocate the buffers
-    planck_calculator.overlap = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    planck_calculator.kinetic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    planck_calculator.nuclear = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    planck_calculator.electronic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // planck_calculator.overlap = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // planck_calculator.kinetic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // planck_calculator.nuclear = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // planck_calculator.electronic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
 
     // memset all the buffers to zero to avoid junk values
-    memset(planck_calculator.overlap,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.kinetic,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.nuclear,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.electronic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // memset(planck_calculator.overlap,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // memset(planck_calculator.kinetic,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // memset(planck_calculator.nuclear,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // memset(planck_calculator.electronic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
 
     // if theory is uhf => allocate twice big size for fock matrix
     if (planck_calculator.is_unrestricted)
     {
         std::uint64_t nelem = (4 * planck_calculator.total_basis * planck_calculator.total_basis);
-        planck_calculator.fock.resize(nelem, nelem);
+        planck_calculator.fockMatrix.resize(nelem, nelem);
     }
     else
     {
         std::uint64_t nelem = (planck_calculator.total_basis * planck_calculator.total_basis);
-        planck_calculator.fock.resize(nelem, nelem);
+        planck_calculator.fockMatrix.resize(nelem, nelem);
     }
 
     // dump integrals
@@ -135,10 +141,10 @@ int main(int argc, char const *argv[])
     // dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);
 
     // free the allocated buffers
-    free(planck_calculator.overlap);
-    free(planck_calculator.kinetic);
-    free(planck_calculator.nuclear);
-    free(planck_calculator.electronic);
+    // free(planck_calculator.overlap);
+    // free(planck_calculator.kinetic);
+    // free(planck_calculator.nuclear);
+    // free(planck_calculator.electronic);
     // free(planck_calculator.fock);
 
     free(input_molecule.input_coordinates);

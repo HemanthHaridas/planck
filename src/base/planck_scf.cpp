@@ -34,17 +34,8 @@ void scfStep(std::uint64_t *scfStep, cxx_Calculator *planckCalculator, std::erro
     // generate core hamiltonian
     // currently uses the sum of kinetic and electron nuclear integrals
     // should implement Harris functional later for better results
-    planckCalculator->coreMatrix.resize(planckCalculator->total_basis, planckCalculator->total_basis);
-    planckCalculator->overlapMatrix.resize(planckCalculator->total_basis, planckCalculator->total_basis);
-
-    for (std::uint64_t ii = 0; ii < planckCalculator->total_basis; ii++)
-    {
-        for (std::uint64_t jj = 0; jj < planckCalculator->total_basis; jj++)
-        {
-            planckCalculator->coreMatrix(ii, jj) = planckCalculator->kinetic[ii * planckCalculator->total_basis + jj] + planckCalculator->nuclear[ii * planckCalculator->total_basis + jj];
-        }
-    }
-
+    planckCalculator->coreMatrix = planckCalculator->kineticMatrix + planckCalculator->nuclearMatrix;
+    
     // orthogonalization procedure
     Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planckCalculator->coreMatrix);
     Eigen::MatrixXd halfMatrix;

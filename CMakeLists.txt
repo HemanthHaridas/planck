@@ -29,6 +29,17 @@ message(STATUS "Building on : ${CMAKE_SYSTEM_NAME} using following compiler flag
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+# FetchContent setup
+include(FetchContent)
+
+# Fetch Eigen
+FetchContent_Declare(
+  eigen
+  GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+  GIT_TAG 3.4.0 # You can also use master
+)
+FetchContent_MakeAvailable(eigen)
+
 # Gather source files
 file(GLOB MAIN_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 file(GLOB BASE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/base/*.cpp)
@@ -76,6 +87,7 @@ target_include_directories(planck PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/obarasakia
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers
+    ${eigen_SOURCE_DIR}
 )
 
 # Link the external library

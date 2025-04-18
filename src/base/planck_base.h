@@ -21,6 +21,8 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <Eigen/Core>
+
 // #include <numbers>
 
 const std::double_t ANGTOBOHR = 1.8897259886;
@@ -98,6 +100,7 @@ struct cxx_Calculator
     std::string coordinate_type;  
     std::uint64_t max_iter = MAXITER;
     std::uint64_t max_scf  = MAXSCF;
+    bool use_diis;
 
     // array to hold the basis set
     std::vector<cxx_Contracted> calculation_set;
@@ -109,7 +112,13 @@ struct cxx_Calculator
     std::double_t *kinetic;
     std::double_t *nuclear;
     std::double_t *electronic;
-    std::double_t *fock;
+    // std::double_t *fock;
+
+    // Use Eigen Matrices
+    Eigen::MatrixXd orthoMatrix;
+    Eigen::MatrixXd fockMatrix;
+    Eigen::MatrixXd coreMatrix;
+    Eigen::MatrixXd overlapMatrix;
 };
 
 struct cxx_Gaussians

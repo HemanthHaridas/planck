@@ -23,7 +23,6 @@
 #include "base/planck_basis.h"
 #include "base/planck_io.h"
 #include "base/planck_symmetry.h"
-#include "base/planck_scf_driver.h"
 #include "math/planck_math.h"
 
 int main(int argc, char const *argv[])
@@ -119,30 +118,16 @@ int main(int argc, char const *argv[])
     memset(planck_calculator.nuclear,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
     memset(planck_calculator.electronic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
 
-    // if theory is uhf => allocate twice bug size for fock matrix
+    // if theory is uhf => allocate twice big size for fock matrix
     if (planck_calculator.is_unrestricted)
     {
-        planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
-        memset(planck_calculator.fock, 0, sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
+        std::uint64_t nelem = (4 * planck_calculator.total_basis * planck_calculator.total_basis);
+        planck_calculator.fock.resize(nelem, nelem);
     }
     else
     {
-        planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-        memset(planck_calculator.fock, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    }
-
-    // create an SCF engine
-    scfEngine integralEngine;
-
-    while (integralEngine.cycle <= planck_calculator.max_scf)
-    {
-           integralEngine.scfCycle();
-    }
-
-    if (integralEngine.cycle > planck_calculator.max_scf)
-    {
-        std::cout << std::setw(20) << std::left << "[Error]    <= " << std::left << " Maximum number of SCF cycles reached. Please check your results carefully " << "\n";
-        exit(-1);        
+        std::uint64_t nelem = (planck_calculator.total_basis * planck_calculator.total_basis);
+        planck_calculator.fock.resize(nelem, nelem);
     }
 
     // dump integrals
@@ -154,7 +139,7 @@ int main(int argc, char const *argv[])
     free(planck_calculator.kinetic);
     free(planck_calculator.nuclear);
     free(planck_calculator.electronic);
-    free(planck_calculator.fock);
+    // free(planck_calculator.fock);
 
     free(input_molecule.input_coordinates);
     free(input_molecule.standard_coordinates);

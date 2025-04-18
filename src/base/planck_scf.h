@@ -17,32 +17,7 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include "../integrals/helper/planck_helper_routines.h"
-#include "../integrals/huzinaga/planck_huzinaga.h"
+#include "planck_base.h"
+#include <Eigen/Dense>
 
-// #include "../integrals/planck_integrals.h"
-
-// void scfEngine(cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);
-struct scfEngine: private cxx_Calculator, private cxx_Molecule
-{
-public:
-    std::uint64_t cycle = 0;
-    std::error_code errorFlag;
-    std::string errorMessage;
-    std::double_t scfEnergy;
-    // std::vector <eriShell> eriShells;
-
-public:
-    std::int64_t scfCycle();
-
-private:
-    std::int64_t computeOverlap();
-    std::int64_t computeKinetic();
-    std::int64_t computeNuclear();
-    std::int64_t computeElectronic();
-    std::int64_t schwartzScreening();
-
-    std::int64_t generateCoreHamiltonian();
-    std::int64_t generateFockMatrix();
-    std::int64_t performDIIS();
-};
+void scfStep(std::uint64_t *scfStep, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage);

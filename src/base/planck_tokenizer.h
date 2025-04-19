@@ -24,6 +24,4 @@
 
 #include "planck_base.h"
 
-std::variant <std::string, std::uint64_t, std::double_t, bool>;
-
 void tokenizeInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);

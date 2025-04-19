@@ -53,9 +53,14 @@ void scfStep(std::uint64_t *scfStep, cxx_Calculator *planckCalculator, std::erro
     if (!planckCalculator->use_diis)
     {
         // now do a unitary transformation of the eigen vectors matrix
-        halfMatrix  = eigenVectors.array().inverse().sqrt().matrix().asDiagonal();
+        halfMatrix  = eigenValues.array().inverse().sqrt().matrix().asDiagonal();
         rightMatrix = eigenVectors * halfMatrix;
 
         planckCalculator->orthoMatrix = rightMatrix * eigenVectors.transpose();
+    }
+    else
+    {
+        halfMatrix = eigenValues.array().inverse().sqrt().matrix().asDiagonal();
+        planckCalculator->orthoMatrix = eigenVectors * halfMatrix;
     }
 }

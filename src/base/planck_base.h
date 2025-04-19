@@ -26,12 +26,21 @@
 
 // #include <numbers>
 
-const std::double_t ANGTOBOHR = 1.8897259886;
-const std::uint64_t MAXSCF    = 120;
-const std::uint64_t MAXITER   = 120;
-const std::double_t TOLSCF    = 1.0E-14;
-const std::double_t TOLERI    = 1.0E-14;
+const std::double_t ANGTOBOHR    = 1.8897259886;
+const std::uint64_t MAXSCF       = 120;
+const std::uint64_t MAXITER      = 120;
+const std::double_t TOLSCF       = 1.0E-14;
+const std::double_t TOLERI       = 1.0E-14;
+const std::string DEFAULT_BASIS  = "sto-3g";
+const std::string DEFAULT_THEORY = "rhf";
+const std::string DEFAULT_CALC   = "energy";
+const std::string DEFAULT_COORD  = "ang";
+const bool USE_DIIS              = true;
+const bool USE_SYMM              = true;
 
+// this is the maximum supported boysindex
+// change this value only if you regenerate
+// the lookup table for the boysfunction
 const std::uint64_t MAXM = 60;
 
 // const std::double_t PI=355/113;
@@ -76,7 +85,6 @@ struct cxx_Molecule
 
     // molecule point group
     std::string point_group;
-    std::uint64_t use_pgsymmetry;
     bool is_reoriented;
 };
 
@@ -90,18 +98,22 @@ struct cxx_Calculator
     std::uint64_t total_electrons;
     std::uint64_t total_atoms;
     bool is_unrestricted;
+    bool use_pgsymmetry = USE_SYMM;
 
     // variables to hold calculation interface
     std::double_t tol_eri = TOLERI;
     std::double_t tol_scf = TOLSCF;
+
+    std::string   calculation_basis  = DEFAULT_BASIS;
+    std::string   calculation_theory = DEFAULT_BASIS;
+    std::string   calculation_type   = DEFAULT_CALC;
+    std::string   coordinate_type    = DEFAULT_COORD;
+    std::uint64_t max_iter           = MAXITER;
+    std::uint64_t max_scf            = MAXSCF;
+
+    bool use_diis = USE_DIIS;
+
     std::string basis_path;
-    std::string calculation_basis;
-    std::string calculation_theory;
-    std::string calculation_type;
-    std::string coordinate_type;  
-    std::uint64_t max_iter = MAXITER;
-    std::uint64_t max_scf  = MAXSCF;
-    bool use_diis;
 
     // array to hold the basis set
     std::vector<cxx_Contracted> calculation_set;
@@ -112,7 +124,7 @@ struct cxx_Calculator
     Eigen::MatrixXd overlapMatrix;
     Eigen::MatrixXd kineticMatrix;
     Eigen::MatrixXd nuclearMatrix;
-    Eigen::Tensor <std::double_t, 4> electronicMatrix;
+    Eigen::Tensor<std::double_t, 4> electronicMatrix;
     // std::double_t *fock;
 
     // Use Eigen Matrices for intermediates
@@ -156,4 +168,4 @@ struct electronInt
     std::uint64_t m;
 };
 
-typedef std::tuple <std::uint64_t, std::uint64_t, std::uint64_t, std::uint64_t> eriShell;
+typedef std::tuple<std::uint64_t, std::uint64_t, std::uint64_t, std::uint64_t> eriShell;

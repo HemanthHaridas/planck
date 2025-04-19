@@ -51,6 +51,15 @@ int main(int argc, char const *argv[])
     std::string input_file = argv[1];
     std::fstream file_pointer(input_file);
 
+    // first check if a planck.defaults file is available
+    std::fstream defaultPointer("planck.defaults");
+    if (defaultPointer)
+    {
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Found planck.defaults file" << "\n";
+        std::getline(defaultPointer, planck_calculator.basis_path);
+    }
+
+    // tokenizeInput(&file_pointer, &planck_calculator, &input_molecule, &error_flag, &error_message);
     readInput(&file_pointer, &planck_calculator, &input_molecule, &error_flag, &error_message);
 
     // check if input file was parsed correctly
@@ -68,7 +77,7 @@ int main(int argc, char const *argv[])
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     }
 
-    if (input_molecule.use_pgsymmetry == 1)
+    if (planck_calculator.use_pgsymmetry)
     {
         // now symmetrize the molecule and process the errors
         detectSymmetry(&input_molecule, planck_calculator.total_atoms, &error_flag, &error_message);

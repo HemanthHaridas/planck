@@ -1,5 +1,4 @@
 #pragma once
-
 /*-----------------------------------------------------------------------------
  * Planck
  * Copyright (C) 2024 Hemanth Haridas, University of Utah
@@ -22,9 +21,9 @@
 #include <sstream>
 #include <system_error>
 #include <functional>
-#include "planck_base.h"
-#include "planck_tokenizer.h"
 
-void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);
-void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule);
-void dumpIntegral(cxx_Calculator *planckCalculator, cxx_Integrals integralType, std::string inputFile);
+#include "planck_base.h"
+
+std::variant <std::string, std::uint64_t, std::double_t, bool>;
+
+void tokenizeInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);

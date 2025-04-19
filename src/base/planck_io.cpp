@@ -34,118 +34,8 @@ void readInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_
         return;
     }
 
-    // first read the header section
-    std::string headerLine;
-    std::getline(*filePointer, headerLine);
-    std::stringstream headerBuffer(headerLine);
-
-    // check for optional symmetry keyword
-    headerBuffer >> planckCalculator->calculation_type >> planckCalculator->calculation_theory >> planckCalculator->calculation_basis >> planckCalculator->coordinate_type >> inputMolecule->use_pgsymmetry;
-
-    // always use point group symmetry by default
-    if (inputMolecule->use_pgsymmetry != 0)
-    {
-        inputMolecule->use_pgsymmetry = 1;
-    }
-
-    // check if defaults.txt file is present
-    // if yes, read in the default basis set path
-    // else read path from input file
-    std::fstream defaultPointer("planck.defaults");
-    if (defaultPointer)
-    {
-        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Found planck.defaults file" << "\n";
-        std::getline(*filePointer, planckCalculator->basis_path);  // will be immediately overwritten by path read from planck.defaults file
-        std::getline(defaultPointer, planckCalculator->basis_path);
-    }
-    else
-    {
-        std::getline(*filePointer, planckCalculator->basis_path);
-    }
-
-    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Basis sets read from : " << planckCalculator->basis_path << "\n";
-
-    // now read the number of atoms and set up the buffers
-    std::getline(*filePointer, headerLine);
-    std::stringstream atomBuffer(headerLine);
-    atomBuffer >> planckCalculator->total_atoms;
-
-    inputMolecule->atom_masses = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_atoms);
-    inputMolecule->atom_numbers = (std::uint64_t *)malloc(sizeof(std::uint64_t) * planckCalculator->total_atoms);
-    inputMolecule->input_coordinates = (std::double_t *)malloc(sizeof(std::double_t) * planckCalculator->total_atoms * 3);
-
-    std::getline(*filePointer, headerLine);
-    std::stringstream infoBuffer(headerLine);
-    infoBuffer >> planckCalculator->molecule_charge >> planckCalculator->molecule_multiplicity;
-
-    // check if multiplicity is a positive number >= 1
-    if (planckCalculator->molecule_multiplicity < 1)
-    {
-        *errorFlag = std::make_error_code(std::errc::invalid_argument);
-        *errorMessage = "Multiplicity Cannot Be A Value That Is Less Than 1. Please Check Your Input File.";
-        return;
-    }
-
-    std::uint64_t atomIndex = 0;
-    planckCalculator->total_electrons = 0;
-    
-    while (std::getline(*filePointer, headerLine) && atomIndex < planckCalculator->total_atoms)
-    {
-        // buffers to hold the atom information
-        std::string atomName;
-        std::double_t xCoord;
-        std::double_t yCoord;
-        std::double_t zCoord;
-
-        std::stringstream coordBuffer(headerLine);
-        coordBuffer >> atomName >> xCoord >> yCoord >> zCoord;
-
-        inputMolecule->atom_masses[atomIndex] = atomicMass[atomName];
-        inputMolecule->atom_numbers[atomIndex] = atomicNumber[atomName];
-        inputMolecule->input_coordinates[atomIndex * 3 + 0] = xCoord;
-        inputMolecule->input_coordinates[atomIndex * 3 + 1] = yCoord;
-        inputMolecule->input_coordinates[atomIndex * 3 + 2] = zCoord;
-
-        planckCalculator->total_electrons += atomicNumber[atomName];
-        atomIndex++;
-    }
-    planckCalculator->total_electrons = planckCalculator->total_electrons + planckCalculator->molecule_charge;
-
-    if (!filePointer->eof()) 
-    {
-        // need an empty line to separate the blocks
-        std::getline(*filePointer, headerLine);
-        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " SCF Control Variables read from input" << "\n";
-        std::unordered_map<std::string, std::function<void(std::string)>> handlers = {
-            {"MAXITER", [planckCalculator](std::string value) { planckCalculator->max_iter = std::stoi(value); }},
-            {"MAXSCF",  [planckCalculator](std::string value) { planckCalculator->max_scf  = std::stoi(value); }},
-            {"TOLSCF",  [planckCalculator](std::string value) { planckCalculator->tol_scf  = std::stod(value); }},
-            {"TOLERI",  [planckCalculator](std::string value) { planckCalculator->tol_eri  = std::stod(value); }}
-        };
-    
-        // now check if there are values for SCF control
-        while (!filePointer->eof())
-        {
-            std::getline(*filePointer, headerLine);
-            std::string controlVariable, controlValue;
-            std::stringstream scfBuffer(headerLine);
-            scfBuffer >> controlVariable >> controlValue;
-
-            // Check if the control variable exists in the map
-            auto it = handlers.find(controlVariable);
-            if (it != handlers.end()) 
-            {
-                // Call the corresponding handler to set the variable
-                it->second(controlValue);
-            } 
-            else 
-            {
-                *errorMessage = "Unknown control variable: " + controlVariable;
-                *errorFlag = std::make_error_code(std::errc::invalid_argument);
-                return;
-            }
-        }
-    }
+    // tokeinze the input file and parse the data
+    tokenizeInput(filePointer, planckCalculator, inputMolecule, errorFlag, errorMessage);
 
     // now convert the coordinates
     if (planckCalculator->coordinate_type == "ang")
@@ -241,7 +131,7 @@ void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
     
     if (inputMolecule->is_reoriented)
     {
-        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Use Point Group Symmetry : " << inputMolecule->use_pgsymmetry << "\n";
+        // std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Use Point Group Symmetry : " << inputMolecule->use_pgsymmetry << "\n";
         std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Detected Point Group : " << inputMolecule->point_group << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";

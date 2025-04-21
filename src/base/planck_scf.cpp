@@ -17,50 +17,52 @@
 
 #include "planck_scf.h"
 
-void scfStep(std::uint64_t *scfStep, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+void scfStep(cxx_scfStep *scfStep, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
 {
     // first reset the flags
     errorFlag->clear();
     errorMessage->clear();
 
     // first check if scfStep is within limits
-    if (*scfStep > planckCalculator->max_scf)
+    if (scfStep->scfStep > planckCalculator->max_scf)
     {
         *errorFlag = std::make_error_code(std::errc::argument_out_of_domain);
         *errorMessage = "Maximum Number of SCF steps reached. SCF failed to converge within MAX SCF cycles. Please check the results carefully.";
         return;
     }
 
-    // generate core hamiltonian
-    // currently uses the sum of kinetic and electron nuclear integrals
-    // should implement Harris functional later for better results
-    planckCalculator->coreMatrix = planckCalculator->kineticMatrix + planckCalculator->nuclearMatrix;
+    // do this only once
+    if (scfStep->init_scf)
+    {
+        // generate core hamiltonian
+        // currently uses the sum of kinetic and electron nuclear integrals
+        // should implement Harris functional later for better results
+        scfStep->coreMatrix = scfStep->kineticMatrix + scfStep->nuclearMatrix;
+
+        // do cholesky decomposition to orthogonalize MOs
+        Eigen::LLT<Eigen::MatrixXd> lltSolver(scfStep->overlapMatrix);
+        scfStep->orthoMatrix = lltSolver.matrixL();
+        scfStep->orthoMatrix = scfStep->orthoMatrix.inverse();
+
+        // verify if the transformation is correct
+        Eigen::MatrixXd LHS = scfStep->orthoMatrix.transpose() * scfStep->overlapMatrix * scfStep->orthoMatrix;
+        Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planckCalculator->total_basis, planckCalculator->total_basis);
+        assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+
+        // reset the flag
+        scfStep->init_scf = false;
+    }
+
+    // orthogonalize MOs
+    scfStep->orthogonalMO = scfStep->orthoMatrix * scfStep->canonicalMO;
+}
+
+Eigen::MatrixXd rhfStep()
+{
+
+}
+
+Eigen::MatrixXd ufhStep()
+{
     
-    // orthogonalization procedure
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planckCalculator->coreMatrix);
-    Eigen::MatrixXd halfMatrix;
-    Eigen::MatrixXd rightMatrix;
-
-    halfMatrix.resize(planckCalculator->total_basis, planckCalculator->total_basis);
-    rightMatrix.resize(planckCalculator->total_basis, planckCalculator->total_basis);
-    planckCalculator->orthoMatrix.resize(planckCalculator->total_basis, planckCalculator->total_basis);
-
-    // compute eigen values and eigen vectors of overlap matrix
-    Eigen::VectorXd eigenValues = eigenSolver.eigenvalues();
-    Eigen::VectorXd eigenVectors = eigenSolver.eigenvectors();
-
-    // DIIS is enabled by default
-    if (!planckCalculator->use_diis)
-    {
-        // now do a unitary transformation of the eigen vectors matrix
-        halfMatrix  = eigenValues.array().inverse().sqrt().matrix().asDiagonal();
-        rightMatrix = eigenVectors * halfMatrix;
-
-        planckCalculator->orthoMatrix = rightMatrix * eigenVectors.transpose();
-    }
-    else
-    {
-        halfMatrix = eigenValues.array().inverse().sqrt().matrix().asDiagonal();
-        planckCalculator->orthoMatrix = eigenVectors * halfMatrix;
-    }
 }

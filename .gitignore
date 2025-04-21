@@ -3,7 +3,8 @@
 /external
 /build*
 /install
-/inputs/*.*
+/inputs/*.kinetic*
+/inputs/*.overlap
 .DS*
 test*
 planck.defaults

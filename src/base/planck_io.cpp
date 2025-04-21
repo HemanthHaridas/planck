@@ -117,6 +117,7 @@ void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Max GEOM Iter : " << planckCalculator->max_iter << "\n";
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " SCF Tolerance : " << planckCalculator->tol_scf << "\n";
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " ERI Tolerance : " << planckCalculator->tol_eri << "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Use DIIS : " << planckCalculator->use_diis << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 
@@ -128,10 +129,11 @@ void dumpInput(cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule)
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     }
-    
+
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Use Point Group Symmetry : " << planckCalculator->use_pgsymmetry << "\n";
+
     if (inputMolecule->is_reoriented)
     {
-        // std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Use Point Group Symmetry : " << inputMolecule->use_pgsymmetry << "\n";
         std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Detected Point Group : " << inputMolecule->point_group << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";

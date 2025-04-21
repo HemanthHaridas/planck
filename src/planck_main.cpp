@@ -29,6 +29,7 @@ int main(int argc, char const *argv[])
 {
     cxx_Calculator planck_calculator;
     cxx_Molecule input_molecule;
+    cxx_scfStep scf_step;
 
     std::error_code error_flag;
     std::string error_message;
@@ -114,10 +115,10 @@ int main(int argc, char const *argv[])
     dumpInput(&planck_calculator, &input_molecule);
 
     // preallocate buffers
-    planck_calculator.overlapMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
-    planck_calculator.kineticMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
-    planck_calculator.nuclearMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
-    planck_calculator.electronicMatrix.resize(static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis));
+    scf_step.overlapMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    scf_step.kineticMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    scf_step.nuclearMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    scf_step.electronicMatrix.resize(static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis));
 
     // std::uint64_t totalMemory;
 
@@ -137,12 +138,12 @@ int main(int argc, char const *argv[])
     if (planck_calculator.is_unrestricted)
     {
         std::uint64_t nelem = (4 * planck_calculator.total_basis * planck_calculator.total_basis);
-        planck_calculator.fockMatrix.resize(nelem, nelem);
+        scf_step.fockMatrix.resize(nelem, nelem);
     }
     else
     {
         std::uint64_t nelem = (planck_calculator.total_basis * planck_calculator.total_basis);
-        planck_calculator.fockMatrix.resize(nelem, nelem);
+        scf_step.fockMatrix.resize(nelem, nelem);
     }
 
     // dump integrals
@@ -157,7 +158,13 @@ int main(int argc, char const *argv[])
     // free(planck_calculator.fock);
 
     free(input_molecule.input_coordinates);
-    free(input_molecule.standard_coordinates);
+    
+    // free only if the point group symmetry is enabled
+    if (planck_calculator.use_pgsymmetry)
+    {
+        free(input_molecule.standard_coordinates);
+    }
+    
     free(input_molecule.atom_masses);
     free(input_molecule.atom_numbers);
 

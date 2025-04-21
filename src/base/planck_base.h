@@ -119,19 +119,28 @@ struct cxx_Calculator
     std::vector<cxx_Contracted> calculation_set;
     std::uint64_t total_basis;
     std::uint64_t total_primitives;
+};
 
+struct cxx_scfStep
+{
     // Eigen matrices to hold integrals;
     Eigen::MatrixXd overlapMatrix;
     Eigen::MatrixXd kineticMatrix;
     Eigen::MatrixXd nuclearMatrix;
     Eigen::Tensor<std::double_t, 4> electronicMatrix;
-    // std::double_t *fock;
 
-    // Use Eigen Matrices for intermediates
+    // Eigen matrices for intermediates
     Eigen::MatrixXd fockMatrix;
     Eigen::MatrixXd hamiltonianMatrix;
     Eigen::MatrixXd orthoMatrix;
     Eigen::MatrixXd coreMatrix;
+
+    // Eigen matrices for MOs
+    Eigen::MatrixXd canonicalMO;
+    Eigen::MatrixXd orthogonalMO;
+
+    bool init_scf = true;
+    std::uint64_t scfStep = 0;
 };
 
 struct cxx_Gaussians

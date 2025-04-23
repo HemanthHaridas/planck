@@ -24,12 +24,13 @@
 #include "base/planck_io.h"
 #include "base/planck_symmetry.h"
 #include "math/planck_math.h"
+#include "base/planck_scf.h"
 
 int main(int argc, char const *argv[])
 {
     cxx_Calculator planck_calculator;
     cxx_Molecule input_molecule;
-    cxx_scfStep scf_step;
+    cxx_Integrals planck_integrals;
 
     std::error_code error_flag;
     std::string error_message;
@@ -114,57 +115,26 @@ int main(int argc, char const *argv[])
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
-    // preallocate buffers
-    scf_step.overlapMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
-    scf_step.kineticMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
-    scf_step.nuclearMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
-    scf_step.electronicMatrix.resize(static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis), static_cast<int64_t>(planck_calculator.total_basis));
+    // initiate SCF data and variables
+    // compute all matrices first
+    computeOverlap(&planck_calculator, planck_integrals.overlapMatrix);
+    computeKinetic(&planck_calculator, planck_integrals.kineticMatrix);
+    computeNuclear(input_molecule.standard_coordinates, input_molecule.atom_numbers, &planck_calculator, planck_integrals.nuclearMatrix);
 
-    // std::uint64_t totalMemory;
+    std::uint64_t nERI = pow(planck_calculator.total_basis, 4); // This is the naive number of ERIs to be computed
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Initial Number of Electron Repulsion Integrals : " << nERI << "\n";
 
-    // preallocate the buffers
-    // planck_calculator.overlap = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    // planck_calculator.kinetic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    // planck_calculator.nuclear = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    // planck_calculator.electronic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-
-    // memset all the buffers to zero to avoid junk values
-    // memset(planck_calculator.overlap,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    // memset(planck_calculator.kinetic,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    // memset(planck_calculator.nuclear,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    // memset(planck_calculator.electronic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-
-    // if theory is uhf => allocate twice big size for fock matrix
-    if (planck_calculator.is_unrestricted)
-    {
-        std::uint64_t nelem = (4 * planck_calculator.total_basis * planck_calculator.total_basis);
-        scf_step.fockMatrix.resize(nelem, nelem);
-    }
-    else
-    {
-        std::uint64_t nelem = (planck_calculator.total_basis * planck_calculator.total_basis);
-        scf_step.fockMatrix.resize(nelem, nelem);
-    }
-
-    // dump integrals
-    // dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
-    // dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);
-
-    // free the allocated buffers
-    // free(planck_calculator.overlap);
-    // free(planck_calculator.kinetic);
-    // free(planck_calculator.nuclear);
-    // free(planck_calculator.electronic);
-    // free(planck_calculator.fock);
-
-    free(input_molecule.input_coordinates);
+    computeElectronic(&planck_calculator, planck_integrals.electronicMatrix);
     
+    // free manually allocated buffers
+    free(input_molecule.input_coordinates);
+
     // free only if the point group symmetry is enabled
     if (planck_calculator.use_pgsymmetry)
     {
         free(input_molecule.standard_coordinates);
     }
-    
+
     free(input_molecule.atom_masses);
     free(input_molecule.atom_numbers);
 

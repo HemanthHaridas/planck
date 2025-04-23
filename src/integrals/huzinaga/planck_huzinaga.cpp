@@ -24,7 +24,7 @@
 // Evaluation of Gaussian Molecular Integrals I. Overlap Integrals
 // original reference in dx.doi.org/10.1143/JPSJ.21.2313
 // Gaussian-Expansion Methods for Molecular Integrals
-std::double_t Huzinaga::computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage)
+std::double_t Huzinaga::computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB)
 {
     std::vector<cxx_Gaussians> productGaussians;
     std::double_t xA = contractedGaussianA->location_x;
@@ -47,7 +47,7 @@ std::double_t Huzinaga::computeOverlap(cxx_Contracted *contractedGaussianA, cxx_
     std::double_t primtiveOverlap = 0.0;
 
     // compute gaussian products
-    computeGaussianProduct(contractedGaussianA, contractedGaussianB, &productGaussians, errorFlag, errorMessage);
+    computeGaussianProduct(contractedGaussianA, contractedGaussianB, &productGaussians);
 
     for (std::uint64_t ii = 0; ii < contractedGaussianA->contracted_GTO.size(); ii++)
     {
@@ -70,7 +70,7 @@ std::double_t Huzinaga::computeOverlap(cxx_Contracted *contractedGaussianA, cxx_
 // Evaluation of Gaussian Molecular Integrals I. Overlap Integrals
 // original reference in dx.doi.org/10.1143/JPSJ.21.2313
 // Gaussian-Expansion Methods for Molecular Integrals
-std::double_t Huzinaga::computeKinetic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage)
+std::double_t Huzinaga::computeKinetic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB)
 {
     std::vector<cxx_Gaussians> productGaussians;
     std::double_t xA = contractedGaussianA->location_x;
@@ -100,7 +100,7 @@ std::double_t Huzinaga::computeKinetic(cxx_Contracted *contractedGaussianA, cxx_
     // compute the gaussian products
     // should merge with the overlap integral computation
     // now the overlap integral is recomputed
-    computeGaussianProduct(contractedGaussianA, contractedGaussianB, &productGaussians, errorFlag, errorMessage);
+    computeGaussianProduct(contractedGaussianA, contractedGaussianB, &productGaussians);
 
     for (std::uint64_t ii = 0; ii < contractedGaussianA->contracted_GTO.size(); ii++)
     {
@@ -319,7 +319,7 @@ std::double_t Huzinaga::expansionCoeff1(const std::int64_t expIndex, const std::
 //     return primitiveIntegral * (2 * M_PI / gamma) * productGaussian.gaussian_integral[3];
 // }
 
-std::double_t Huzinaga::computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage)
+std::double_t Huzinaga::computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB)
 {
 
     std::double_t xA = contractedGaussianA->location_x;
@@ -506,7 +506,7 @@ std::vector<electronInt> Huzinaga::Intermediates(const std::int64_t shellA, cons
     return results;
 }
 
-std::double_t Huzinaga::computeElectronic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, cxx_Contracted *contractedGaussianC, cxx_Contracted *contractedGaussianD, std::error_code *errorFlag, std::string *errorMessage)
+std::double_t Huzinaga::computeElectronic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, cxx_Contracted *contractedGaussianC, cxx_Contracted *contractedGaussianD)
 {
     std::double_t xA = contractedGaussianA->location_x;
     std::double_t yA = contractedGaussianA->location_y;

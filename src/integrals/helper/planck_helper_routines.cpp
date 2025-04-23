@@ -19,12 +19,8 @@
 
 #include "planck_helper_routines.h"
 
-void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::vector<cxx_Gaussians> *productGaussians, std::error_code *errorFlag, std::string *errorMessage)
+void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::vector<cxx_Gaussians> *productGaussians)
 {
-    // first clear the error buffers
-    errorFlag->clear();
-    errorMessage->clear();
-
     std::double_t xA = contractedGaussianA->location_x;
     std::double_t yA = contractedGaussianA->location_y;
     std::double_t zA = contractedGaussianA->location_z;
@@ -46,7 +42,7 @@ void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted 
         {
             std::double_t expB = contractedGaussianB->contracted_GTO[jj].primitive_exp;
             cxx_Gaussians gaussian;
-            
+
             gaussian.gaussian_center[0] = ((expA * xA) + (expB * xB)) / (expA + expB);
             gaussian.gaussian_center[1] = ((expA * yA) + (expB * yB)) / (expA + expB);
             gaussian.gaussian_center[2] = ((expA * zA) + (expB * zB)) / (expA + expB);
@@ -93,8 +89,8 @@ std::double_t boysFunction(std::uint64_t boysIndex, std::double_t boysParam)
     {
         return boost::math::hypergeometric_1F1(0.5 + boysIndex, 1.5 + boysIndex, -1 * boysParam) / (2 * boysIndex + 1);
     }
-    
-    // now compute the value for boys function as a six term taylor series
+
+    // now compute the integral for boys function as a six term taylor series
     std::double_t boysValue = boysTable[xIndex][yIndex];
     std::double_t delta = boysParam - (0.1 * xIndex);
 
@@ -103,4 +99,57 @@ std::double_t boysFunction(std::uint64_t boysIndex, std::double_t boysParam)
         boysValue = boysValue + (pow(-1, ii) * (boysTable[xIndex][yIndex + ii] / factorial(ii)) * pow(delta, ii));
     }
     return boysValue;
+}
+
+std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronicMatrix)
+{
+    std::int64_t nBasis = planckCalculator->total_basis;
+    electronicMatrix.resize(nBasis, nBasis, nBasis, nBasis);
+
+    // calculate (ab|ab) and store
+    for (std::int64_t row = 0; row < nBasis; row++)
+    {
+        for (std::int64_t col = row; col < nBasis; col++)
+        {
+            // has 8-fold permutation symmetry
+            std::double_t integral = Huzinaga::computeElectronic(
+                &planckCalculator->calculation_set[row], &planckCalculator->calculation_set[col],
+                &planckCalculator->calculation_set[row], &planckCalculator->calculation_set[col]);
+
+            // Store integral and apply 8-fold symmetry
+            electronicMatrix(row, col, row, col) = integral;
+            electronicMatrix(row, row, col, col) = integral;
+            electronicMatrix(row, col, col, row) = integral;
+            electronicMatrix(row, col, row, col) = integral;
+
+            electronicMatrix(col, row, row, col) = integral;
+            electronicMatrix(col, col, row, row) = integral;
+            electronicMatrix(col, row, col, row) = integral;
+            electronicMatrix(col, row, row, col) = integral;
+        }
+    }
+
+    // find max of (ab|ab) and store it
+    // now multiply the integrals with the maximum value
+    Eigen::Tensor<std::double_t, 0> schwartzMax = electronicMatrix.maximum();
+    std::double_t schwartzValue = schwartzMax(0);
+
+    std::vector<eriKet> eriScreened;
+
+    // now screen the integrals based on cutoff
+    for (std::int64_t row = 0; row < nBasis; row++)
+    {
+        for (std::int64_t col = row; col < nBasis; col++)
+        {
+            eriKet ket(row, col); // create a tuple of indices
+            std::double_t value = electronicMatrix(row, col, row, col);
+            std::double_t eval = sqrt(schwartzValue) * sqrt(value);
+
+            if (eval >= planckCalculator->tol_eri)
+            {
+                eriScreened.push_back(ket);
+            }
+        }
+    }
+    return eriScreened;
 }

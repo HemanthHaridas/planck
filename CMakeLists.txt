@@ -85,6 +85,7 @@ target_include_directories(planck PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/helper
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/huzinaga
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/obarasakia
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers
     ${eigen_SOURCE_DIR}

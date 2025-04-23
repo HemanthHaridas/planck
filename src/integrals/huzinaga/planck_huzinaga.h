@@ -25,10 +25,10 @@
 namespace Huzinaga
 {
     // main functions
-    std::double_t computeElectronic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, cxx_Contracted *contractedGaussianC, cxx_Contracted *contractedGaussianD, std::error_code *errorFlag, std::string *errorMessage);
-    std::double_t computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
-    std::double_t computeKinetic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
-    std::double_t computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
+    std::double_t computeElectronic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, cxx_Contracted *contractedGaussianC, cxx_Contracted *contractedGaussianD);
+    std::double_t computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB);
+    std::double_t computeKinetic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB);
+    std::double_t computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB);
 
     // only for electron nuclear integrals
     std::double_t expansionCoeff2(const std::int64_t indexA, const std::int64_t indexB, const std::int64_t indexC, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t atomCenter, const std::double_t gaussCenter, std::double_t gamma);

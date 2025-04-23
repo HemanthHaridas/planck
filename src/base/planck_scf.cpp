@@ -17,52 +17,52 @@
 
 #include "planck_scf.h"
 
-void scfStep(cxx_scfStep *scfStep, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
-{
-    // first reset the flags
-    errorFlag->clear();
-    errorMessage->clear();
+// void scfStep(cxx_scfStep *scfStep, cxx_Calculator *planckCalculator, std::error_code *errorFlag, std::string *errorMessage)
+// {
+//     // first reset the flags
+//     errorFlag->clear();
+//     errorMessage->clear();
 
-    // first check if scfStep is within limits
-    if (scfStep->scfStep > planckCalculator->max_scf)
-    {
-        *errorFlag = std::make_error_code(std::errc::argument_out_of_domain);
-        *errorMessage = "Maximum Number of SCF steps reached. SCF failed to converge within MAX SCF cycles. Please check the results carefully.";
-        return;
-    }
+//     // first check if scfStep is within limits
+//     if (scfStep->scfStep > planckCalculator->max_scf)
+//     {
+//         *errorFlag = std::make_error_code(std::errc::argument_out_of_domain);
+//         *errorMessage = "Maximum Number of SCF steps reached. SCF failed to converge within MAX SCF cycles. Please check the results carefully.";
+//         return;
+//     }
 
-    // do this only once
-    if (scfStep->init_scf)
-    {
-        // generate core hamiltonian
-        // currently uses the sum of kinetic and electron nuclear integrals
-        // should implement Harris functional later for better results
-        scfStep->coreMatrix = scfStep->kineticMatrix + scfStep->nuclearMatrix;
+//     // do this only once
+//     if (scfStep->init_scf)
+//     {
+//         // generate core hamiltonian
+//         // currently uses the sum of kinetic and electron nuclear integrals
+//         // should implement Harris functional later for better results
+//         scfStep->coreMatrix = scfStep->kineticMatrix + scfStep->nuclearMatrix;
 
-        // do cholesky decomposition to orthogonalize MOs
-        Eigen::LLT<Eigen::MatrixXd> lltSolver(scfStep->overlapMatrix);
-        scfStep->orthoMatrix = lltSolver.matrixL();
-        scfStep->orthoMatrix = scfStep->orthoMatrix.inverse();
+//         // do cholesky decomposition to orthogonalize MOs
+//         Eigen::LLT<Eigen::MatrixXd> lltSolver(scfStep->overlapMatrix);
+//         scfStep->orthoMatrix = lltSolver.matrixL();
+//         scfStep->orthoMatrix = scfStep->orthoMatrix.inverse();
 
-        // verify if the transformation is correct
-        Eigen::MatrixXd LHS = scfStep->orthoMatrix.transpose() * scfStep->overlapMatrix * scfStep->orthoMatrix;
-        Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planckCalculator->total_basis, planckCalculator->total_basis);
-        assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+//         // verify if the transformation is correct
+//         Eigen::MatrixXd LHS = scfStep->orthoMatrix.transpose() * scfStep->overlapMatrix * scfStep->orthoMatrix;
+//         Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planckCalculator->total_basis, planckCalculator->total_basis);
+//         assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
 
-        // reset the flag
-        scfStep->init_scf = false;
-    }
+//         // reset the flag
+//         scfStep->init_scf = false;
+//     }
 
-    // orthogonalize MOs
-    scfStep->orthogonalMO = scfStep->orthoMatrix * scfStep->canonicalMO;
-}
+//     // orthogonalize MOs
+//     scfStep->orthogonalMO = scfStep->orthoMatrix * scfStep->canonicalMO;
+// }
 
-Eigen::MatrixXd rhfStep()
-{
+// Eigen::MatrixXd rhfStep()
+// {
 
-}
+// }
 
-Eigen::MatrixXd ufhStep()
-{
+// Eigen::MatrixXd ufhStep()
+// {
     
-}
+// }

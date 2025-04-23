@@ -26,17 +26,17 @@
 
 // #include <numbers>
 
-const std::double_t ANGTOBOHR    = 1.8897259886;
-const std::uint64_t MAXSCF       = 120;
-const std::uint64_t MAXITER      = 120;
-const std::double_t TOLSCF       = 1.0E-14;
-const std::double_t TOLERI       = 1.0E-14;
-const std::string DEFAULT_BASIS  = "sto-3g";
+const std::double_t ANGTOBOHR = 1.8897259886;
+const std::uint64_t MAXSCF = 120;
+const std::uint64_t MAXITER = 120;
+const std::double_t TOLSCF = 1.0E-14;
+const std::double_t TOLERI = 1.0E-14;
+const std::string DEFAULT_BASIS = "sto-3g";
 const std::string DEFAULT_THEORY = "rhf";
-const std::string DEFAULT_CALC   = "energy";
-const std::string DEFAULT_COORD  = "ang";
-const bool USE_DIIS              = true;
-const bool USE_SYMM              = true;
+const std::string DEFAULT_CALC = "energy";
+const std::string DEFAULT_COORD = "ang";
+const bool USE_DIIS = true;
+const bool USE_SYMM = true;
 
 // this is the maximum supported boysindex
 // change this value only if you regenerate
@@ -104,12 +104,12 @@ struct cxx_Calculator
     std::double_t tol_eri = TOLERI;
     std::double_t tol_scf = TOLSCF;
 
-    std::string   calculation_basis  = DEFAULT_BASIS;
-    std::string   calculation_theory = DEFAULT_BASIS;
-    std::string   calculation_type   = DEFAULT_CALC;
-    std::string   coordinate_type    = DEFAULT_COORD;
-    std::uint64_t max_iter           = MAXITER;
-    std::uint64_t max_scf            = MAXSCF;
+    std::string calculation_basis = DEFAULT_BASIS;
+    std::string calculation_theory = DEFAULT_BASIS;
+    std::string calculation_type = DEFAULT_CALC;
+    std::string coordinate_type = DEFAULT_COORD;
+    std::uint64_t max_iter = MAXITER;
+    std::uint64_t max_scf = MAXSCF;
 
     bool use_diis = USE_DIIS;
 
@@ -121,14 +121,17 @@ struct cxx_Calculator
     std::uint64_t total_primitives;
 };
 
-struct cxx_scfStep
+struct cxx_Integrals
 {
     // Eigen matrices to hold integrals;
     Eigen::MatrixXd overlapMatrix;
     Eigen::MatrixXd kineticMatrix;
     Eigen::MatrixXd nuclearMatrix;
     Eigen::Tensor<std::double_t, 4> electronicMatrix;
+};
 
+struct scfData
+{
     // Eigen matrices for intermediates
     Eigen::MatrixXd fockMatrix;
     Eigen::MatrixXd hamiltonianMatrix;
@@ -138,9 +141,6 @@ struct cxx_scfStep
     // Eigen matrices for MOs
     Eigen::MatrixXd canonicalMO;
     Eigen::MatrixXd orthogonalMO;
-
-    bool init_scf = true;
-    std::uint64_t scfStep = 0;
 };
 
 struct cxx_Gaussians
@@ -148,15 +148,6 @@ struct cxx_Gaussians
     std::double_t gaussian_center[3];
     std::double_t gaussian_exponent;
     std::double_t gaussian_integral[4];
-};
-
-enum cxx_Integrals
-{
-    OVERLAP,
-    KINETIC,
-    NUCLEAR,
-    ELECTRONIC,
-    MULTIPOLE
 };
 
 struct nuclearInt
@@ -178,3 +169,4 @@ struct electronInt
 };
 
 typedef std::tuple<std::uint64_t, std::uint64_t, std::uint64_t, std::uint64_t> eriShell;
+typedef std::tuple<std::uint64_t, std::uint64_t> eriKet;

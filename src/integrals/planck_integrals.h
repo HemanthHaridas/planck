@@ -17,7 +17,11 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include "planck_base.h"
-#include "../integrals/planck_integrals.h"
+#include "../base/planck_base.h"
+#include "huzinaga/planck_huzinaga.h"
 
-#include <Eigen/Dense>
+void computeOverlap(cxx_Calculator *planckCalculator, Eigen::MatrixXd &overlapMatrix);
+void computeKinetic(cxx_Calculator *planckCalculator, Eigen::MatrixXd &kineticMatrix);
+void computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, cxx_Calculator *planckCalculator, Eigen::MatrixXd &nuclearMatrix);
+std::vector<eriShell> schwartzScreeing(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);
+void computeElectronic(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);

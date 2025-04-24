@@ -31,6 +31,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 # FetchContent setup
 include(FetchContent)
+set(FETCHCONTENT_QUIET FALSE)
 
 # Fetch Eigen
 FetchContent_Declare(
@@ -39,6 +40,16 @@ FetchContent_Declare(
   GIT_TAG 3.4.0 # You can also use master
 )
 FetchContent_MakeAvailable(eigen)
+
+# Fetch Boost
+# FetchContent_Declare(
+#   Boost
+#   GIT_REPOSITORY https://github.com/boostorg/boost.git
+#   GIT_TAG boost-1.88.0
+# #   GIT_TAG b6928ae5c92e21a04bbe17a558e6e066dbe632f6
+# )
+# FetchContent_MakeAvailable(Boost)
+# include_directories(${Boost_INCLUDE_DIRS})
 
 # Gather source files
 file(GLOB MAIN_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
@@ -89,13 +100,25 @@ target_include_directories(planck PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers
     ${eigen_SOURCE_DIR}
+    # ${Boost_SOURCE_DIR}
 )
 
+# set(Boost_USE_STATIC_LIBS ON) 
+# set(Boost_USE_MULTITHREADED OFF)  
+# set(Boost_USE_STATIC_RUNTIME OFF) 
+# set(Boost_NO_SYSTEM_PATHS TRUE)
+
 # Link the external library
-target_link_libraries(planck ${MSYM_INSTALL_DIR}/lib/libmsym.a)
+target_link_libraries(planck 
+                        ${MSYM_INSTALL_DIR}/lib/libmsym.a 
+                        # Boost::date_time 
+                        # Boost::property_tree 
+                        # Boost::foreach 
+                        # Boost::math
+                        )
 
 # Add dependencies to ensure the external project is built first
-add_dependencies(planck libmsym)
+add_dependencies(planck libmsym eigen)
 
 # Install the executable
 install(TARGETS planck DESTINATION)

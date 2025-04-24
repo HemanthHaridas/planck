@@ -115,7 +115,6 @@ int main(int argc, char const *argv[])
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
-    // initiate SCF data and variables
     // compute all matrices first
     computeOverlap(&planck_calculator, planck_integrals.overlapMatrix);
     computeKinetic(&planck_calculator, planck_integrals.kineticMatrix);
@@ -126,6 +125,24 @@ int main(int argc, char const *argv[])
 
     computeElectronic(&planck_calculator, planck_integrals.electronicMatrix);
     
+    // initiate SCF data and variables
+    scfData scf_data;
+    scf_data.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
+
+    // Lodwin orthogonolization
+    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planck_integrals.overlapMatrix);
+    Eigen::VectorXd vector      = eigenSolver.eigenvalues().array().sqrt().inverse();
+    Eigen::MatrixXd halfMatrix  = vector.asDiagonal();
+    Eigen::MatrixXd rightMatrix = eigenSolver.eigenvectors() * halfMatrix;
+
+    scf_data.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
+
+    // // verify if the transformation is correct
+    Eigen::MatrixXd LHS = scf_data.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data.orthoMatrix;
+    Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
+
+    assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+
     // free manually allocated buffers
     free(input_molecule.input_coordinates);
 

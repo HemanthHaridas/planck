@@ -132,7 +132,8 @@ std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Te
     // find max of (ab|ab) and store it
     // now multiply the integrals with the maximum value
     Eigen::Tensor<std::double_t, 0> schwartzMax = electronicMatrix.maximum();
-    std::double_t schwartzValue = schwartzMax(0);
+    Eigen::Tensor<std::double_t, 0> schwartzMin = electronicMatrix.minimum();
+    std::double_t schwartzValue = abs(schwartzMax(0)) > abs (schwartzMin(0)) ? abs(schwartzMax(0)) : abs(schwartzMin(0));
 
     std::vector<eriKet> eriScreened;
 
@@ -142,7 +143,7 @@ std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Te
         for (std::int64_t col = row; col < nBasis; col++)
         {
             eriKet ket(row, col); // create a tuple of indices
-            std::double_t value = electronicMatrix(row, col, row, col);
+            std::double_t value = abs(electronicMatrix(row, col, row, col));
             std::double_t eval = sqrt(schwartzValue) * sqrt(value);
 
             if (eval >= planckCalculator->tol_eri)

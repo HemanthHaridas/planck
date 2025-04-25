@@ -26,7 +26,7 @@ void computeOverlap(cxx_Calculator *planckCalculator, Eigen::MatrixXd &overlapMa
 {
     // get the number of basis functions
     std::uint64_t nBasis = planckCalculator->total_basis;
-    overlapMatrix.resize(nBasis, nBasis);
+    // overlapMatrix.resize(nBasis, nBasis);
 
     // now iterate over the contracted GTOs
     for (std::uint64_t row = 0; row < nBasis; row++)
@@ -43,7 +43,7 @@ void computeKinetic(cxx_Calculator *planckCalculator, Eigen::MatrixXd &kineticMa
 {
     // get the number of basis functions
     std::uint64_t nBasis = planckCalculator->total_basis;
-    kineticMatrix.resize(nBasis, nBasis);
+    // kineticMatrix.resize(nBasis, nBasis);
 
     // now iterate over the contracted GTOs
     for (std::uint64_t row = 0; row < nBasis; row++)
@@ -60,7 +60,7 @@ void computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, cxx_C
 {
     // get the number of basis functions
     std::uint64_t nBasis = planckCalculator->total_basis;
-    nuclearMatrix.resize(nBasis, nBasis);
+    // nuclearMatrix.resize(nBasis, nBasis);
 
     // now iterate over the contracted GTOs
     for (std::uint64_t row = 0; row < nBasis; row++)

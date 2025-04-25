@@ -117,7 +117,7 @@ struct cxx_Calculator
 
     // array to hold the basis set
     std::vector<cxx_Contracted> calculation_set;
-    std::uint64_t total_basis;
+    std::int64_t total_basis;
     std::uint64_t total_primitives;
 };
 
@@ -137,10 +137,14 @@ struct scfData
     Eigen::MatrixXd hamiltonianMatrix;
     Eigen::MatrixXd orthoMatrix;
     Eigen::MatrixXd coreMatrix;
-
+    Eigen::MatrixXd densityMatrix;
+    
     // Eigen matrices for MOs
     Eigen::MatrixXd canonicalMO;
     Eigen::MatrixXd orthogonalMO;
+
+    // Eigen vectors for energies
+    Eigen::VectorXd orbitalEnegies;
 };
 
 struct cxx_Gaussians

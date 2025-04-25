@@ -104,7 +104,7 @@ std::double_t boysFunction(std::uint64_t boysIndex, std::double_t boysParam)
 std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronicMatrix)
 {
     std::int64_t nBasis = planckCalculator->total_basis;
-    electronicMatrix.resize(nBasis, nBasis, nBasis, nBasis);
+    // electronicMatrix.resize(nBasis, nBasis, nBasis, nBasis);
 
     // calculate (ab|ab) and store
     for (std::int64_t row = 0; row < nBasis; row++)
@@ -133,7 +133,7 @@ std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Te
     // now multiply the integrals with the maximum value
     Eigen::Tensor<std::double_t, 0> schwartzMax = electronicMatrix.maximum();
     Eigen::Tensor<std::double_t, 0> schwartzMin = electronicMatrix.minimum();
-    std::double_t schwartzValue = abs(schwartzMax(0)) > abs (schwartzMin(0)) ? abs(schwartzMax(0)) : abs(schwartzMin(0));
+    std::double_t schwartzValue = abs(schwartzMax(0)) > abs(schwartzMin(0)) ? abs(schwartzMax(0)) : abs(schwartzMin(0));
 
     std::vector<eriKet> eriScreened;
 

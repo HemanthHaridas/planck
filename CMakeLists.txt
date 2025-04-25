@@ -14,7 +14,8 @@ message(STATUS "Using C++ Standard: ${CMAKE_CXX_STANDARD}")
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -ftree-vectorize")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin") # macOS
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O1 -Wall -pedantic -Rpass=loop-vectorize")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -Rpass=loop-vectorize")
+    set(CMAKE_OSX_SYSROOT "/Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++${CMAKE_CXX_STANDARD} /O2 /W4 /permissive-")
 else()
@@ -26,8 +27,8 @@ message(STATUS "Building on : ${CMAKE_SYSTEM_NAME} using following compiler flag
 
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Rpass=loop-vectorize -Wall -pedantic")
 
-find_package(Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
+# find_package(Boost REQUIRED)
+# include_directories(${Boost_INCLUDE_DIRS})
 
 # FetchContent setup
 include(FetchContent)
@@ -42,13 +43,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(eigen)
 
 # Fetch Boost
-# FetchContent_Declare(
-#   Boost
-#   GIT_REPOSITORY https://github.com/boostorg/boost.git
-#   GIT_TAG boost-1.88.0
-# #   GIT_TAG b6928ae5c92e21a04bbe17a558e6e066dbe632f6
-# )
-# FetchContent_MakeAvailable(Boost)
+FetchContent_Declare(
+  Boost
+  GIT_REPOSITORY https://github.com/boostorg/boost.git
+  GIT_TAG boost-1.88.0
+#   GIT_TAG b6928ae5c92e21a04bbe17a558e6e066dbe632f6
+)
+FetchContent_MakeAvailable(Boost)
 # include_directories(${Boost_INCLUDE_DIRS})
 
 # Gather source files
@@ -100,7 +101,7 @@ target_include_directories(planck PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers
     ${eigen_SOURCE_DIR}
-    # ${Boost_SOURCE_DIR}
+    ${Boost_INCLUDE_DIR}
 )
 
 # set(Boost_USE_STATIC_LIBS ON) 
@@ -111,10 +112,11 @@ target_include_directories(planck PUBLIC
 # Link the external library
 target_link_libraries(planck 
                         ${MSYM_INSTALL_DIR}/lib/libmsym.a 
-                        # Boost::date_time 
-                        # Boost::property_tree 
-                        # Boost::foreach 
-                        # Boost::math
+                        Boost::date_time 
+                        Boost::property_tree 
+                        Boost::foreach 
+                        Boost::math
+                        Boost::json
                         )
 
 # Add dependencies to ensure the external project is built first

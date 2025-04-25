@@ -115,6 +115,12 @@ int main(int argc, char const *argv[])
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
+    // initialize all matrices
+    planck_integrals.overlapMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_integrals.kineticMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_integrals.nuclearMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_integrals.electronicMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis);
+
     // compute all matrices first
     computeOverlap(&planck_calculator, planck_integrals.overlapMatrix);
     computeKinetic(&planck_calculator, planck_integrals.kineticMatrix);
@@ -124,24 +130,51 @@ int main(int argc, char const *argv[])
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Initial Number of Electron Repulsion Integrals : " << nERI << "\n";
 
     computeElectronic(&planck_calculator, planck_integrals.electronicMatrix);
-    
-    // initiate SCF data and variables
-    scfData scf_data;
-    scf_data.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
 
-    // Lodwin orthogonolization
-    Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planck_integrals.overlapMatrix);
-    Eigen::VectorXd vector      = eigenSolver.eigenvalues().array().sqrt().inverse();
-    Eigen::MatrixXd halfMatrix  = vector.asDiagonal();
-    Eigen::MatrixXd rightMatrix = eigenSolver.eigenvectors() * halfMatrix;
+    if (planck_calculator.calculation_type[0] == 'u')
+    {
+        // initiate SCF data and variables
+        scfData scf_data_alpha;
+        scfData scf_data_beta;
 
-    scf_data.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
+        scf_data_alpha.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
+        scf_data_beta.coreMatrix  = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
 
-    // // verify if the transformation is correct
-    Eigen::MatrixXd LHS = scf_data.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data.orthoMatrix;
-    Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
+        // Lodwin orthogonolization
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planck_integrals.overlapMatrix);
+        Eigen::VectorXd vector      = eigenSolver.eigenvalues().array().sqrt().inverse();
+        Eigen::MatrixXd halfMatrix  = vector.asDiagonal();
+        Eigen::MatrixXd rightMatrix = eigenSolver.eigenvectors() * halfMatrix;
 
-    assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+        scf_data_alpha.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
+        scf_data_beta.orthoMatrix  = rightMatrix * eigenSolver.eigenvectors().transpose();
+
+        // // verify if the transformation is correct (do only for alpha)
+        Eigen::MatrixXd LHS = scf_data_alpha.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data_alpha.orthoMatrix;
+        Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
+
+        assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+    }
+    else if (planck_calculator.calculation_type[0] == 'r')
+    {
+        // initiate SCF data and variables
+        scfData scf_data;
+        scf_data.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
+
+        // Lodwin orthogonolization
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planck_integrals.overlapMatrix);
+        Eigen::VectorXd vector = eigenSolver.eigenvalues().array().sqrt().inverse();
+        Eigen::MatrixXd halfMatrix = vector.asDiagonal();
+        Eigen::MatrixXd rightMatrix = eigenSolver.eigenvectors() * halfMatrix;
+
+        scf_data.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
+
+        // // verify if the transformation is correct
+        Eigen::MatrixXd LHS = scf_data.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data.orthoMatrix;
+        Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
+
+        assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+    }
 
     // free manually allocated buffers
     free(input_molecule.input_coordinates);

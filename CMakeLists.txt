@@ -57,9 +57,9 @@ file(GLOB MAIN_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 file(GLOB BASE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/base/*.cpp)
 file(GLOB LOOKUP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/lookup/*.cpp)
 file(GLOB HELPER_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/helper/*.cpp)
-file(GLOB ONE_ELECTRON_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/*.cpp)
+file(GLOB INTEGRAL_DRIVER_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/*.cpp)
 file(GLOB INTEGRAL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/*/*.cpp)
-file(GLOB TWO_ELECTRON_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/two_electron/*.cpp)
+# file(GLOB TWO_ELECTRON_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/two_electron/*.cpp)
 file(GLOB MATH_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/math/*.cpp)
 
 # Add the executable target
@@ -70,8 +70,8 @@ add_executable(planck
     ${HELPER_SOURCES}
     ${LOOKUP_SOURCES}
     ${INTEGRAL_SOURCES}
-    ${ONE_ELECTRON_SOURCES}
-    ${TWO_ELECTRON_SOURCES}
+    ${INTEGRAL_DRIVER_SOURCES}
+    # ${TWO_ELECTRON_SOURCES}
 )
 
 # Get the dependencies

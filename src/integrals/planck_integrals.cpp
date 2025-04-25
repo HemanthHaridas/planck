@@ -79,14 +79,17 @@ std::vector<eriShell> schwartzScreeing(cxx_Calculator *planckCalculator, Eigen::
 
     // first get the screened kets
     std::vector<eriKet> eriScreened = schwatrzSceening(planckCalculator, electronMatrix);
+    // std::cout << eriScreened.size() << "\n";
 
     // now generate all possible pairs of (ab|cd)
     for (auto bra : eriScreened)
     {
+        std::uint64_t b = std::get<0>(bra) * std::get<1>(bra);
         for (auto ket : eriScreened)
         {
-            // check if bra and ket are same
-            if (bra != ket)
+            std::uint64_t k = std::get<0>(ket) * std::get<1>(ket);
+            // check if the lexicographic ordering is maintained
+            if ((b <= k) && (std::get<0>(bra) <= std::get<1>(bra)) && (std::get<0>(ket) <= std::get<1>(ket)))
             {
                 eriShell computeShells(std::get<0>(bra), std::get<1>(bra), std::get<0>(ket), std::get<1>(ket));
                 screenedPairs.push_back(computeShells);
@@ -112,8 +115,7 @@ void computeElectronic(cxx_Calculator *planckCalculator, Eigen::Tensor<std::doub
         std::int64_t jj = std::get<1>(braket);
         std::int64_t kk = std::get<2>(braket);
         std::int64_t ll = std::get<3>(braket);
-
-        // std::cout << ii << " " << jj << " " << kk << " " << ll << "\n";
+        
         std::double_t value = Huzinaga::computeElectronic(&planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj], &planckCalculator->calculation_set[kk], &planckCalculator->calculation_set[ll]);
 
         // Assign the value to all configurations in the 8-fold symmetry

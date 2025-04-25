@@ -120,12 +120,12 @@ std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Te
             electronicMatrix(row, col, row, col) = integral;
             electronicMatrix(row, row, col, col) = integral;
             electronicMatrix(row, col, col, row) = integral;
-            electronicMatrix(row, col, row, col) = integral;
+            // electronicMatrix(row, col, row, col) = integral;
 
             electronicMatrix(col, row, row, col) = integral;
             electronicMatrix(col, col, row, row) = integral;
             electronicMatrix(col, row, col, row) = integral;
-            electronicMatrix(col, row, row, col) = integral;
+            // electronicMatrix(col, row, row, col) = integral;
         }
     }
 
@@ -134,6 +134,9 @@ std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Te
     Eigen::Tensor<std::double_t, 0> schwartzMax = electronicMatrix.maximum();
     Eigen::Tensor<std::double_t, 0> schwartzMin = electronicMatrix.minimum();
     std::double_t schwartzValue = abs(schwartzMax(0)) > abs(schwartzMin(0)) ? abs(schwartzMax(0)) : abs(schwartzMin(0));
+
+    // std::cout << "starting screening" << "\n";
+    // std::cout << schwartzValue << " " << schwartzMin << " " << schwartzMax << "\n";
 
     std::vector<eriKet> eriScreened;
 

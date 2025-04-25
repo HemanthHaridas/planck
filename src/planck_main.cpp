@@ -149,11 +149,15 @@ int main(int argc, char const *argv[])
         scf_data_alpha.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
         scf_data_beta.orthoMatrix  = rightMatrix * eigenSolver.eigenvectors().transpose();
 
-        // // verify if the transformation is correct (do only for alpha)
+        // verify if the transformation is correct (do only for alpha)
         Eigen::MatrixXd LHS = scf_data_alpha.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data_alpha.orthoMatrix;
         Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
 
         assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+
+        // initialize the coefficent matrix
+        scf_data_alpha.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data_beta.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
     }
     else if (planck_calculator.calculation_type[0] == 'r')
     {
@@ -174,6 +178,8 @@ int main(int argc, char const *argv[])
         Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
 
         assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+
+        scf_data.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
     }
 
     // free manually allocated buffers

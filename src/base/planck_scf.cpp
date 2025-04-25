@@ -17,12 +17,40 @@
 
 #include "planck_scf.h"
 
-void computeDensity(const std::uint64_t nElectrons, Eigen::MatrixXd &canonicalCoeffs, Eigen::MatrixXd &densityMatrix)
+void computeUHFDensity(const std::uint64_t nElectrons, Eigen::MatrixXd &canonicalCoeffs, Eigen::MatrixXd &densityMatrix)
 {
     const std::uint64_t nBasis = canonicalCoeffs.rows();
+
+    // compute density from coefficient matrix
+    for (std::uint64_t row = 0; row < nBasis; row++)
+    {
+        for (std::uint64_t col = 0; col < nBasis; col++)
+        {
+            for (std::uint64_t elec = 0; elec < nElectrons; elec++)
+            {
+                densityMatrix(row, col) = canonicalCoeffs(row, elec) * canonicalCoeffs(col, elec) + densityMatrix(row, col);
+            }
+        }
+    }
+}
+
+void computeRHFDensity(const std::uint64_t nElectrons, Eigen::MatrixXd &canonicalCoeffs, Eigen::MatrixXd &densityMatrix)
+{
+    const std::uint64_t nBasis = canonicalCoeffs.rows();
+
+    // compute density from coefficient matrix
+    for (std::uint64_t row = 0; row < nBasis; row++)
+    {
+        for (std::uint64_t col = 0; col < nBasis; col++)
+        {
+            for (std::uint64_t elec = 0; elec < static_cast<std::int64_t>(nElectrons / 2); elec++)
+            {
+                densityMatrix(row, col) = (2 * canonicalCoeffs(row, elec) * canonicalCoeffs(col, elec)) + densityMatrix(row, col);
+            }
+        }
+    }
 }
 
 scfData scfStep()
 {
-
 }

@@ -131,7 +131,7 @@ int main(int argc, char const *argv[])
 
     computeElectronic(&planck_calculator, planck_integrals.electronicMatrix);
 
-    if (planck_calculator.calculation_type[0] == 'u')
+    if (planck_calculator.calculation_theory[0] == 'u')
     {
         // initiate SCF data and variables
         scfData scf_data_alpha;
@@ -158,8 +158,12 @@ int main(int argc, char const *argv[])
         // initialize the coefficent matrix
         scf_data_alpha.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
         scf_data_beta.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+
+        // initialize the hamiltonian matrix
+        scf_data_alpha.hamiltonianMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data_beta.hamiltonianMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
     }
-    else if (planck_calculator.calculation_type[0] == 'r')
+    if (planck_calculator.calculation_theory[0] == 'r')
     {
         // initiate SCF data and variables
         scfData scf_data;
@@ -180,6 +184,10 @@ int main(int argc, char const *argv[])
         assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
 
         scf_data.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data.hamiltonianMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data.densityMatrix = Eigen::MatrixXd::Random(planck_calculator.total_basis, planck_calculator.total_basis);
+        
+        noDiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons);
     }
 
     // free manually allocated buffers

@@ -134,6 +134,7 @@ struct scfData
 {
     // Eigen matrices for intermediates
     Eigen::MatrixXd fockMatrix;
+    Eigen::MatrixXd orthoFock;
     Eigen::MatrixXd hamiltonianMatrix;
     Eigen::MatrixXd orthoMatrix;
     Eigen::MatrixXd coreMatrix;
@@ -145,6 +146,9 @@ struct scfData
 
     // Eigen vectors for energies
     Eigen::VectorXd orbitalEnegies;
+
+    std::double_t maxDensity;
+    std::double_t rmsDensity;
 };
 
 struct cxx_Gaussians
@@ -174,3 +178,9 @@ struct electronInt
 
 typedef std::tuple<std::uint64_t, std::uint64_t, std::uint64_t, std::uint64_t> eriShell;
 typedef std::tuple<std::uint64_t, std::uint64_t> eriKet;
+
+// enum scfType
+// {
+//     uhf,
+//     rhf
+// };

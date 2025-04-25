@@ -21,3 +21,5 @@
 #include "../integrals/planck_integrals.h"
 
 #include <Eigen/Dense>
+
+void noDiisRHF(scfData *scfInstance, const Eigen::Tensor<std::double_t, 4> &electronicMatrix, const std::uint64_t nElectrons);

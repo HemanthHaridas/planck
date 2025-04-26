@@ -425,7 +425,7 @@ std::double_t Huzinaga::computePrimitive(
 
     std::double_t gamma1 = primitiveA->primitive_exp + primitiveB->primitive_exp;
     std::double_t gamma2 = primitiveC->primitive_exp + primitiveD->primitive_exp;
-    std::double_t f_gamma = (1 / gamma1) + (1 / gamma2);
+    std::double_t f_gamma = (1 / (4 * gamma1)) + (1 / (4 * gamma2));
 
     cxx_Gaussians productGaussianAB = computeGaussianProduct(primitiveA, xA, yA, zA, primitiveB, xB, yB, zB);
     cxx_Gaussians productGaussianCD = computeGaussianProduct(primitiveC, xC, yC, zC, primitiveD, xD, yD, zD);
@@ -440,17 +440,21 @@ std::double_t Huzinaga::computePrimitive(
         {
             for (auto zVal : zDir)
             {
-                std::double_t boysP = dotproduct(productGaussianAB.gaussian_center[0], productGaussianAB.gaussian_center[1], productGaussianAB.gaussian_center[2], productGaussianCD.gaussian_center[0], productGaussianCD.gaussian_center[1], productGaussianCD.gaussian_center[2]) * (1 / f_gamma);
-                std::uint64_t boysI = (xVal.i + yVal.i + zVal.i + xVal.k + yVal.k + zVal.k) - 2 * (xVal.j + yVal.j + zVal.j + xVal.l + yVal.l + zVal.l) - (xVal.m + yVal.m + zVal.m);
+                std::double_t boysP = dotproduct(productGaussianAB.gaussian_center[0], productGaussianAB.gaussian_center[1], productGaussianAB.gaussian_center[2], productGaussianCD.gaussian_center[0], productGaussianCD.gaussian_center[1], productGaussianCD.gaussian_center[2]) * (1 / (4 * f_gamma));
+                std::uint64_t boysI = (xVal.i + yVal.i + zVal.i + xVal.l + yVal.l + zVal.l) - 2 * (xVal.j + yVal.j + zVal.j + xVal.m + yVal.m + zVal.m) - (xVal.k + yVal.k + zVal.k);
                 std::double_t boysF = boysFunction(boysI, boysP);
                 primitiveIntegral = primitiveIntegral + (xVal.result * yVal.result * zVal.result * boysF);
             }
         }
     }
     primitiveIntegral = primitiveIntegral * pow(M_PI, 2) * 2;
-    primitiveIntegral = primitiveIntegral * (gamma1 * gamma2);
+    primitiveIntegral = primitiveIntegral / (gamma1 * gamma2);
     primitiveIntegral = primitiveIntegral * sqrt(M_PI / (gamma1 + gamma2));
     primitiveIntegral = primitiveIntegral * productGaussianAB.gaussian_integral[3] * productGaussianCD.gaussian_integral[3];
+    primitiveIntegral = primitiveIntegral * primitiveA->orbital_coeff * primitiveA->orbital_norm;
+    primitiveIntegral = primitiveIntegral * primitiveB->orbital_coeff * primitiveB->orbital_norm;
+    primitiveIntegral = primitiveIntegral * primitiveC->orbital_coeff * primitiveC->orbital_norm;
+    primitiveIntegral = primitiveIntegral * primitiveD->orbital_coeff * primitiveD->orbital_norm;
     return primitiveIntegral;
 }
 
@@ -479,7 +483,7 @@ std::vector<electronInt> Huzinaga::Intermediates(const std::int64_t shellA, cons
                 for (std::int64_t ll = 0; ll <= (kk / 2); ll++) // r' loop
                 {
                     aux = aux * Huzinaga::expansionCoeff3(kk, ll, shellC, coordC, shellD, coordD, gaussCoordCD, gammaB);
-                    for (std::int64_t mm = 0; mm <= ((ii + ll - 2 * (jj + kk)) / 2); mm++) // i loop
+                    for (std::int64_t mm = 0; mm <= (((ii + ll) - (2 * (jj + kk))) / 2); mm++) // i loop
                     {
                         electronInt result;
                         // calculate the value of the term
@@ -555,7 +559,7 @@ std::double_t Huzinaga::computeElectronic(cxx_Contracted *contractedGaussianA, c
                         &contractedGaussianB->contracted_GTO[jj], xB, yB, zB, lxB, lyB, lzB,
                         &contractedGaussianC->contracted_GTO[kk], xC, yC, zC, lxC, lyC, lzC,
                         &contractedGaussianD->contracted_GTO[ll], xD, yD, zD, lxD, lyD, lzD);
-                    
+
                     primitiveIntegral = primitiveIntegral + primitiveIntegrals;
                 }
             }
@@ -563,3 +567,45 @@ std::double_t Huzinaga::computeElectronic(cxx_Contracted *contractedGaussianA, c
     }
     return primitiveIntegral;
 }
+
+// std::vector<electronInt> Huzinaga::Intermediates(const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::int64_t shellC, const std::double_t coordC, const std::int64_t shellD, const std::double_t coordD, const std::double_t gaussCoordAB, const std::double_t gaussCoordCD, const std::double_t gammaA, const std::double_t gammaB)
+// {
+//     std::vector<electronInt> results;
+//     std::double_t delta = (1 / (4 * gammaA)) + (1 / (4 * gammaB));
+
+//     for (std::int64_t ii = 0; ii <= (shellA + shellB); ii++) // l loop
+//     {
+//         for (std::int64_t jj = 0; jj <= (ii / 2); jj++) // r loop
+//         {
+//             std::double_t aux = Huzinaga::expansionCoeff3(ii, jj, shellA, coordA, shellB, coordB, gaussCoordAB, gammaA) * pow(-1, ii);
+//             for (std::int64_t kk = 0; kk <= ((ii - 2 * jj) / 2); kk++) // l' loop
+//             {
+//                 for (std::int64_t ll = 0; ll <= (shellC + shellD); ll++) // r' loop
+//                 {
+//                     aux = aux * Huzinaga::expansionCoeff3(kk, ll, shellC, coordC, shellD, coordD, gaussCoordCD, gammaB);
+//                     for (std::int64_t mm = 0; mm <= (ll / 2); mm++) // i loop
+//                     {
+//                         electronInt result;
+//                         // calculate the value of the term
+//                         result.result = aux * pow(-1, mm) * pow(2 * delta, 2 * (jj + ll));
+//                         result.result = result.result * factorial(ii + kk - 2 * (jj + ll)) * pow(delta, mm);
+//                         result.result = result.result * pow(gaussCoordAB - gaussCoordCD, ii + kk - 2 * (jj + ll + mm));
+//                         result.result = result.result / pow(4 * delta, 2 * (ii + kk));
+//                         result.result = result.result / factorial(mm);
+//                         result.result = result.result / factorial(ii + kk - 2 * (jj + ll + mm));
+
+//                         // set up the indices
+//                         result.i = ii;
+//                         result.j = jj;
+//                         result.k = kk;
+//                         result.l = ll;
+//                         result.m = ii;
+
+//                         results.push_back(result);
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     return results;
+// }

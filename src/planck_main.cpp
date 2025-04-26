@@ -138,16 +138,16 @@ int main(int argc, char const *argv[])
         scfData scf_data_beta;
 
         scf_data_alpha.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
-        scf_data_beta.coreMatrix  = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
+        scf_data_beta.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
 
         // Lodwin orthogonolization
         Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planck_integrals.overlapMatrix);
-        Eigen::VectorXd vector      = eigenSolver.eigenvalues().array().sqrt().inverse();
-        Eigen::MatrixXd halfMatrix  = vector.asDiagonal();
+        Eigen::VectorXd vector = eigenSolver.eigenvalues().array().sqrt().inverse();
+        Eigen::MatrixXd halfMatrix = vector.asDiagonal();
         Eigen::MatrixXd rightMatrix = eigenSolver.eigenvectors() * halfMatrix;
 
         scf_data_alpha.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
-        scf_data_beta.orthoMatrix  = rightMatrix * eigenSolver.eigenvectors().transpose();
+        scf_data_beta.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
 
         // verify if the transformation is correct (do only for alpha)
         Eigen::MatrixXd LHS = scf_data_alpha.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data_alpha.orthoMatrix;
@@ -165,6 +165,9 @@ int main(int argc, char const *argv[])
     }
     if (planck_calculator.calculation_theory[0] == 'r')
     {
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+
         // initiate SCF data and variables
         scfData scf_data;
         scf_data.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
@@ -181,13 +184,64 @@ int main(int argc, char const *argv[])
         Eigen::MatrixXd LHS = scf_data.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data.orthoMatrix;
         Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
 
-        assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+        assert((LHS - RHS).norm() < 1e-6); // assert that the difference must be very close to zero
 
         scf_data.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
         scf_data.hamiltonianMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
         scf_data.densityMatrix = Eigen::MatrixXd::Random(planck_calculator.total_basis, planck_calculator.total_basis);
-        
-        noDiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons);
+
+        std::uint64_t scf_step = 0;
+        do
+        {
+            scf_step++;
+            if (scf_step < 10 || !planck_calculator.use_diis)
+            {
+                noDiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons);
+                // continue;
+            }
+            if (scf_step >= 10 && planck_calculator.use_diis)
+            {
+                DiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons, planck_integrals.overlapMatrix, planck_calculator.diis_dim);
+            }
+
+            // print out scf data
+            std::cout << std::setw(20) << std::left << "[Planck]"
+                      << std::setw(20) << std::fixed << std::right << scf_step
+                      << std::setw(20) << std::fixed << std::right << scf_data.maxDensity
+                      << std::setw(20) << std::fixed << std::right << scf_data.rmsDensity
+                      << "\n";
+
+            scf_data.scf_converged = scf_data.rmsDensity <= planck_calculator.tol_scf ? true : false;
+        } while (scf_step <= planck_calculator.max_scf && !scf_data.scf_converged);
+
+        if (scf_data.scf_converged)
+        {
+            std::uint64_t nBasis = scf_data.orbitalEnegies.size();
+            std::uint64_t nOccupied = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
+
+            std::cout << std::setw(20) << std::left << "[Planck]";
+            for (std::uint64_t row = 0; row <= nOccupied; row++)
+            {
+                std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
+                if ((row > 0) && (row % 5 == 0))
+                    std::cout << "\n"
+                              << std::setw(20) << std::left << "[Planck] ";
+            }
+            std::cout << "\n";
+            std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
+            std::uint64_t nVirtual = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
+
+            std::cout << std::setw(20) << std::left << "[Planck]";
+            for (std::uint64_t row = nOccupied + 1; row < nBasis; row++)
+            {
+                std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
+                if ((row > 0) && (row % 5 == 0))
+                    std::cout << "\n"
+                              << std::setw(20) << std::left << "[Planck] ";
+            }
+            std::cout << "\n";
+            std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
+        }
     }
 
     // free manually allocated buffers

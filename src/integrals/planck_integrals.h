@@ -25,3 +25,4 @@ void computeKinetic(cxx_Calculator *planckCalculator, Eigen::MatrixXd &kineticMa
 void computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, cxx_Calculator *planckCalculator, Eigen::MatrixXd &nuclearMatrix);
 std::vector<eriShell> schwartzScreeing(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);
 void computeElectronic(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);
+void computeElectronicFull(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);

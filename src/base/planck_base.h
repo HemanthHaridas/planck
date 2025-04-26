@@ -104,12 +104,14 @@ struct cxx_Calculator
     std::double_t tol_eri = TOLERI;
     std::double_t tol_scf = TOLSCF;
 
-    std::string calculation_basis = DEFAULT_BASIS;
+    std::string calculation_basis  = DEFAULT_BASIS;
     std::string calculation_theory = DEFAULT_BASIS;
-    std::string calculation_type = DEFAULT_CALC;
-    std::string coordinate_type = DEFAULT_COORD;
+    std::string calculation_type   = DEFAULT_CALC;
+    std::string coordinate_type    = DEFAULT_COORD;
+    
     std::uint64_t max_iter = MAXITER;
-    std::uint64_t max_scf = MAXSCF;
+    std::uint64_t max_scf  = MAXSCF;
+    std::uint64_t diis_dim = 6;
 
     bool use_diis = USE_DIIS;
 
@@ -139,7 +141,7 @@ struct scfData
     Eigen::MatrixXd orthoMatrix;
     Eigen::MatrixXd coreMatrix;
     Eigen::MatrixXd densityMatrix;
-    
+
     // Eigen matrices for MOs
     Eigen::MatrixXd canonicalMO;
     Eigen::MatrixXd orthogonalMO;
@@ -147,8 +149,15 @@ struct scfData
     // Eigen vectors for energies
     Eigen::VectorXd orbitalEnegies;
 
+    // convergence variables
     std::double_t maxDensity;
     std::double_t rmsDensity;
+
+    // fock instances
+    std::vector<Eigen::MatrixXd> fockMatrices;
+    std::vector<Eigen::MatrixXd> errorVectors;
+
+    bool scf_converged = false;
 };
 
 struct cxx_Gaussians

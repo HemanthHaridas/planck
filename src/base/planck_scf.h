@@ -23,3 +23,5 @@
 #include <Eigen/Dense>
 
 void noDiisRHF(scfData *scfInstance, const Eigen::Tensor<std::double_t, 4> &electronicMatrix, const std::uint64_t nElectrons);
+void DiisRHF(scfData *scfInstance, const Eigen::Tensor<std::double_t, 4> &electronicMatrix, const std::uint64_t nElectrons, const Eigen::MatrixXd &overlapMatrix, const std::uint64_t diisDim);
+void diisEngine(Eigen::MatrixXd &fockMatrix, const Eigen::MatrixXd &orthoMatrix, const Eigen::MatrixXd &densityMatrix, const Eigen::MatrixXd &overlapMatrix, std::vector<Eigen::MatrixXd> &fockMatrices, std::vector<Eigen::MatrixXd> &errorMatrices, const std::uint64_t diisDim);

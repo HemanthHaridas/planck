@@ -115,7 +115,7 @@ void computeElectronic(cxx_Calculator *planckCalculator, Eigen::Tensor<std::doub
         std::int64_t jj = std::get<1>(braket);
         std::int64_t kk = std::get<2>(braket);
         std::int64_t ll = std::get<3>(braket);
-        
+
         std::double_t value = Huzinaga::computeElectronic(&planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj], &planckCalculator->calculation_set[kk], &planckCalculator->calculation_set[ll]);
 
         // Assign the value to all configurations in the 8-fold symmetry
@@ -128,5 +128,38 @@ void computeElectronic(cxx_Calculator *planckCalculator, Eigen::Tensor<std::doub
         electronMatrix(ll, kk, ii, jj) = value;
         electronMatrix(kk, ll, jj, ii) = value;
         electronMatrix(ll, kk, jj, ii) = value;
+    }
+}
+
+void computeElectronicFull(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix)
+{
+    // get the number of basis functions
+    std::uint64_t nBasis = planckCalculator->total_basis;
+    for (std::int64_t ii = 0; ii < nBasis; ii++)
+    {
+        for (std::int64_t jj = 0; jj < nBasis; jj++)
+        {
+            for (std::int64_t kk = 0; kk < nBasis; kk++)
+            {
+                for (std::int64_t ll = 0; ll < nBasis; ll++)
+                {
+                    if ((ii <= jj) && (kk <= ll) && (ii * jj) <= (kk * ll))
+                    {
+                        std::double_t value = Huzinaga::computeElectronic(&planckCalculator->calculation_set[ii], &planckCalculator->calculation_set[jj], &planckCalculator->calculation_set[kk], &planckCalculator->calculation_set[ll]);
+
+                        // Assign the value to all configurations in the 8-fold symmetry
+                        electronMatrix(ii, jj, kk, ll) = value;
+                        electronMatrix(jj, ii, kk, ll) = value;
+                        electronMatrix(ii, jj, ll, kk) = value;
+                        electronMatrix(jj, ii, ll, kk) = value;
+
+                        electronMatrix(kk, ll, ii, jj) = value;
+                        electronMatrix(ll, kk, ii, jj) = value;
+                        electronMatrix(kk, ll, jj, ii) = value;
+                        electronMatrix(ll, kk, jj, ii) = value;
+                    }
+                }
+            }
+        }
     }
 }

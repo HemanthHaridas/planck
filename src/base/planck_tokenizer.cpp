@@ -71,10 +71,12 @@ void tokenizeInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, 
         {"BASIS_PATH",  [planckCalculator](std::string value){ planckCalculator->basis_path         = toLower(value);}}};
 
     std::unordered_map<std::string, std::function<void(std::string)>> handlers_control = {
-        {"MAXITER", [planckCalculator](std::string value){  planckCalculator->max_iter  = std::stoi(value); }},
-        {"MAXSCF",  [planckCalculator](std::string value){  planckCalculator->max_scf   = std::stoi(value); }},
-        {"TOLSCF",  [planckCalculator](std::string value){  planckCalculator->tol_scf   = std::stod(value); }},
-        {"TOLERI",  [planckCalculator](std::string value){  planckCalculator->tol_eri   = std::stod(value); }}};
+        {"MAXITER",     [planckCalculator](std::string value){  planckCalculator->max_iter  = std::stoi(value); }},
+        {"MAXSCF",      [planckCalculator](std::string value){  planckCalculator->max_scf   = std::stoi(value); }},
+        {"TOLSCF",      [planckCalculator](std::string value){  planckCalculator->tol_scf   = std::stod(value); }},
+        {"TOLERI",      [planckCalculator](std::string value){  planckCalculator->tol_eri   = std::stod(value); }},
+        {"DIIS_DIM",    [planckCalculator](std::string value){  planckCalculator->diis_dim  = std::stod(value); }}
+        };
 
     // now read the input file
     while (getline(*filePointer, inputLine))
@@ -147,7 +149,7 @@ void tokenizeInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, 
                     inputMolecule->input_coordinates[ii * 3 + 2] = zCoord;
                     planckCalculator->total_electrons += atomicNumber[atomName];
                 }
-                planckCalculator->total_electrons = planckCalculator->total_electrons + planckCalculator->molecule_charge;
+                planckCalculator->total_electrons = planckCalculator->total_electrons - planckCalculator->molecule_charge;
             }
             if (headerLine.compare("CONTROL") == 0) // Use proper comparison
             {

@@ -490,7 +490,7 @@ std::vector<electronInt> Huzinaga::Intermediates(const std::int64_t shellA, cons
                         result.result = aux * pow(-1, mm) * pow(2 * delta, 2 * (jj + ll));
                         result.result = result.result * factorial(ii + kk - 2 * (jj + ll)) * pow(delta, mm);
                         result.result = result.result * pow(gaussCoordAB - gaussCoordCD, ii + kk - 2 * (jj + ll + mm));
-                        result.result = result.result / pow(4 * delta, 2 * (ii + kk));
+                        result.result = result.result / pow(4 * delta, 1 * (ii + kk));
                         result.result = result.result / factorial(mm);
                         result.result = result.result / factorial(ii + kk - 2 * (jj + ll + mm));
 

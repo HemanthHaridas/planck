@@ -1,5 +1,4 @@
 #pragma once
-
 /*-----------------------------------------------------------------------------
  * Planck
  * Copyright (C) 2024 Hemanth Haridas, University of Utah
@@ -17,12 +16,13 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
+#include <numeric>
+#include <cstring>
 #include <system_error>
-
 #include "../../base/planck_base.h"
+#include "../helper/planck_helper_routines.h"
 
-namespace ObaraSakia
+namespace Hermite
 {
-    std::double_t computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::error_code *errorFlag, std::string *errorMessage);
-    void computePrimitive(cxx_Primitive *primitiveA, std::double_t *locA, std::int64_t *shellA, cxx_Primitive *primitiveB, std::double_t *locB, std::int64_t *shellB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps);
-}
+    std::double_t expansionCoeff1(std::int64_t shell1, std::int64_t shell2, std::int64_t nodes, std::double_t centerA, std::double_t centerB, std::double_t expA, std::double_t expB);
+};

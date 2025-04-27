@@ -20,6 +20,7 @@
 #include <cmath>
 #include <map>
 #include <string>
+#include <cstdint>
 
 /*
  * This is a lookup table for atomic masses, atomic numbers and atomic radii for
@@ -31,3 +32,4 @@
 extern std::map<std::string, double> atomicMass;
 extern std::map<std::string, std::uint64_t> atomicNumber;
 extern std::map<std::string, std::double_t> atomicRadius;
+extern const std::double_t boysTable[][66];

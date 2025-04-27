@@ -23,13 +23,14 @@
 #include "base/planck_basis.h"
 #include "base/planck_io.h"
 #include "base/planck_symmetry.h"
-#include "base/planck_scf_driver.h"
 #include "math/planck_math.h"
+#include "base/planck_scf.h"
 
 int main(int argc, char const *argv[])
 {
     cxx_Calculator planck_calculator;
     cxx_Molecule input_molecule;
+    cxx_Integrals planck_integrals;
 
     std::error_code error_flag;
     std::string error_message;
@@ -44,7 +45,7 @@ int main(int argc, char const *argv[])
     // check if an input file is provided. Exit if not input file is provided
     if (argc < 2)
     {
-        std::cout << std::setw(20) << std::left << "[Error]   <= " << std::left << " Unable To Find An Input File. Please Run Planck As : planck input " << "\n";
+        std::cout << std::setw(20) << std::left << "[Error]    <= " << std::left << " Unable To Find An Input File. Please Run Planck As : planck input " << "\n";
         exit(-1);
     }
 
@@ -52,12 +53,21 @@ int main(int argc, char const *argv[])
     std::string input_file = argv[1];
     std::fstream file_pointer(input_file);
 
+    // first check if a planck.defaults file is available
+    std::fstream defaultPointer("planck.defaults");
+    if (defaultPointer)
+    {
+        std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Found planck.defaults file" << "\n";
+        std::getline(defaultPointer, planck_calculator.basis_path);
+    }
+
+    // tokenizeInput(&file_pointer, &planck_calculator, &input_molecule, &error_flag, &error_message);
     readInput(&file_pointer, &planck_calculator, &input_molecule, &error_flag, &error_message);
 
     // check if input file was parsed correctly
     if (error_flag && error_flag.value() != std::make_error_code(std::errc::protocol_error).value())
     {
-        std::cout << std::setw(21) << std::left << "[Error]   <=  " << std::left << error_message << "\n";
+        std::cout << std::setw(21) << std::left << "[Error]    <= " << std::left << error_message << "\n";
         exit(error_flag.value());
     }
 
@@ -69,7 +79,7 @@ int main(int argc, char const *argv[])
         std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     }
 
-    if (input_molecule.use_pgsymmetry == 1)
+    if (planck_calculator.use_pgsymmetry)
     {
         // now symmetrize the molecule and process the errors
         detectSymmetry(&input_molecule, planck_calculator.total_atoms, &error_flag, &error_message);
@@ -92,7 +102,7 @@ int main(int argc, char const *argv[])
 
     // now read the basis sets
     readBasis(&input_molecule, &planck_calculator, &error_flag, &error_message);
-    
+
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
     std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
 
@@ -101,52 +111,158 @@ int main(int argc, char const *argv[])
         std::cout << std::setw(21) << std::left << "[Error]   <=  " << std::left << error_message << "\n";
         exit(error_flag.value());
     }
-    
+
     // start dumping the input file
     dumpInput(&planck_calculator, &input_molecule);
 
-    // std::uint64_t totalMemory;
+    // initialize all matrices
+    planck_integrals.overlapMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_integrals.kineticMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_integrals.nuclearMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+    planck_integrals.electronicMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis, planck_calculator.total_basis);
 
-    // preallocate the buffers
-    planck_calculator.overlap = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    planck_calculator.kinetic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    planck_calculator.nuclear = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    planck_calculator.electronic = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    // compute all matrices first
+    computeOverlap(&planck_calculator, planck_integrals.overlapMatrix);
+    computeKinetic(&planck_calculator, planck_integrals.kineticMatrix);
+    computeNuclear(input_molecule.standard_coordinates, input_molecule.atom_numbers, &planck_calculator, planck_integrals.nuclearMatrix);
 
-    // memset all the buffers to zero to avoid junk values
-    memset(planck_calculator.overlap,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.kinetic,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.nuclear,    0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-    memset(planck_calculator.electronic, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+    std::uint64_t nERI = pow(planck_calculator.total_basis, 4); // This is the naive number of ERIs to be computed
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Initial Number of Electron Repulsion Integrals : " << nERI << "\n";
 
-    // if theory is uhf => allocate twice bug size for fock matrix
-    if (planck_calculator.is_unrestricted)
+    computeElectronic(&planck_calculator, planck_integrals.electronicMatrix);
+    std::double_t nucEnergy = nuclearEnergy(input_molecule.atom_numbers, input_molecule.standard_coordinates, planck_calculator.total_atoms);
+
+    if (planck_calculator.calculation_theory[0] == 'u')
     {
-        planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
-        memset(planck_calculator.fock, 0, sizeof(std::double_t) * 4 * planck_calculator.total_basis * planck_calculator.total_basis);
+        // initiate SCF data and variables
+        scfData scf_data_alpha;
+        scfData scf_data_beta;
+
+        scf_data_alpha.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
+        scf_data_beta.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
+
+        // Lodwin orthogonolization
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planck_integrals.overlapMatrix);
+        Eigen::VectorXd vector = eigenSolver.eigenvalues().array().sqrt().inverse();
+        Eigen::MatrixXd halfMatrix = vector.asDiagonal();
+        Eigen::MatrixXd rightMatrix = eigenSolver.eigenvectors() * halfMatrix;
+
+        scf_data_alpha.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
+        scf_data_beta.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
+
+        // verify if the transformation is correct (do only for alpha)
+        Eigen::MatrixXd LHS = scf_data_alpha.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data_alpha.orthoMatrix;
+        Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
+
+        assert((LHS - RHS).norm() < 1e-6); // aseert that the difference must be very close to zero
+
+        // initialize the coefficent matrix
+        scf_data_alpha.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data_beta.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+
+        // initialize the hamiltonian matrix
+        scf_data_alpha.hamiltonianMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data_beta.hamiltonianMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
     }
-    else
+    if (planck_calculator.calculation_theory[0] == 'r')
     {
-        planck_calculator.fock = (std::double_t *)malloc(sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
-        memset(planck_calculator.fock, 0, sizeof(std::double_t) * planck_calculator.total_basis * planck_calculator.total_basis);
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+        std::cout << std::setw(20) << std::left << "[Planck] " << "\n";
+
+        // initiate SCF data and variables
+        scfData scf_data;
+        scf_data.coreMatrix = planck_integrals.kineticMatrix + planck_integrals.nuclearMatrix;
+
+        // Lodwin orthogonolization
+        Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigenSolver(planck_integrals.overlapMatrix);
+        Eigen::VectorXd vector = eigenSolver.eigenvalues().array().sqrt().inverse();
+        Eigen::MatrixXd halfMatrix = vector.asDiagonal();
+        Eigen::MatrixXd rightMatrix = eigenSolver.eigenvectors() * halfMatrix;
+
+        scf_data.orthoMatrix = rightMatrix * eigenSolver.eigenvectors().transpose();
+
+        // // verify if the transformation is correct
+        Eigen::MatrixXd LHS = scf_data.orthoMatrix.transpose() * planck_integrals.overlapMatrix * scf_data.orthoMatrix;
+        Eigen::MatrixXd RHS = Eigen::MatrixXd::Identity(planck_calculator.total_basis, planck_calculator.total_basis);
+
+        assert((LHS - RHS).norm() < 1e-6); // assert that the difference must be very close to zero
+
+        scf_data.canonicalMO.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data.hamiltonianMatrix.resize(planck_calculator.total_basis, planck_calculator.total_basis);
+        scf_data.densityMatrix = Eigen::MatrixXd::Random(planck_calculator.total_basis, planck_calculator.total_basis);
+
+        std::uint64_t scf_step = 0;
+        do
+        {
+            scf_step++;
+            if (scf_step < 2 || !planck_calculator.use_diis)
+            {
+                noDiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons);
+                // generateSALC(&input_molecule, scf_data.canonicalMO, planck_calculator.calculation_set, planck_calculator.total_atoms, &error_flag, &error_message);
+                // continue;
+            }
+            if (scf_step >= 2 && planck_calculator.use_diis)
+            {
+                // std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Staring DIIS" << "\n";
+                DiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons, planck_integrals.overlapMatrix, planck_calculator.diis_dim);
+            }
+            // if (scf_step >= 25 && !scf_data.scf_converged)
+            // {
+            //     planck_calculator.use_diis = false;
+            //     soSCF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons);
+            // }
+            // print out scf data
+            scf_data.scfEnergy = scfEnergy(&scf_data) + nucEnergy;
+            std::cout << std::setw(20) << std::left << "[Planck]"
+                      << std::setw(20) << std::fixed << std::right << scf_step
+                      << std::setw(20) << std::fixed << std::right << scf_data.maxDensity
+                      << std::setw(20) << std::fixed << std::right << scf_data.rmsDensity
+                      << std::setw(20) << std::fixed << std::right << scf_data.scfEnergy
+                      << "\n";
+
+            scf_data.scf_converged = scf_data.rmsDensity <= planck_calculator.tol_scf ? true : false;
+        } while (scf_step <= planck_calculator.max_scf && !scf_data.scf_converged);
+
+        // if (scf_data.scf_converged)
+        // {
+        //     std::uint64_t nBasis = scf_data.orbitalEnegies.size();
+        //     std::uint64_t nOccupied = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
+
+        //     std::cout << std::setw(20) << std::left << "[Planck]";
+        //     for (std::uint64_t row = 0; row < nOccupied; row++)
+        //     {
+        //         std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
+        //         if ((row > 0) && (row % 5 == 0))
+        //             std::cout << "\n"
+        //                       << std::setw(20) << std::left << "[Planck] ";
+        //     }
+        //     std::cout << "\n";
+        //     std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
+        //     std::uint64_t nVirtual = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
+
+        //     std::cout << std::setw(20) << std::left << "[Planck]";
+        //     for (std::uint64_t row = nOccupied; row < nBasis; row++)
+        //     {
+        //         std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
+        //         if ((row > 0) && (row % 5 == 0))
+        //             std::cout << "\n"
+        //                       << std::setw(20) << std::left << "[Planck] ";
+        //     }
+        //     std::cout << "\n";
+        //     std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
+        //     // std::cout << scf_data.canonicalMO << "\n";
+        // }
     }
-     
-    computeOverlap(&planck_calculator, &error_flag, &error_message);
-    computeKinetic(&planck_calculator, &error_flag, &error_message);
 
-    // dump integrals
-    // dumpIntegral(planck_calculator.overlap, planck_calculator.total_basis * planck_calculator.total_basis, "overlap", input_file);
-    // dumpIntegral(planck_calculator.kinetic, planck_calculator.total_basis * planck_calculator.total_basis, "kinetic", input_file);
-
-    // free the allocated buffers
-    free(planck_calculator.overlap);
-    free(planck_calculator.kinetic);
-    free(planck_calculator.nuclear);
-    free(planck_calculator.electronic);
-    free(planck_calculator.fock);
-
+    // free manually allocated buffers
     free(input_molecule.input_coordinates);
-    free(input_molecule.standard_coordinates);
+
+    // free only if the point group symmetry is enabled
+    if (planck_calculator.use_pgsymmetry)
+    {
+        free(input_molecule.standard_coordinates);
+    }
+
     free(input_molecule.atom_masses);
     free(input_molecule.atom_numbers);
 

@@ -26,3 +26,4 @@
 
 // void calculateInertia(cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);
 void detectSymmetry(cxx_Molecule *inputMolecule, std::uint64_t nAtoms, std::error_code *errorFlag, std::string *errorMessage);
+void generateSALC(cxx_Molecule *inputMolecule, Eigen::MatrixXd &canonicalCoeffs, const std::vector<cxx_Contracted> &calculation_set, std::uint64_t nAtoms, std::error_code *errorFlag, std::string *errorMessage);

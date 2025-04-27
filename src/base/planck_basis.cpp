@@ -28,8 +28,7 @@ void readBasis(cxx_Molecule *inputMolecule, cxx_Calculator *planckCalculator, st
     std::uint64_t cgtoIndex = 0;
     std::uint64_t pgtoIndex = 0;
 
-    // 
-    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << "Reading basis sets"<< "\n";
+    std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << "Reading basis sets" << "\n";
     for (std::uint64_t atomIndex = 0; atomIndex < planckCalculator->total_atoms; atomIndex++)
     {
         std::string basisFile = planckCalculator->basis_path + "/" + planckCalculator->calculation_basis + "-" + std::to_string(inputMolecule->atom_numbers[atomIndex]) + ".xml";
@@ -84,7 +83,10 @@ void readBasis(cxx_Molecule *inputMolecule, cxx_Calculator *planckCalculator, st
                 basisShell.contracted_GTO.push_back(primitiveGTO);
                 pgtoIndex++;
             }
-            basisShell.cgto_index = cgtoIndex;
+            basisShell.cgto_index  = cgtoIndex;
+            basisShell.parent_atom = inputMolecule->atom_numbers[atomIndex];
+            basisShell.atom_index  = atomIndex;
+            basisShell.atom_mass   = inputMolecule->atom_masses[atomIndex];
             planckCalculator->calculation_set.push_back(basisShell);
             cgtoIndex++;
         }

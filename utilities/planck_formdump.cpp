@@ -48,8 +48,8 @@ void formatBinaryDump(std::fstream *filePointer, std::fstream *outPointer, std::
     }
 
     // now write the header section
-    std::ostringstream oss;
-    oss << "&FCI NORB=" << static_cast<int>(sqrt(fileContents.size())) << "NELEC=";
+    // std::ostringstream oss;
+    // oss << "& NORB=" << static_cast<int>(sqrt(fileContents.size())) << "NELEC=";
     // std::string headerLine = oss.str();
     // std::cout << headerLine.size() << "\n";
     // outPointer->write(headerLine.c_str(), headerLine.size());

@@ -1,5 +1,4 @@
 #pragma once
-
 /*-----------------------------------------------------------------------------
  * Planck
  * Copyright (C) 2024 Hemanth Haridas, University of Utah
@@ -17,5 +16,12 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include "../integrals/helper/planck_helper_routines.h"
-#include "../integrals/planck_integrals.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <system_error>
+#include <functional>
+
+#include "planck_base.h"
+
+void tokenizeInput(std::fstream *filePointer, cxx_Calculator *planckCalculator, cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);

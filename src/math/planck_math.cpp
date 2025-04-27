@@ -17,7 +17,7 @@
 
 #include "planck_math.h"
 
-std::double_t factorial(std::int64_t number)
+std::uint64_t factorial(std::int64_t number)
 {
     // check if number is less than zero
     if (number < 0)
@@ -33,7 +33,7 @@ std::double_t factorial(std::int64_t number)
     return result;
 }
 
-std::double_t combination(std::int64_t number, std::int64_t choice)
+std::uint64_t combination(std::int64_t number, std::int64_t choice)
 {
     // check if number is less than zero
     if (number < choice)
@@ -46,7 +46,7 @@ std::double_t combination(std::int64_t number, std::int64_t choice)
     return (numerator / denominator);
 }
 
-std::double_t doublefactorial(std::int64_t number)
+std::uint64_t doublefactorial(std::int64_t number)
 {
     // check if number is less than -1
     if (number < -1)

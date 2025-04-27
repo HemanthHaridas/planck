@@ -130,6 +130,7 @@ int main(int argc, char const *argv[])
     std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Initial Number of Electron Repulsion Integrals : " << nERI << "\n";
 
     computeElectronic(&planck_calculator, planck_integrals.electronicMatrix);
+    std::double_t nucEnergy = nuclearEnergy(input_molecule.atom_numbers, input_molecule.standard_coordinates, planck_calculator.total_atoms);
 
     if (planck_calculator.calculation_theory[0] == 'u')
     {
@@ -194,54 +195,63 @@ int main(int argc, char const *argv[])
         do
         {
             scf_step++;
-            if (scf_step < 10 || !planck_calculator.use_diis)
+            if (scf_step < 2 || !planck_calculator.use_diis)
             {
                 noDiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons);
+                // generateSALC(&input_molecule, scf_data.canonicalMO, planck_calculator.calculation_set, planck_calculator.total_atoms, &error_flag, &error_message);
                 // continue;
             }
-            if (scf_step >= 10 && planck_calculator.use_diis)
+            if (scf_step >= 2 && planck_calculator.use_diis)
             {
+                // std::cout << std::setw(20) << std::left << "[Planck]   => " << std::setw(35) << std::left << " Staring DIIS" << "\n";
                 DiisRHF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons, planck_integrals.overlapMatrix, planck_calculator.diis_dim);
             }
-
+            // if (scf_step >= 25 && !scf_data.scf_converged)
+            // {
+            //     planck_calculator.use_diis = false;
+            //     soSCF(&scf_data, planck_integrals.electronicMatrix, planck_calculator.total_electrons);
+            // }
             // print out scf data
+            scf_data.scfEnergy = scfEnergy(&scf_data) + nucEnergy;
             std::cout << std::setw(20) << std::left << "[Planck]"
                       << std::setw(20) << std::fixed << std::right << scf_step
                       << std::setw(20) << std::fixed << std::right << scf_data.maxDensity
                       << std::setw(20) << std::fixed << std::right << scf_data.rmsDensity
+                      << std::setw(20) << std::fixed << std::right << scf_data.scfEnergy
                       << "\n";
 
             scf_data.scf_converged = scf_data.rmsDensity <= planck_calculator.tol_scf ? true : false;
         } while (scf_step <= planck_calculator.max_scf && !scf_data.scf_converged);
 
-        if (scf_data.scf_converged)
-        {
-            std::uint64_t nBasis = scf_data.orbitalEnegies.size();
-            std::uint64_t nOccupied = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
+        // if (scf_data.scf_converged)
+        // {
+        //     std::uint64_t nBasis = scf_data.orbitalEnegies.size();
+        //     std::uint64_t nOccupied = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
 
-            std::cout << std::setw(20) << std::left << "[Planck]";
-            for (std::uint64_t row = 0; row <= nOccupied; row++)
-            {
-                std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
-                if ((row > 0) && (row % 5 == 0))
-                    std::cout << "\n"
-                              << std::setw(20) << std::left << "[Planck] ";
-            }
-            std::cout << "\n";
-            std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
-            std::uint64_t nVirtual = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
+        //     std::cout << std::setw(20) << std::left << "[Planck]";
+        //     for (std::uint64_t row = 0; row < nOccupied; row++)
+        //     {
+        //         std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
+        //         if ((row > 0) && (row % 5 == 0))
+        //             std::cout << "\n"
+        //                       << std::setw(20) << std::left << "[Planck] ";
+        //     }
+        //     std::cout << "\n";
+        //     std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
+        //     std::uint64_t nVirtual = static_cast<std::uint64_t>(planck_calculator.total_electrons / 2);
 
-            std::cout << std::setw(20) << std::left << "[Planck]";
-            for (std::uint64_t row = nOccupied + 1; row < nBasis; row++)
-            {
-                std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
-                if ((row > 0) && (row % 5 == 0))
-                    std::cout << "\n"
-                              << std::setw(20) << std::left << "[Planck] ";
-            }
-            std::cout << "\n";
-            std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
-        }
+        //     std::cout << std::setw(20) << std::left << "[Planck]";
+        //     for (std::uint64_t row = nOccupied; row < nBasis; row++)
+        //     {
+        //         std::cout << std::setw(20) << std::right << scf_data.orbitalEnegies(row);
+        //         if ((row > 0) && (row % 5 == 0))
+        //             std::cout << "\n"
+        //                       << std::setw(20) << std::left << "[Planck] ";
+        //     }
+        //     std::cout << "\n";
+        //     std::cout << std::setw(20) << std::left << "[Planck]" << "\n";
+        //     // std::cout << scf_data.canonicalMO << "\n";
+        // }
     }
 
     // free manually allocated buffers

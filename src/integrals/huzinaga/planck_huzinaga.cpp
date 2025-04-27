@@ -441,7 +441,7 @@ std::double_t Huzinaga::computePrimitive(
             for (auto zVal : zDir)
             {
                 std::double_t boysP = dotproduct(productGaussianAB.gaussian_center[0], productGaussianAB.gaussian_center[1], productGaussianAB.gaussian_center[2], productGaussianCD.gaussian_center[0], productGaussianCD.gaussian_center[1], productGaussianCD.gaussian_center[2]) * (1 / (4 * f_gamma));
-                std::uint64_t boysI = (xVal.i + yVal.i + zVal.i + xVal.l + yVal.l + zVal.l) - 2 * (xVal.j + yVal.j + zVal.j + xVal.m + yVal.m + zVal.m) - (xVal.k + yVal.k + zVal.k);
+                std::uint64_t boysI = (xVal.i + yVal.i + zVal.i + xVal.k + yVal.k + zVal.k) - 2 * (xVal.j + yVal.j + zVal.j + xVal.l + yVal.l + zVal.l) - (xVal.m + yVal.m + zVal.m);
                 std::double_t boysF = boysFunction(boysI, boysP);
                 primitiveIntegral = primitiveIntegral + (xVal.result * yVal.result * zVal.result * boysF);
             }
@@ -483,7 +483,7 @@ std::vector<electronInt> Huzinaga::Intermediates(const std::int64_t shellA, cons
                 for (std::int64_t ll = 0; ll <= (kk / 2); ll++) // r' loop
                 {
                     aux = aux * Huzinaga::expansionCoeff3(kk, ll, shellC, coordC, shellD, coordD, gaussCoordCD, gammaB);
-                    for (std::int64_t mm = 0; mm <= (((ii + ll) - (2 * (jj + kk))) / 2); mm++) // i loop
+                    for (std::int64_t mm = 0; mm <= (((ii + kk) - (2 * (jj + ll))) / 2); mm++) // i loop
                     {
                         electronInt result;
                         // calculate the value of the term

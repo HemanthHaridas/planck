@@ -210,3 +210,51 @@ void diisEngine(Eigen::MatrixXd &fockMatrix, const Eigen::MatrixXd &orthoMatrix,
         fockMatrix = fockMatrix + (fockMatrices[ii] * diisWeights[ii]);
     }
 }
+
+void soSCF(scfData *scfInstance, const Eigen::Tensor<std::double_t, 4> &electronicMatrix, const std::uint64_t nElectrons)
+{
+    // first recompute the hamiltonian
+    generateHamiltoninan(scfInstance->densityMatrix, electronicMatrix, scfInstance->hamiltonianMatrix);
+
+    // compute fock matrix and orthogonalize it
+    scfInstance->fockMatrix = scfInstance->hamiltonianMatrix + scfInstance->coreMatrix;
+    scfInstance->orthoFock = scfInstance->orthoMatrix.conjugate().transpose() * scfInstance->fockMatrix * scfInstance->orthoMatrix;
+}
+
+std::double_t scfEnergy(scfData *scfInstance)
+{
+    std::double_t elecEnergy = 0.0;
+    const std::uint64_t nBasis = scfInstance->fockMatrix.rows();
+
+    for (std::uint64_t row = 0; row < nBasis; row++)
+    {
+        for (std::uint64_t col = 0; col < nBasis; col++)
+        {
+            elecEnergy = elecEnergy + (0.5 * scfInstance->densityMatrix(row, col) * (scfInstance->fockMatrix(row, col) + scfInstance->coreMatrix(row, col)));
+        }
+    }
+    return elecEnergy;
+}
+
+std::double_t nuclearEnergy(const std::uint64_t *atomNumbers, const std::double_t *atomCoords, const std::uint64_t nAtoms)
+{
+    std::double_t nucEnergy = 0.0;
+
+    for (std::uint64_t ii = 0; ii < nAtoms; ii++)
+    {
+        std::double_t xA = atomCoords[ii * 3 + 0];
+        std::double_t yA = atomCoords[ii * 3 + 1];
+        std::double_t zA = atomCoords[ii * 3 + 2];
+        std::uint64_t cA = atomNumbers[ii];
+        for (std::uint64_t jj = 0; jj < nAtoms && ii != jj; jj++)
+        {
+            std::double_t xB = atomCoords[jj * 3 + 0];
+            std::double_t yB = atomCoords[jj * 3 + 1];
+            std::double_t zB = atomCoords[jj * 3 + 2];
+            std::uint64_t cB = atomNumbers[jj];
+            std::double_t distance = dotproduct(xA, yA, zA, xB, yB, zB);
+            nucEnergy = nucEnergy + ((cA * cB) / sqrt(distance));
+        }
+    }
+    return nucEnergy;
+}

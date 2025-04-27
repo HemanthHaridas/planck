@@ -73,6 +73,11 @@ struct cxx_Contracted
 
     // list of primitive gaussians forming contracted gaussian
     std::vector<cxx_Primitive> contracted_GTO;
+
+    // needed for symmetry
+    std::uint64_t atom_index;
+    std::double_t atom_mass;
+    std::uint64_t parent_atom;
 };
 
 struct cxx_Molecule
@@ -152,7 +157,8 @@ struct scfData
     // convergence variables
     std::double_t maxDensity;
     std::double_t rmsDensity;
-
+    std::double_t scfEnergy;
+    
     // fock instances
     std::vector<Eigen::MatrixXd> fockMatrices;
     std::vector<Eigen::MatrixXd> errorVectors;

@@ -18,6 +18,7 @@
  ----------------------------------------------------------------------------*/
 
 #include "planck_base.h"
+#include "../math/planck_math.h"
 #include "../integrals/planck_integrals.h"
 
 #include <Eigen/Dense>
@@ -25,3 +26,7 @@
 void noDiisRHF(scfData *scfInstance, const Eigen::Tensor<std::double_t, 4> &electronicMatrix, const std::uint64_t nElectrons);
 void DiisRHF(scfData *scfInstance, const Eigen::Tensor<std::double_t, 4> &electronicMatrix, const std::uint64_t nElectrons, const Eigen::MatrixXd &overlapMatrix, const std::uint64_t diisDim);
 void diisEngine(Eigen::MatrixXd &fockMatrix, const Eigen::MatrixXd &orthoMatrix, const Eigen::MatrixXd &densityMatrix, const Eigen::MatrixXd &overlapMatrix, std::vector<Eigen::MatrixXd> &fockMatrices, std::vector<Eigen::MatrixXd> &errorMatrices, const std::uint64_t diisDim);
+void soSCF(scfData *scfInstance, const Eigen::Tensor<std::double_t, 4> &electronicMatrix, const std::uint64_t nElectrons);
+std::double_t scfEnergy(scfData *scfInstance);
+std::double_t nuclearEnergy(const std::uint64_t *atomNumbers, const std::double_t *atomCoords, const std::uint64_t nAtoms);
+// Eigen::VectorXd soSCF(Eigen::MatrixXd &fockMatrix, Eigen::MatrixXd &densityMatrix);

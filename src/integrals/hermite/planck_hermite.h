@@ -1,12 +1,4 @@
 #pragma once
-
-#include <system_error>
-
-#include "../external/libmsym/install/include/libmsym/msym.h"
-#include "../external/libmsym/install/include/libmsym/msym_EXPORTS.h"
-#include "../external/libmsym/install/include/libmsym/msym_error.h"
-#include "planck_base.h"
-
 /*-----------------------------------------------------------------------------
  * Planck
  * Copyright (C) 2024 Hemanth Haridas, University of Utah
@@ -24,6 +16,13 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-// void calculateInertia(cxx_Molecule *inputMolecule, std::error_code *errorFlag, std::string *errorMessage);
-void detectSymmetry(cxx_Molecule *inputMolecule, std::uint64_t nAtoms, std::error_code *errorFlag, std::string *errorMessage);
-void generateSALC(cxx_Molecule *inputMolecule, Eigen::MatrixXd &canonicalCoeffs, const std::vector<cxx_Contracted> &calculation_set, std::uint64_t nAtoms, std::error_code *errorFlag, std::string *errorMessage);
+#include <numeric>
+#include <cstring>
+#include <system_error>
+#include "../../base/planck_base.h"
+#include "../helper/planck_helper_routines.h"
+
+namespace Hermite
+{
+    std::double_t expansionCoeff1(std::int64_t shell1, std::int64_t shell2, std::int64_t nodes, std::double_t centerA, std::double_t centerB, std::double_t expA, std::double_t expB);
+};

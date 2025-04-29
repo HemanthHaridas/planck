@@ -16,19 +16,16 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-// Base files
-#include "../base/planck_base.h"
+#include "../../base/planck_base.h"
+#include "../../math/planck_math.h"
+#include "../helper/planck_helper_routines.h"
 
-// Huzinaga
-#include "huzinaga/planck_huzinaga.h"
-
-// Hermite
-#include "hermite/planck_hermite.h"
-
-// Obara Sakia
-#include "obarasakia/planck_obarasakia.h"
-namespace IntegralEngine
+namespace Hermite
 {
-    void computeOverlap(cxx_Calculator &planckCalculator, Eigen::MatrixXd &overlapMatrix);
-    void computeKinetic(cxx_Calculator &planckCalculator, Eigen::MatrixXd &kineticMatrix);
+    namespace Overlap
+    {
+        std::double_t computePrimitive1D(std::double_t exponentA, std::double_t centerA, std::int64_t shellA, std::double_t exponentB, std::double_t centerB, std::int64_t shellB, std::int64_t hermiteNodes);
+        std::double_t computePrimitive3D(cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB);
+        std::double_t computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB);
+    };
 };

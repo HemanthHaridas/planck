@@ -38,9 +38,9 @@
 std::double_t Huzinaga::Overlap::computePrimitive1D(std::double_t exponentA, std::double_t centerA, std::int64_t shellA, std::double_t exponentB, std::double_t centerB, std::int64_t shellB, std::double_t gaussianCenter)
 {
     std::double_t integral = 0.0;
-    for (std::int64_t ii = 0; ii < shellA + 1; ii++)
+    for (std::int64_t ii = 0; ii <= shellA; ii++)
     {
-        for (std::int64_t jj = 0; jj < shellB + 1; jj++)
+        for (std::int64_t jj = 0; jj <= shellB; jj++)
         {
             if ((ii + jj) % 2 == 0)
             {
@@ -62,10 +62,8 @@ std::double_t Huzinaga::Overlap::computePrimitive1D(std::double_t exponentA, std
 // This function calculates the integral of two contracted Gaussian-type orbitals (GTOs)
 // using their primitive components, location, shell information, and normalization factors.
 //
-// @param contractedGaussianA The first contracted Gaussian, containing its location,
-//        shell information, and a list of primitive Gaussians.
-// @param contractedGaussianB The second contracted Gaussian, containing its location,
-//        shell information, and a list of primitive Gaussians.
+// @param contractedGaussianA The first contracted Gaussian, containing its location, shell information, and a list of primitive Gaussians.
+// @param contractedGaussianB The second contracted Gaussian, containing its location, shell information, and a list of primitive Gaussians.
 // @return The computed value of the integral.
 
 std::double_t Huzinaga::Overlap::computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB)
@@ -98,9 +96,17 @@ std::double_t Huzinaga::Overlap::computeContracted(cxx_Contracted contractedGaus
     {
         for (std::uint64_t jj = 0; jj < nB; jj++)
         {
+            cxx_Gaussians productGaussianAB = computeGaussianProduct(contractedGaussianA.contracted_GTO[ii], xA, yA, zA, contractedGaussianB.contracted_GTO[jj], xB, yB, zB);
+
             std::double_t value = Huzinaga::Overlap::computePrimitive3D(
                 contractedGaussianA.contracted_GTO[ii], xA, yA, zA, lxA, lyA, lzA,
-                contractedGaussianB.contracted_GTO[jj], xB, yB, zB, lxB, lyB, lzB);
+                contractedGaussianB.contracted_GTO[jj], xB, yB, zB, lxB, lyB, lzB,
+                productGaussianAB.gaussian_center);
+
+            // contract the integrals
+            value = value * contractedGaussianA.contracted_GTO[ii].orbital_coeff * contractedGaussianA.contracted_GTO[ii].orbital_norm;
+            value = value * contractedGaussianB.contracted_GTO[jj].orbital_coeff * contractedGaussianB.contracted_GTO[jj].orbital_norm;
+            value = value * productGaussianAB.gaussian_integral[3];
 
             // collect the values;
             integral = integral + value;
@@ -132,67 +138,121 @@ std::double_t Huzinaga::Overlap::computeContracted(cxx_Contracted contractedGaus
 
 std::double_t Huzinaga::Overlap::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
-    cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB)
+    cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB,
+    std::double_t *gaussianCenter)
 {
-    cxx_Gaussians productGaussianAB = computeGaussianProduct(primitiveA, xA, yA, zA, primitiveB, xB, yB, zB);
-
     std::double_t exponentA = primitiveA.primitive_exp;
     std::double_t exponentB = primitiveB.primitive_exp;
 
-    std::double_t xValue = Huzinaga::Overlap::computePrimitive1D(exponentA, xA, lxA, exponentB, xB, lxB, productGaussianAB.gaussian_center[0]);
-    std::double_t yValue = Huzinaga::Overlap::computePrimitive1D(exponentA, yA, lyA, exponentB, yB, lyB, productGaussianAB.gaussian_center[1]);
-    std::double_t zValue = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA, exponentB, zB, lzB, productGaussianAB.gaussian_center[2]);
+    std::double_t xAB = gaussianCenter[0];
+    std::double_t yAB = gaussianCenter[1];
+    std::double_t zAB = gaussianCenter[2];
 
-    std::double_t integral3D = xValue * yValue * zValue * productGaussianAB.gaussian_integral[3] * pow(M_PI / (exponentA + exponentB), 1.5);
-    integral3D = integral3D * primitiveA.orbital_coeff * primitiveA.orbital_norm;
-    integral3D = integral3D * primitiveB.orbital_coeff * primitiveB.orbital_norm;
+    std::double_t xValue = Huzinaga::Overlap::computePrimitive1D(exponentA, xA, lxA, exponentB, xB, lxB, xAB);
+    std::double_t yValue = Huzinaga::Overlap::computePrimitive1D(exponentA, yA, lyA, exponentB, yB, lyB, yAB);
+    std::double_t zValue = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA, exponentB, zB, lzB, zAB);
+
+    std::double_t integral3D = xValue * yValue * zValue * pow(M_PI / (exponentA + exponentB), 1.5);
 
     return integral3D;
 }
 
+// @brief Computes the kinetic energy integral for two 3D Gaussian primitives.
+//
+// This function calculates the 3D kinetic energy integral between two Gaussian primitives, considering their exponents,
+// centers, angular momentum quantum numbers, and normalization coefficients.
+//
+// @param primitiveA The first Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
+// @param xA The x-coordinate of the center of the first primitive.
+// @param yA The y-coordinate of the center of the first primitive.
+// @param zA The z-coordinate of the center of the first primitive.
+// @param lxA The angular momentum quantum number along the x-axis for the first primitive.
+// @param lyA The angular momentum quantum number along the y-axis for the first primitive.
+// @param lzA The angular momentum quantum number along the z-axis for the first primitive.
+// @param primitiveB The second Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
+// @param xB The x-coordinate of the center of the second primitive.
+// @param yB The y-coordinate of the center of the second primitive.
+// @param zB The z-coordinate of the center of the second primitive.
+// @param lxB The angular momentum quantum number along the x-axis for the second primitive.
+// @param lyB The angular momentum quantum number along the y-axis for the second primitive.
+// @param lzB The angular momentum quantum number along the z-axis for the second primitive.
+// @param gaussianCenter Pointer to the coordinates of the center of the Gaussian product.
+// @return The computed kinetic energy integral as a double-precision floating-point number.
+
 std::double_t Huzinaga::Kinetic::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
-    cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB)
+    cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB,
+    std::double_t *gaussianCenter)
 {
-    cxx_Gaussians productGaussianAB = computeGaussianProduct(primitiveA, xA, yA, zA, primitiveB, xB, yB, zB);
+    std::double_t integral = Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB, lyB, lzB, gaussianCenter);
+    integral = integral * (primitiveB.primitive_exp * (2 * (lxB + lyB + lzB) + 3));
 
-    std::double_t exponentA = primitiveA.primitive_exp;
-    std::double_t exponentB = primitiveB.primitive_exp;
+    integral = integral - ((2 * pow(primitiveB.primitive_exp, 2)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB + 2, lyB, lzB, gaussianCenter)));
+    integral = integral - ((2 * pow(primitiveB.primitive_exp, 2)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB, lyB + 2, lzB, gaussianCenter)));
+    integral = integral - ((2 * pow(primitiveB.primitive_exp, 2)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB, lyB, lzB + 2, gaussianCenter)));
 
-    // first compute regular overlaps
-    std::double_t xOriginal = Huzinaga::Overlap::computePrimitive1D(exponentA, xA, lxA, exponentB, xB, lxB, productGaussianAB.gaussian_center[0]);
-    std::double_t yOriginal = Huzinaga::Overlap::computePrimitive1D(exponentA, yA, lyA, exponentB, yB, lyB, productGaussianAB.gaussian_center[1]);
-    std::double_t zOriginal = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA, exponentB, zB, lzB, productGaussianAB.gaussian_center[2]);
+    integral = integral - ((0.5 * lxB * (lxB - 1)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB - 2, lyB, lzB, gaussianCenter)));
+    integral = integral - ((0.5 * lyB * (lyB - 1)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB, lyB - 2, lzB, gaussianCenter)));
+    integral = integral - ((0.5 * lzB * (lzB - 1)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB, lyB, lzB - 2, gaussianCenter)));
 
-    // now compute the (-,-,-,-) overlaps
-    std::double_t xNN = Huzinaga::Overlap::computePrimitive1D(exponentA, xA, lxA - 1, exponentB, xB, lxB - 1, productGaussianAB.gaussian_center[0]);
-    std::double_t yNN = Huzinaga::Overlap::computePrimitive1D(exponentA, yA, lyA - 1, exponentB, yB, lyB - 1, productGaussianAB.gaussian_center[1]);
-    std::double_t zNN = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA - 1, exponentB, zB, lzB - 1, productGaussianAB.gaussian_center[2]);
+    return integral;
+}
 
-    // now compute the (+,+,+,+) overlaps
-    std::double_t xPP = Huzinaga::Overlap::computePrimitive1D(exponentA, xA, lxA + 1, exponentB, xB, lxB + 1, productGaussianAB.gaussian_center[0]);
-    std::double_t yPP = Huzinaga::Overlap::computePrimitive1D(exponentA, yA, lyA + 1, exponentB, yB, lyB + 1, productGaussianAB.gaussian_center[1]);
-    std::double_t zPP = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA + 1, exponentB, zB, lzB + 1, productGaussianAB.gaussian_center[2]);
+// @brief Computes the contracted kinetic energy integral between two sets of Gaussian primitives.
+//
+// This function calculates the kinetic energy integral between two contracted Gaussian orbitals,
+// each consisting of multiple Gaussian primitives. The integrals are computed by looping through
+// all possible pairs of primitives from the two contracted Gaussians.
+//
+// @param contractedGaussianA The first contracted Gaussian containing its location, angular momentum, and a list of Gaussian primitives (exponent, coefficients, normalization factor).
+// @param contractedGaussianB The second contracted Gaussian containing its location, angular momentum, and a list of Gaussian primitives (exponent, coefficients, normalization factor).
+// @return The computed contracted kinetic energy integral as a double-precision floating-point number.
 
-    // now compute the (-,+,-,+) overlaps
-    std::double_t xNP = Huzinaga::Overlap::computePrimitive1D(exponentA, xA, lxA - 1, exponentB, xB, lxB + 1, productGaussianAB.gaussian_center[0]);
-    std::double_t yNP = Huzinaga::Overlap::computePrimitive1D(exponentA, yA, lyA - 1, exponentB, yB, lyB + 1, productGaussianAB.gaussian_center[1]);
-    std::double_t zNP = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA - 1, exponentB, zB, lzB + 1, productGaussianAB.gaussian_center[2]);
+std::double_t Huzinaga::Kinetic::computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB)
+{
+    // data for first shell
+    std::double_t xA = contractedGaussianA.location_x;
+    std::double_t yA = contractedGaussianA.location_y;
+    std::double_t zA = contractedGaussianA.location_z;
 
-    // now compute the (+,-,+,-) overlaps
-    std::double_t xPN = Huzinaga::Overlap::computePrimitive1D(exponentA, xA, lxA + 1, exponentB, xB, lxB - 1, productGaussianAB.gaussian_center[0]);
-    std::double_t yPN = Huzinaga::Overlap::computePrimitive1D(exponentA, yA, lyA + 1, exponentB, yB, lyB - 1, productGaussianAB.gaussian_center[1]);
-    std::double_t zPN = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA + 1, exponentB, zB, lzB - 1, productGaussianAB.gaussian_center[2]);
+    std::int64_t lxA = contractedGaussianA.shell_x;
+    std::int64_t lyA = contractedGaussianA.shell_y;
+    std::int64_t lzA = contractedGaussianA.shell_z;
 
-    std::double_t tX = (lxA * lxB * xNN) + (-2 * exponentA * lxB * xPN) + (-2 * exponentB * lxA * xNP) + (4 * exponentA * exponentB * xPP);
-    std::double_t tY = (lyA * lyB * yNN) + (-2 * exponentA * lyB * yPN) + (-2 * exponentB * lyA * yNP) + (4 * exponentA * exponentB * yPP);
-    std::double_t tZ = (lzA * lzB * zNN) + (-2 * exponentA * lzB * zPN) + (-2 * exponentB * lzA * zNP) + (4 * exponentA * exponentB * zPP);
+    std::uint64_t nA = contractedGaussianA.contracted_GTO.size();
 
-    std::double_t kX = 0.5 * tX * yOriginal * zOriginal * productGaussianAB.gaussian_integral[3] * pow(M_PI / (exponentA + exponentB), 1.5);
-    std::double_t kY = 0.5 * tY * zOriginal * xOriginal * productGaussianAB.gaussian_integral[3] * pow(M_PI / (exponentA + exponentB), 1.5);
-    std::double_t kZ = 0.5 * tZ * xOriginal * yOriginal * productGaussianAB.gaussian_integral[3] * pow(M_PI / (exponentA + exponentB), 1.5);
+    // data for second shell
+    std::double_t xB = contractedGaussianB.location_x;
+    std::double_t yB = contractedGaussianB.location_y;
+    std::double_t zB = contractedGaussianB.location_z;
 
-    kX = kX * primitiveA.orbital_coeff * primitiveA.orbital_norm;
-    kY = kY * primitiveA.orbital_coeff * primitiveA.orbital_norm;
-    kZ = kZ * primitiveA.orbital_coeff * primitiveA.orbital_norm;
+    std::int64_t lxB = contractedGaussianB.shell_x;
+    std::int64_t lyB = contractedGaussianB.shell_y;
+    std::int64_t lzB = contractedGaussianB.shell_z;
+
+    std::uint64_t nB = contractedGaussianB.contracted_GTO.size();
+
+    std::double_t integral = 0.0;
+
+    for (std::uint64_t ii = 0; ii < nA; ii++)
+    {
+        for (std::uint64_t jj = 0; jj < nB; jj++)
+        {
+            cxx_Gaussians productGaussianAB = computeGaussianProduct(contractedGaussianA.contracted_GTO[ii], xA, yA, zA, contractedGaussianB.contracted_GTO[jj], xB, yB, zB);
+
+            std::double_t value = Huzinaga::Kinetic::computePrimitive3D(
+                contractedGaussianA.contracted_GTO[ii], xA, yA, zA, lxA, lyA, lzA,
+                contractedGaussianB.contracted_GTO[jj], xB, yB, zB, lxB, lyB, lzB,
+                productGaussianAB.gaussian_center);
+
+            // contract the integrals
+            value = value * contractedGaussianA.contracted_GTO[ii].orbital_coeff * contractedGaussianA.contracted_GTO[ii].orbital_norm;
+            value = value * contractedGaussianB.contracted_GTO[jj].orbital_coeff * contractedGaussianB.contracted_GTO[jj].orbital_norm;
+            value = value * productGaussianAB.gaussian_integral[3];
+
+            // collect the values;
+            integral = integral + value;
+        }
+    }
+    return integral;
 }

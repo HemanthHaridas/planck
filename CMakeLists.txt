@@ -14,13 +14,18 @@ message(STATUS "Using C++ Standard: ${CMAKE_CXX_STANDARD}")
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -ftree-vectorize")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin") # macOS
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O1 -Wall -pedantic")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -Wall -pedantic")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++${CMAKE_CXX_STANDARD} /O2 /W4 /permissive-")
 else()
     message(WARNING "Unknown system; defaulting to generic flags.")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic")
 endif()
+
+# if (NOT CMAKE_BUILD_TYPE)
+#     set(CMAKE_BUILD_TYPE Debug) # Default to Debug if no build type is specified
+#     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+# endif()
 
 message(STATUS "Building on : ${CMAKE_SYSTEM_NAME} using following compiler flags : ${CMAKE_CXX_FLAGS}")
 
@@ -96,6 +101,7 @@ target_include_directories(planck PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/helper
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/huzinaga
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/obarasakia
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/hermite
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers

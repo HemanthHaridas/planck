@@ -144,3 +144,19 @@ option(BUILD_UTILITIES "Build the utilities" OFF)
 if(BUILD_UTILITIES)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/utilities)
 endif()
+
+find_package(Doxygen)
+
+if(DOXYGEN_FOUND)
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs)
+
+    add_custom_target(doxygen-doc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_IN}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating Doxygen documentation..."
+        VERBATIM
+    )
+else()
+    message(WARNING "Doxygen not found! Documentation will not be generated.")
+endif()

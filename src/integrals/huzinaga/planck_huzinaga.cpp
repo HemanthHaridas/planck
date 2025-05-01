@@ -20,20 +20,22 @@
 
 #include "planck_huzinaga.h"
 
-// @brief Computes the one-dimensional primitive integral between two Gaussians.
-//
-// This function calculates the 1D integral contribution of two Gaussians
-// along a specific axis, using their exponents, centers, shell information,
-// and the Gaussian product center.
-//
-// @param exponentA The exponent of the first Gaussian.
-// @param centerA The center coordinate of the first Gaussian.
-// @param shellA The angular momentum quantum number of the first Gaussian.
-// @param exponentB The exponent of the second Gaussian.
-// @param centerB The center coordinate of the second Gaussian.
-// @param shellB The angular momentum quantum number of the second Gaussian.
-// @param gaussianCenter The center of the Gaussian product.
-// @return The computed one-dimensional primitive integral value.
+///
+/// @brief Computes the one-dimensional primitive integral between two Gaussians.
+///
+/// This function calculates the 1D integral contribution of two Gaussians
+/// along a specific axis, using their exponents, centers, shell information,
+/// and the Gaussian product center.
+///
+/// @param exponentA The exponent of the first Gaussian.
+/// @param centerA The center coordinate of the first Gaussian.
+/// @param shellA The angular momentum quantum number of the first Gaussian.
+/// @param exponentB The exponent of the second Gaussian.
+/// @param centerB The center coordinate of the second Gaussian.
+/// @param shellB The angular momentum quantum number of the second Gaussian.
+/// @param gaussianCenter The center of the Gaussian product.
+/// @return The computed one-dimensional primitive integral value.
+///
 
 std::double_t Huzinaga::Overlap::computePrimitive1D(std::double_t exponentA, std::double_t centerA, std::int64_t shellA, std::double_t exponentB, std::double_t centerB, std::int64_t shellB, std::double_t gaussianCenter)
 {
@@ -57,14 +59,16 @@ std::double_t Huzinaga::Overlap::computePrimitive1D(std::double_t exponentA, std
     return integral;
 }
 
-// @brief Computes the primitive integral between two contracted Gaussian-type orbitals.
-//
-// This function calculates the integral of two contracted Gaussian-type orbitals (GTOs)
-// using their primitive components, location, shell information, and normalization factors.
-//
-// @param contractedGaussianA The first contracted Gaussian, containing its location, shell information, and a list of primitive Gaussians.
-// @param contractedGaussianB The second contracted Gaussian, containing its location, shell information, and a list of primitive Gaussians.
-// @return The computed value of the integral.
+///
+/// @brief Computes the primitive integral between two contracted Gaussian-type orbitals.
+///
+/// This function calculates the integral of two contracted Gaussian-type orbitals (GTOs)
+/// using their primitive components, location, shell information, and normalization factors.
+///
+/// @param contractedGaussianA The first contracted Gaussian, containing its location, shell information, and a list of primitive Gaussians.
+/// @param contractedGaussianB The second contracted Gaussian, containing its location, shell information, and a list of primitive Gaussians.
+/// @return The computed value of the integral.
+///
 
 std::double_t Huzinaga::Overlap::computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB)
 {
@@ -115,26 +119,28 @@ std::double_t Huzinaga::Overlap::computeContracted(cxx_Contracted contractedGaus
     return integral;
 }
 
-// @brief Computes the three-dimensional primitive integral between two Gaussian primitives.
-//
-// This function calculates the 3D integral of two Gaussian primitives, considering their exponents,
-// centers, angular momentum quantum numbers, and normalization coefficients.
-//
-// @param primitiveA The first Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
-// @param xA The x-coordinate of the center of the first primitive.
-// @param yA The y-coordinate of the center of the first primitive.
-// @param zA The z-coordinate of the center of the first primitive.
-// @param lxA The angular momentum quantum number along the x-axis for the first primitive.
-// @param lyA The angular momentum quantum number along the y-axis for the first primitive.
-// @param lzA The angular momentum quantum number along the z-axis for the first primitive.
-// @param primitiveB The second Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
-// @param xB The x-coordinate of the center of the second primitive.
-// @param yB The y-coordinate of the center of the second primitive.
-// @param zB The z-coordinate of the center of the second primitive.
-// @param lxB The angular momentum quantum number along the x-axis for the second primitive.
-// @param lyB The angular momentum quantum number along the y-axis for the second primitive.
-// @param lzB The angular momentum quantum number along the z-axis for the second primitive.
-// @return The computed three-dimensional primitive integral value.
+///
+/// @brief Computes the three-dimensional primitive integral between two Gaussian primitives.
+///
+/// This function calculates the 3D integral of two Gaussian primitives, considering their exponents,
+/// centers, angular momentum quantum numbers, and normalization coefficients.
+///
+/// @param primitiveA The first Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
+/// @param xA The x-coordinate of the center of the first primitive.
+/// @param yA The y-coordinate of the center of the first primitive.
+/// @param zA The z-coordinate of the center of the first primitive.
+/// @param lxA The angular momentum quantum number along the x-axis for the first primitive.
+/// @param lyA The angular momentum quantum number along the y-axis for the first primitive.
+/// @param lzA The angular momentum quantum number along the z-axis for the first primitive.
+/// @param primitiveB The second Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
+/// @param xB The x-coordinate of the center of the second primitive.
+/// @param yB The y-coordinate of the center of the second primitive.
+/// @param zB The z-coordinate of the center of the second primitive.
+/// @param lxB The angular momentum quantum number along the x-axis for the second primitive.
+/// @param lyB The angular momentum quantum number along the y-axis for the second primitive.
+/// @param lzB The angular momentum quantum number along the z-axis for the second primitive.
+/// @return The computed three-dimensional primitive integral value.
+///
 
 std::double_t Huzinaga::Overlap::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
@@ -157,27 +163,29 @@ std::double_t Huzinaga::Overlap::computePrimitive3D(
     return integral3D;
 }
 
-// @brief Computes the kinetic energy integral for two 3D Gaussian primitives.
-//
-// This function calculates the 3D kinetic energy integral between two Gaussian primitives, considering their exponents,
-// centers, angular momentum quantum numbers, and normalization coefficients.
-//
-// @param primitiveA The first Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
-// @param xA The x-coordinate of the center of the first primitive.
-// @param yA The y-coordinate of the center of the first primitive.
-// @param zA The z-coordinate of the center of the first primitive.
-// @param lxA The angular momentum quantum number along the x-axis for the first primitive.
-// @param lyA The angular momentum quantum number along the y-axis for the first primitive.
-// @param lzA The angular momentum quantum number along the z-axis for the first primitive.
-// @param primitiveB The second Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
-// @param xB The x-coordinate of the center of the second primitive.
-// @param yB The y-coordinate of the center of the second primitive.
-// @param zB The z-coordinate of the center of the second primitive.
-// @param lxB The angular momentum quantum number along the x-axis for the second primitive.
-// @param lyB The angular momentum quantum number along the y-axis for the second primitive.
-// @param lzB The angular momentum quantum number along the z-axis for the second primitive.
-// @param gaussianCenter Pointer to the coordinates of the center of the Gaussian product.
-// @return The computed kinetic energy integral as a double-precision floating-point number.
+///
+/// @brief Computes the kinetic energy integral for two 3D Gaussian primitives.
+///
+/// This function calculates the 3D kinetic energy integral between two Gaussian primitives, considering their exponents,
+/// centers, angular momentum quantum numbers, and normalization coefficients.
+///
+/// @param primitiveA The first Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
+/// @param xA The x-coordinate of the center of the first primitive.
+/// @param yA The y-coordinate of the center of the first primitive.
+/// @param zA The z-coordinate of the center of the first primitive.
+/// @param lxA The angular momentum quantum number along the x-axis for the first primitive.
+/// @param lyA The angular momentum quantum number along the y-axis for the first primitive.
+/// @param lzA The angular momentum quantum number along the z-axis for the first primitive.
+/// @param primitiveB The second Gaussian primitive containing its exponent, orbital coefficient, and normalization factor.
+/// @param xB The x-coordinate of the center of the second primitive.
+/// @param yB The y-coordinate of the center of the second primitive.
+/// @param zB The z-coordinate of the center of the second primitive.
+/// @param lxB The angular momentum quantum number along the x-axis for the second primitive.
+/// @param lyB The angular momentum quantum number along the y-axis for the second primitive.
+/// @param lzB The angular momentum quantum number along the z-axis for the second primitive.
+/// @param gaussianCenter Pointer to the coordinates of the center of the Gaussian product.
+/// @return The computed kinetic energy integral as a double-precision floating-point number.
+///
 
 std::double_t Huzinaga::Kinetic::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
@@ -198,15 +206,17 @@ std::double_t Huzinaga::Kinetic::computePrimitive3D(
     return integral;
 }
 
-// @brief Computes the contracted kinetic energy integral between two sets of Gaussian primitives.
-//
-// This function calculates the kinetic energy integral between two contracted Gaussian orbitals,
-// each consisting of multiple Gaussian primitives. The integrals are computed by looping through
-// all possible pairs of primitives from the two contracted Gaussians.
-//
-// @param contractedGaussianA The first contracted Gaussian containing its location, angular momentum, and a list of Gaussian primitives (exponent, coefficients, normalization factor).
-// @param contractedGaussianB The second contracted Gaussian containing its location, angular momentum, and a list of Gaussian primitives (exponent, coefficients, normalization factor).
-// @return The computed contracted kinetic energy integral as a double-precision floating-point number.
+///
+/// @brief Computes the contracted kinetic energy integral between two sets of Gaussian primitives.
+///
+/// This function calculates the kinetic energy integral between two contracted Gaussian orbitals,
+/// each consisting of multiple Gaussian primitives. The integrals are computed by looping through
+/// all possible pairs of primitives from the two contracted Gaussians.
+///
+/// @param contractedGaussianA The first contracted Gaussian containing its location, angular momentum, and a list of Gaussian primitives (exponent, coefficients, normalization factor).
+/// @param contractedGaussianB The second contracted Gaussian containing its location, angular momentum, and a list of Gaussian primitives (exponent, coefficients, normalization factor).
+/// @return The computed contracted kinetic energy integral as a double-precision floating-point number.
+///
 
 std::double_t Huzinaga::Kinetic::computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB)
 {

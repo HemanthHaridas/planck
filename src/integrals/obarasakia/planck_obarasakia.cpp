@@ -18,6 +18,17 @@
 #include <iostream>
 #include "planck_obarasakia.h"
 
+/// @brief 
+/// @param centerA 
+/// @param exponentA 
+/// @param shellA 
+/// @param centerB 
+/// @param exponentB 
+/// @param shellB 
+/// @param gaussianCenter 
+/// @param gaussianExponent 
+/// @return 
+
 std::double_t ObaraSakia::Overlap::computePrimitive1D(std::double_t centerA, std::double_t exponentA, std::int64_t shellA, std::double_t centerB, std::double_t exponentB, std::int64_t shellB, std::double_t gaussianCenter, std::double_t gaussianExponent)
 {
     if ((shellA < 0) || (shellB < 0))
@@ -27,7 +38,6 @@ std::double_t ObaraSakia::Overlap::computePrimitive1D(std::double_t centerA, std
 
     else if ((shellA == 0) && (shellB == 0))
     {
-        // std::cout << shellA << " " << shellB << " " << exponentA << " " << exponentB << " " << gaussianExponent << " " << exp(-1 * gaussianExponent * (centerA - centerB) * (centerA - centerB)) << "\n";
         return exp(-1 * gaussianExponent * (centerA - centerB) * (centerA - centerB));
     }
 
@@ -48,6 +58,27 @@ std::double_t ObaraSakia::Overlap::computePrimitive1D(std::double_t centerA, std
     }
 }
 
+/// @brief 
+/// @param primitiveA 
+/// @param xA 
+/// @param yA 
+/// @param zA 
+/// @param lxA 
+/// @param lyA 
+/// @param lzA 
+/// @param primitiveB 
+/// @param xB 
+/// @param yB 
+/// @param zB 
+/// @param lxB 
+/// @param lyB 
+/// @param lzB 
+/// @param gaussianCenterX 
+/// @param gaussianCenterY 
+/// @param gaussianCenterZ 
+/// @param gaussianExponent 
+/// @return 
+
 std::double_t ObaraSakia::Overlap::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
     cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB,
@@ -57,13 +88,14 @@ std::double_t ObaraSakia::Overlap::computePrimitive3D(
     std::double_t yDir = ObaraSakia::Overlap::computePrimitive1D(yA, primitiveA.primitive_exp, lyA, yB, primitiveB.primitive_exp, lyB, gaussianCenterY, gaussianExponent);
     std::double_t zDir = ObaraSakia::Overlap::computePrimitive1D(zA, primitiveA.primitive_exp, lzA, zB, primitiveB.primitive_exp, lzB, gaussianCenterZ, gaussianExponent);
 
-    xDir = xDir * 1;
-    yDir = yDir * 1;
-    zDir = zDir * primitiveA.orbital_coeff * primitiveA.orbital_norm * primitiveB.orbital_coeff * primitiveB.orbital_norm;
-    // std::cout << lxA << " " << lxB << " " << xDir << " " << lyA << " " << lyB << " " << " " << yDir << " " << zDir << "\n";
     return xDir * yDir * zDir * pow(M_PI / (primitiveA.primitive_exp + primitiveB.primitive_exp), 1.5);
 }
 
+/// @brief 
+/// @param contractedGaussianA 
+/// @param contractedGaussianB 
+/// @return
+ 
 std::double_t ObaraSakia::Overlap::computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB)
 {
     // data for first shell
@@ -102,13 +134,10 @@ std::double_t ObaraSakia::Overlap::computeContracted(cxx_Contracted contractedGa
                 productGaussianAB.gaussian_center[0], productGaussianAB.gaussian_center[1], productGaussianAB.gaussian_center[2], productGaussianAB.gaussian_exponent);
 
             // contract the integrals
-            // value = value * contractedGaussianA.contracted_GTO[ii].orbital_coeff * contractedGaussianA.contracted_GTO[ii].orbital_norm;
-            // value = value * contractedGaussianB.contracted_GTO[jj].orbital_coeff * contractedGaussianB.contracted_GTO[jj].orbital_norm;
-            // std::cout << contractedGaussianA.contracted_GTO[ii].orbital_coeff * contractedGaussianA.contracted_GTO[ii].orbital_norm << " " << contractedGaussianB.contracted_GTO[jj].orbital_coeff * contractedGaussianB.contracted_GTO[jj].orbital_norm << "\n";
-            // collect the values;
-            integral = integral + (value * 1);
+            value = value * contractedGaussianA.contracted_GTO[ii].orbital_coeff * contractedGaussianA.contracted_GTO[ii].orbital_norm;
+            value = value * contractedGaussianB.contracted_GTO[jj].orbital_coeff * contractedGaussianB.contracted_GTO[jj].orbital_norm;
+            integral = integral + value;
         }
-        // std::cout << "\n";
     }
     return integral;
 }

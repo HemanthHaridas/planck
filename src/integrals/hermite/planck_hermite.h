@@ -28,4 +28,10 @@ namespace Hermite
         std::double_t computePrimitive3D(cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB);
         std::double_t computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB);
     };
+
+    namespace Kinetic
+    {
+        std::double_t computePrimitive3D(cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB);
+        std::double_t computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB);
+    };
 };

@@ -44,7 +44,7 @@ std::double_t Huzinaga::Overlap::computePrimitive1D(std::double_t exponentA, std
     {
         for (std::int64_t jj = 0; jj <= shellB; jj++)
         {
-            if ((ii + jj) % 2 == 0)
+            if (((ii + jj) % 2) == 0)
             {
                 std::double_t value = combination(shellA, ii);
                 value = value * combination(shellB, jj);
@@ -159,7 +159,7 @@ std::double_t Huzinaga::Overlap::computePrimitive3D(
     std::double_t zValue = Huzinaga::Overlap::computePrimitive1D(exponentA, zA, lzA, exponentB, zB, lzB, zAB);
 
     std::double_t integral3D = xValue * yValue * zValue * pow(M_PI / (exponentA + exponentB), 1.5);
-
+    // std::double_t prefactor3D = dotproduct(xA, yA, zA, xB, yB, zB) * (exponentA * exponentB) / (exponentA + exponentB);
     return integral3D;
 }
 
@@ -203,7 +203,11 @@ std::double_t Huzinaga::Kinetic::computePrimitive3D(
     integral = integral - ((0.5 * lyB * (lyB - 1)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB, lyB - 2, lzB, gaussianCenter)));
     integral = integral - ((0.5 * lzB * (lzB - 1)) * (Huzinaga::Overlap::computePrimitive3D(primitiveA, xA, yA, zA, lxA, lyA, lzA, primitiveB, xB, yB, zB, lxB, lyB, lzB - 2, gaussianCenter)));
 
-    return integral;
+    std::double_t exponentA = primitiveA.primitive_exp;
+    std::double_t exponentB = primitiveB.primitive_exp;
+
+    std::double_t prefactor = dotproduct(xA, yA, zA, xB, yB, zB) * (exponentA * exponentB) / (exponentA + exponentB);
+    return integral * exp(-1 * prefactor);
 }
 
 ///
@@ -258,7 +262,7 @@ std::double_t Huzinaga::Kinetic::computeContracted(cxx_Contracted contractedGaus
             // contract the integrals
             value = value * contractedGaussianA.contracted_GTO[ii].orbital_coeff * contractedGaussianA.contracted_GTO[ii].orbital_norm;
             value = value * contractedGaussianB.contracted_GTO[jj].orbital_coeff * contractedGaussianB.contracted_GTO[jj].orbital_norm;
-            value = value * productGaussianAB.gaussian_integral[3];
+            value = value * 1;
 
             // collect the values;
             integral = integral + value;

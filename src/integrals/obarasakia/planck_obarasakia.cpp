@@ -18,17 +18,6 @@
 #include <iostream>
 #include "planck_obarasakia.h"
 
-/// @brief
-/// @param centerA
-/// @param exponentA
-/// @param shellA
-/// @param centerB
-/// @param exponentB
-/// @param shellB
-/// @param gaussianCenter
-/// @param gaussianExponent
-/// @return
-
 std::double_t ObaraSakia::Overlap::computePrimitive1D(std::double_t centerA, std::double_t exponentA, std::int64_t shellA, std::double_t centerB, std::double_t exponentB, std::int64_t shellB, std::double_t gaussianCenter, std::double_t gaussianExponent)
 {
     if ((shellA < 0) || (shellB < 0))
@@ -41,10 +30,10 @@ std::double_t ObaraSakia::Overlap::computePrimitive1D(std::double_t centerA, std
         return exp(-1 * gaussianExponent * (centerA - centerB) * (centerA - centerB));
     }
 
-    else if (shellB == 0 && shellA > 0)
+    else if (shellB == 0)
     {
         return (
-            (gaussianCenter - centerA) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA, centerB, exponentB, shellB - 1, gaussianCenter, gaussianExponent) +
+            (gaussianCenter - centerA) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA - 1, centerB, exponentB, shellB, gaussianCenter, gaussianExponent) +
             (1 / (2 * (exponentA + exponentB))) * ((shellA - 1) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA - 2, centerB, exponentB, shellB, gaussianCenter, gaussianExponent) +
                                                    (shellB + 0) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA - 1, centerB, exponentB, shellB - 1, gaussianCenter, gaussianExponent)));
     }
@@ -52,32 +41,11 @@ std::double_t ObaraSakia::Overlap::computePrimitive1D(std::double_t centerA, std
     else
     {
         return (
-            (gaussianCenter - centerB) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA - 1, centerB, exponentB, shellB, gaussianCenter, gaussianExponent) +
+            (gaussianCenter - centerB) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA, centerB, exponentB, shellB - 1, gaussianCenter, gaussianExponent) +
             (1 / (2 * (exponentA + exponentB))) * ((shellA + 0) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA - 1, centerB, exponentB, shellB - 1, gaussianCenter, gaussianExponent) +
                                                    (shellB - 1) * ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA, centerB, exponentB, shellB - 2, gaussianCenter, gaussianExponent)));
     }
 }
-
-/// @brief
-/// @param primitiveA
-/// @param xA
-/// @param yA
-/// @param zA
-/// @param lxA
-/// @param lyA
-/// @param lzA
-/// @param primitiveB
-/// @param xB
-/// @param yB
-/// @param zB
-/// @param lxB
-/// @param lyB
-/// @param lzB
-/// @param gaussianCenterX
-/// @param gaussianCenterY
-/// @param gaussianCenterZ
-/// @param gaussianExponent
-/// @return
 
 std::double_t ObaraSakia::Overlap::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
@@ -90,11 +58,6 @@ std::double_t ObaraSakia::Overlap::computePrimitive3D(
 
     return xDir * yDir * zDir * pow(M_PI / (primitiveA.primitive_exp + primitiveB.primitive_exp), 1.5);
 }
-
-/// @brief
-/// @param contractedGaussianA
-/// @param contractedGaussianB
-/// @return
 
 std::double_t ObaraSakia::Overlap::computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB)
 {
@@ -149,7 +112,7 @@ std::double_t ObaraSakia::Kinetic::computePrimitive1D(std::double_t centerA, std
         return 0.0;
     }
 
-    if ((shellA == 0) && (shellB == 0))
+    else if ((shellA == 0) && (shellB == 0))
     {
         std::double_t S00 = ObaraSakia::Overlap::computePrimitive1D(centerA, exponentA, shellA, centerB, exponentB, shellB, gaussianCenter, gaussianExponent);
         std::double_t T10 = pow(gaussianCenter - centerA, 2) + (1/(2 * (exponentA + exponentB)));
@@ -157,7 +120,7 @@ std::double_t ObaraSakia::Kinetic::computePrimitive1D(std::double_t centerA, std
         return S00 * T20;
     }
 
-    if (shellB == 0)
+    else if (shellB == 0 && shellA > 0)
     {
         return (
             (gaussianCenter - centerA) * ObaraSakia::Kinetic::computePrimitive1D(centerA, exponentA, shellA - 1, centerB, exponentB, shellB, gaussianCenter, gaussianExponent) +

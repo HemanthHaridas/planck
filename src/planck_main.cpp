@@ -125,8 +125,8 @@ int main(int argc, char const *argv[])
     IntegralEngine::computeOverlap(planck_calculator, planck_integrals.overlapMatrix);
     IntegralEngine::computeKinetic(planck_calculator, planck_integrals.kineticMatrix);
 
-    std::cout << planck_integrals.overlapMatrix << "\n\n";
-    std::cout << planck_integrals.kineticMatrix << "\n\n";
+    std::cout << std::setprecision(3) << std::right << planck_integrals.overlapMatrix << "\n\n";
+    std::cout << std::setprecision(3) << std::right << planck_integrals.kineticMatrix << "\n\n";
 
     // free manually allocated buffers
     free(input_molecule.input_coordinates);

@@ -17,32 +17,41 @@
 
 #include "planck_huzinaga.h"
 
+std::double_t Huzinaga::Overlap::expansionIndex1(std::int64_t expIndex, std::int64_t shellA, std::int64_t shellB, std::double_t distPA, std::double_t distPB)
+{
+    std::int64_t cMax = std::min(expIndex, shellA);
+    std::int64_t cMin = std::max(static_cast<std::int64_t>(0), expIndex - shellB);
+    std::double_t expansionCoeff = 0.0;
+
+    for (std::int64_t ii = cMin; ii <= cMax; ii++)
+    {
+        std::double_t aux = combination(shellA, ii);
+        aux = aux * combination(shellB, expIndex - ii);
+        aux = aux * pow(distPA, shellA - ii);
+        aux = aux * pow(distPB, shellB + ii - expIndex);
+        expansionCoeff = expansionCoeff + aux;
+    }
+    return expansionCoeff;
+}
+
 std::double_t Huzinaga::Overlap::computePrimitive1D(std::double_t exponentA, std::double_t centerA, std::int64_t shellA, std::double_t exponentB, std::double_t centerB, std::int64_t shellB, std::double_t gaussianCenter)
 {
     std::double_t integral = 0.0;
 
-    for (std::int64_t ii = 0; ii <= shellA; ii++)
+    for (std::int64_t ii = 0; ii <= (shellA + shellB) / 2; ii++)
     {
-        for (std::int64_t jj = 0; jj <= shellB; jj++)
-        {
-            if ((ii + jj) % 2 == 0)
-            {
-                std::double_t value = combination(shellA, ii);
-                value = value * combination(shellB, jj);
-                value = value * doublefactorial(ii + jj - 1);
-                value = value * pow(gaussianCenter - centerA, shellA - ii);
-                value = value * pow(gaussianCenter - centerB, shellB - jj);
-                value = value / pow(2 * (exponentA + exponentB), 0.5 * (ii + jj));
-                integral = integral + value;
-            }
-        }
+        std::double_t value = doublefactorial((2 * ii) - 1);
+        value    = value / pow(2 * (exponentA + exponentB), ii);
+        value    = value * Huzinaga::Overlap::expansionIndex1(2 * ii, shellA, shellB, gaussianCenter - centerA, gaussianCenter - centerB);
+        integral = integral + value;
     }
+
     return integral;
 }
 
 std::double_t Huzinaga::Overlap::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
-    cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, 
+    cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB,
     std::double_t *gaussianCenter, std::double_t gaussianIntegral)
 {
     std::double_t xDir = Huzinaga::Overlap::computePrimitive1D(primitiveA.primitive_exp, xA, lxA, primitiveB.primitive_exp, xB, lxB, gaussianCenter[0]);

@@ -19,7 +19,6 @@
 
 #include "planck_hermite.h"
 
-///
 /// @brief Computes the Hermite overlap integral in one dimension.
 /// This function recursively calculates the Hermite overlap integral
 /// between two Gaussian primitives along a single dimension using
@@ -33,7 +32,6 @@
 /// @param shellB Angular momentum quantum number of the second Gaussian function.
 /// @param hermiteNodes Index of the Hermite polynomial term in the recursion.
 /// @return The computed Hermite overlap integral.
-///
 
 std::double_t Hermite::Overlap::computePrimitive1D(std::double_t exponentA, std::double_t centerA, std::int64_t shellA, std::double_t exponentB, std::double_t centerB, std::int64_t shellB, std::int64_t hermiteNodes)
 {
@@ -67,7 +65,6 @@ std::double_t Hermite::Overlap::computePrimitive1D(std::double_t exponentA, std:
     }
 }
 
-///
 /// @brief Computes the three-dimensional Hermite overlap integral.
 /// This function calculates the overlap integral between two Gaussian
 /// primitives in three dimensions by computing the integrals separately
@@ -88,7 +85,6 @@ std::double_t Hermite::Overlap::computePrimitive1D(std::double_t exponentA, std:
 /// @param lyB Y-component of angular momentum for the second primitive.
 /// @param lzB Z-component of angular momentum for the second primitive.
 /// @return The computed three-dimensional overlap integral.
-///
 
 std::double_t Hermite::Overlap::computePrimitive3D(
     cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA,
@@ -103,7 +99,6 @@ std::double_t Hermite::Overlap::computePrimitive3D(
     return xDir * yDir * zDir * pow(M_PI / (primitiveA.primitive_exp + primitiveB.primitive_exp), 1.5);
 }
 
-///
 /// @brief Computes the contracted overlap integral between two contracted Gaussian functions.
 /// This function iterates over the primitive Gaussians in each contracted function
 /// and accumulates the contributions to the overlap integral.
@@ -111,7 +106,6 @@ std::double_t Hermite::Overlap::computePrimitive3D(
 /// @param contractedGaussianA First contracted Gaussian function.
 /// @param contractedGaussianB Second contracted Gaussian function.
 /// @return The computed contracted overlap integral.
-///
 
 std::double_t Hermite::Overlap::computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB)
 {
@@ -175,8 +169,7 @@ std::double_t Hermite::Kinetic::computePrimitive3D(
 
     std::double_t exponentA = primitiveA.primitive_exp;
     std::double_t exponentB = primitiveB.primitive_exp;
-    // std::cout << std::setw(10) << std::setprecision(3) << std::right << xA << std::setw(10) << std::setprecision(3) << std::right << yA << std::setw(10) << std::setprecision(3) << std::right << zA << std::setw(10) << std::setprecision(3) << std::right << xB << std::setw(10) << std::setprecision(3) << std::right << yB << std::setw(10) << std::setprecision(3) << std::right << zB << std::setw(20) << std::setprecision(3) << std::right << integral << std::setw(20) << std::right << lxA << std::setw(20) << std::right << lyA << std::setw(20) << std::right << lzA << std::setw(20) << std::right << lxB << std::setw(20) << std::right << lyB << std::setw(20) << std::right << lzB << "\n";
-    // std::cout << std::setw(20) << std::setprecision(3) << std::right << exponentA << std::setw(20) << std::setprecision(3) << std::right << exponentB << std::setw(20) << std::setprecision(3) << std::right << integral << std::setw(20) << std::right << lxA << std::setw(20) << std::right << lxB << std::setw(20) << std::right << lyA << std::setw(20) << std::right << lyB << std::setw(20) << std::right << lzA << std::setw(20) << std::right << lzB << "\n";
+
     return integral;
 }
 

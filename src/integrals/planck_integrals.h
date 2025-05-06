@@ -1,5 +1,4 @@
 #pragma once
-
 /*-----------------------------------------------------------------------------
  * Planck
  * Copyright (C) 2024 Hemanth Haridas, University of Utah
@@ -17,12 +16,19 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
+// Base files
 #include "../base/planck_base.h"
+
+// Huzinaga
 #include "huzinaga/planck_huzinaga.h"
 
-void computeOverlap(cxx_Calculator *planckCalculator, Eigen::MatrixXd &overlapMatrix);
-void computeKinetic(cxx_Calculator *planckCalculator, Eigen::MatrixXd &kineticMatrix);
-void computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, cxx_Calculator *planckCalculator, Eigen::MatrixXd &nuclearMatrix);
-std::vector<eriShell> schwartzScreeing(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);
-void computeElectronic(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);
-void computeElectronicFull(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronMatrix);
+// Hermite
+#include "hermite/planck_hermite.h"
+
+// Obara Sakia
+#include "obarasakia/planck_obarasakia.h"
+namespace IntegralEngine
+{
+    void computeOverlap(cxx_Calculator &planckCalculator, Eigen::MatrixXd &overlapMatrix);
+    void computeKinetic(cxx_Calculator &planckCalculator, Eigen::MatrixXd &kineticMatrix);
+};

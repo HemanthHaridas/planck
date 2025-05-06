@@ -25,6 +25,6 @@
 #include "../huzinaga/planck_huzinaga.h"
 
 void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, std::vector<cxx_Gaussians> *productGaussians);
-cxx_Gaussians computeGaussianProduct(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB);
+cxx_Gaussians computeGaussianProduct(cxx_Primitive primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, cxx_Primitive primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB);
 std::double_t boysFunction(std::uint64_t boysIndex, std::double_t boysParam);
 std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronicMatrix);

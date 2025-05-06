@@ -8,3 +8,6 @@
 .DS*
 test*
 planck.defaults
+html/
+latex/
+Doxyfile

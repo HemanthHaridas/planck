@@ -1,5 +1,4 @@
 #pragma once
-
 /*-----------------------------------------------------------------------------
  * Planck
  * Copyright (C) 2024 Hemanth Haridas, University of Utah
@@ -17,28 +16,24 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  ----------------------------------------------------------------------------*/
 
-#include <numeric>
-#include <cstring>
-#include <system_error>
 #include "../../base/planck_base.h"
+#include "../../math/planck_math.h"
+#include "../helper/planck_helper_routines.h"
 
 namespace Huzinaga
 {
-    // main functions
-    std::double_t computeElectronic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB, cxx_Contracted *contractedGaussianC, cxx_Contracted *contractedGaussianD);
-    std::double_t computeNuclear(std::double_t *atomCoords, std::uint64_t *atomCharges, std::uint64_t nAtoms, cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB);
-    std::double_t computeKinetic(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB);
-    std::double_t computeOverlap(cxx_Contracted *contractedGaussianA, cxx_Contracted *contractedGaussianB);
+    namespace Overlap
+    {
+        // overlap integrals
+        std::double_t computePrimitive3D(cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, std::double_t *gaussianCenter, std::double_t gaussianIntegral);
+        std::double_t expansionIndex1(std::int64_t expIndex, std::int64_t shellA, std::int64_t shellB, std::double_t distPA, std::double_t distPB);
+        std::double_t computePrimitive1D(std::double_t exponentA, std::double_t centerA, std::int64_t shellA, std::double_t exponentB, std::double_t centerB, std::int64_t shellB, std::double_t gaussianCenter);
+        std::double_t computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB);
+    };
 
-    // only for electron nuclear integrals
-    std::double_t expansionCoeff2(const std::int64_t indexA, const std::int64_t indexB, const std::int64_t indexC, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t atomCenter, const std::double_t gaussCenter, std::double_t gamma);
-    std::double_t expansionCoeff1(const std::int64_t expIndex, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t gaussCenter);
-    std::double_t computePrimitive(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, const std::int64_t lxA, const std::int64_t lyA, const std::int64_t lzA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB, const std::int64_t lxB, const std::int64_t lyB, const std::int64_t lzB, const std::double_t *atomCoords, const std::uint64_t *atomCharges, const std::uint64_t nAtoms);
-    std::double_t computePrimitive(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, const std::int64_t lxA, const std::double_t lyA, const std::double_t lzA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB, const std::int64_t lxB, const std::double_t lyB, const std::double_t lzB, cxx_Primitive *primitiveC, const std::double_t xC, const std::double_t yC, const std::double_t zC, const std::int64_t lxC, const std::double_t lyC, const std::double_t lzC, cxx_Primitive *primitiveD, const std::double_t xD, const std::double_t yD, const std::double_t zD, const std::int64_t lxD, const std::double_t lyD, const std::double_t lzD);
-    std::double_t expansionCoeff3(const std::int64_t expIndexA, const std::int64_t expIndexB, const std::int64_t shellA, const std::double_t centerA, const std::int64_t shellB, const std::double_t centerB, const std::double_t gaussCoordAB, const std::double_t gamma);
-    std::vector<electronInt> Intermediates(const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::int64_t shellC, const std::double_t coordC, const std::int64_t shellD, const std::double_t coordD, const std::double_t gaussCoordAB, const std::double_t gaussCoordCD, const std::double_t gammaA, const std::double_t gammaB);
-    std::vector<nuclearInt> Intermediates(const std::int64_t shellA, const std::double_t coordA, const std::int64_t shellB, const std::double_t coordB, const std::double_t atomCoord, const std::double_t gaussCoord, const std::double_t gamma);
-
-    // for overlap and kinetic energy integrals
-    void computePrimitive(cxx_Primitive *primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive *primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, cxx_Gaussians *productGaussian, std::double_t *primitiveOverlaps);
-}
+    namespace Kinetic
+    {
+        std::double_t computePrimitive3D(cxx_Primitive primitiveA, std::double_t xA, std::double_t yA, std::double_t zA, std::int64_t lxA, std::int64_t lyA, std::int64_t lzA, cxx_Primitive primitiveB, std::double_t xB, std::double_t yB, std::double_t zB, std::int64_t lxB, std::int64_t lyB, std::int64_t lzB, std::double_t *gaussianCenter, std::double_t gaussianIntegral);
+        std::double_t computeContracted(cxx_Contracted contractedGaussianA, cxx_Contracted contractedGaussianB);
+    };
+};

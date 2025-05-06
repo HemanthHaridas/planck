@@ -59,15 +59,15 @@ void computeGaussianProduct(cxx_Contracted *contractedGaussianA, cxx_Contracted 
     }
 }
 
-cxx_Gaussians computeGaussianProduct(cxx_Primitive *primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, cxx_Primitive *primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB)
+cxx_Gaussians computeGaussianProduct(cxx_Primitive primitiveA, const std::double_t xA, const std::double_t yA, const std::double_t zA, cxx_Primitive primitiveB, const std::double_t xB, const std::double_t yB, const std::double_t zB)
 {
     cxx_Gaussians gaussian;
     std::double_t aux = dotproduct(xA, yA, zA, xB, yB, zB);
-    gaussian.gaussian_center[0] = ((primitiveA->primitive_exp * xA) + (primitiveB->primitive_exp * xB)) / (primitiveA->primitive_exp + primitiveB->primitive_exp);
-    gaussian.gaussian_center[1] = ((primitiveA->primitive_exp * yA) + (primitiveB->primitive_exp * yB)) / (primitiveA->primitive_exp + primitiveB->primitive_exp);
-    gaussian.gaussian_center[2] = ((primitiveA->primitive_exp * zA) + (primitiveB->primitive_exp * zB)) / (primitiveA->primitive_exp + primitiveB->primitive_exp);
+    gaussian.gaussian_center[0] = ((primitiveA.primitive_exp * xA) + (primitiveB.primitive_exp * xB)) / (primitiveA.primitive_exp + primitiveB.primitive_exp);
+    gaussian.gaussian_center[1] = ((primitiveA.primitive_exp * yA) + (primitiveB.primitive_exp * yB)) / (primitiveA.primitive_exp + primitiveB.primitive_exp);
+    gaussian.gaussian_center[2] = ((primitiveA.primitive_exp * zA) + (primitiveB.primitive_exp * zB)) / (primitiveA.primitive_exp + primitiveB.primitive_exp);
 
-    gaussian.gaussian_exponent = (primitiveA->primitive_exp * primitiveB->primitive_exp) / (primitiveA->primitive_exp + primitiveB->primitive_exp);
+    gaussian.gaussian_exponent = (primitiveA.primitive_exp * primitiveB.primitive_exp) / (primitiveA.primitive_exp + primitiveB.primitive_exp);
 
     gaussian.gaussian_integral[0] = exp(-1 * gaussian.gaussian_exponent * (xA - xB) * (xA - xB));
     gaussian.gaussian_integral[1] = exp(-1 * gaussian.gaussian_exponent * (yA - yB) * (yA - yB));
@@ -101,59 +101,59 @@ std::double_t boysFunction(std::uint64_t boysIndex, std::double_t boysParam)
     return boysValue;
 }
 
-std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronicMatrix)
-{
-    std::int64_t nBasis = planckCalculator->total_basis;
-    // electronicMatrix.resize(nBasis, nBasis, nBasis, nBasis);
+// std::vector<eriKet> schwatrzSceening(cxx_Calculator *planckCalculator, Eigen::Tensor<std::double_t, 4> &electronicMatrix)
+// {
+//     std::int64_t nBasis = planckCalculator->total_basis;
+//     // electronicMatrix.resize(nBasis, nBasis, nBasis, nBasis);
 
-    // calculate (ab|ab) and store
-    for (std::int64_t row = 0; row < nBasis; row++)
-    {
-        for (std::int64_t col = row; col < nBasis; col++)
-        {
-            // has 8-fold permutation symmetry
-            std::double_t integral = Huzinaga::computeElectronic(
-                &planckCalculator->calculation_set[row], &planckCalculator->calculation_set[col],
-                &planckCalculator->calculation_set[row], &planckCalculator->calculation_set[col]);
+//     // calculate (ab|ab) and store
+//     for (std::int64_t row = 0; row < nBasis; row++)
+//     {
+//         for (std::int64_t col = row; col < nBasis; col++)
+//         {
+//             // has 8-fold permutation symmetry
+//             std::double_t integral = Huzinaga::computeElectronic(
+//                 &planckCalculator->calculation_set[row], &planckCalculator->calculation_set[col],
+//                 &planckCalculator->calculation_set[row], &planckCalculator->calculation_set[col]);
 
-            // Store integral and apply 8-fold symmetry
-            electronicMatrix(row, col, row, col) = integral;
-            electronicMatrix(row, row, col, col) = integral;
-            electronicMatrix(row, col, col, row) = integral;
-            // electronicMatrix(row, col, row, col) = integral;
+//             // Store integral and apply 8-fold symmetry
+//             electronicMatrix(row, col, row, col) = integral;
+//             electronicMatrix(row, row, col, col) = integral;
+//             electronicMatrix(row, col, col, row) = integral;
+//             // electronicMatrix(row, col, row, col) = integral;
 
-            electronicMatrix(col, row, row, col) = integral;
-            electronicMatrix(col, col, row, row) = integral;
-            electronicMatrix(col, row, col, row) = integral;
-            // electronicMatrix(col, row, row, col) = integral;
-        }
-    }
+//             electronicMatrix(col, row, row, col) = integral;
+//             electronicMatrix(col, col, row, row) = integral;
+//             electronicMatrix(col, row, col, row) = integral;
+//             // electronicMatrix(col, row, row, col) = integral;
+//         }
+//     }
 
-    // find max of (ab|ab) and store it
-    // now multiply the integrals with the maximum value
-    Eigen::Tensor<std::double_t, 0> schwartzMax = electronicMatrix.maximum();
-    Eigen::Tensor<std::double_t, 0> schwartzMin = electronicMatrix.minimum();
-    std::double_t schwartzValue = abs(schwartzMax(0)) > abs(schwartzMin(0)) ? abs(schwartzMax(0)) : abs(schwartzMin(0));
+//     // find max of (ab|ab) and store it
+//     // now multiply the integrals with the maximum value
+//     Eigen::Tensor<std::double_t, 0> schwartzMax = electronicMatrix.maximum();
+//     Eigen::Tensor<std::double_t, 0> schwartzMin = electronicMatrix.minimum();
+//     std::double_t schwartzValue = abs(schwartzMax(0)) > abs(schwartzMin(0)) ? abs(schwartzMax(0)) : abs(schwartzMin(0));
 
-    // std::cout << "starting screening" << "\n";
-    // std::cout << schwartzValue << " " << schwartzMin << " " << schwartzMax << "\n";
+//     // std::cout << "starting screening" << "\n";
+//     // std::cout << schwartzValue << " " << schwartzMin << " " << schwartzMax << "\n";
 
-    std::vector<eriKet> eriScreened;
+//     std::vector<eriKet> eriScreened;
 
-    // now screen the integrals based on cutoff
-    for (std::int64_t row = 0; row < nBasis; row++)
-    {
-        for (std::int64_t col = row; col < nBasis; col++)
-        {
-            eriKet ket(row, col); // create a tuple of indices
-            std::double_t value = abs(electronicMatrix(row, col, row, col));
-            std::double_t eval = sqrt(schwartzValue) * sqrt(value);
+//     // now screen the integrals based on cutoff
+//     for (std::int64_t row = 0; row < nBasis; row++)
+//     {
+//         for (std::int64_t col = row; col < nBasis; col++)
+//         {
+//             eriKet ket(row, col); // create a tuple of indices
+//             std::double_t value = abs(electronicMatrix(row, col, row, col));
+//             std::double_t eval = sqrt(schwartzValue) * sqrt(value);
 
-            if (eval >= planckCalculator->tol_eri)
-            {
-                eriScreened.push_back(ket);
-            }
-        }
-    }
-    return eriScreened;
-}
+//             if (eval >= planckCalculator->tol_eri)
+//             {
+//                 eriScreened.push_back(ket);
+//             }
+//         }
+//     }
+//     return eriScreened;
+// }

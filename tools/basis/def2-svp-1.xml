@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<BasisSet>
+	<Shell Shell="[0 0 0]" Exponents="[13.010701    1.9622572   0.44453796]" Coefficients="[0.03348548 0.23472187 0.81377029]" Normalizations="[4.88242538 1.18161784 0.38800894]" ShellType="s"/>
+	<Shell Shell="[0 0 0]" Exponents="[0.12194962]" Coefficients="[1.]" Normalizations="[0.14707723]" ShellType="s"/>
+</BasisSet>

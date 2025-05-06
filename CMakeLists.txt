@@ -14,14 +14,18 @@ message(STATUS "Using C++ Standard: ${CMAKE_CXX_STANDARD}")
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -ftree-vectorize")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin") # macOS
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic -Rpass=loop-vectorize")
-    set(CMAKE_OSX_SYSROOT "/Library/Developer/CommandLineTools/SDKs/MacOSX15.4.sdk")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -Wall -pedantic")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++${CMAKE_CXX_STANDARD} /O2 /W4 /permissive-")
 else()
     message(WARNING "Unknown system; defaulting to generic flags.")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++${CMAKE_CXX_STANDARD} -O3 -Wall -pedantic")
 endif()
+
+# if (NOT CMAKE_BUILD_TYPE)
+#     set(CMAKE_BUILD_TYPE Debug) # Default to Debug if no build type is specified
+#     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+# endif()
 
 message(STATUS "Building on : ${CMAKE_SYSTEM_NAME} using following compiler flags : ${CMAKE_CXX_FLAGS}")
 
@@ -97,6 +101,7 @@ target_include_directories(planck PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/helper
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/huzinaga
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/obarasakia
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals/hermite
     ${CMAKE_CURRENT_SOURCE_DIR}/src/integrals
     ${CMAKE_CURRENT_SOURCE_DIR}/src/math
     ${MSYM_INSTALL_DIR}/include  # Include the external library headers
@@ -138,4 +143,20 @@ option(BUILD_UTILITIES "Build the utilities" OFF)
 # Conditional inclusion of the separate package
 if(BUILD_UTILITIES)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/utilities)
+endif()
+
+find_package(Doxygen)
+
+if(DOXYGEN_FOUND)
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs)
+
+    add_custom_target(doxygen-doc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_IN}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating Doxygen documentation..."
+        VERBATIM
+    )
+else()
+    message(WARNING "Doxygen not found! Documentation will not be generated.")
 endif()

@@ -26,7 +26,7 @@ void IntegralEngine::computeOverlap(cxx_Calculator &planckCalculator, Eigen::Mat
     {
         for (std::uint64_t col = 0; col < nBasis; col++)
         {
-            std::double_t value = Huzinaga::Overlap::computeContracted(planckCalculator.calculation_set[row], planckCalculator.calculation_set[col]);
+            std::double_t value = Hermite::Overlap::computeContracted(planckCalculator.calculation_set[row], planckCalculator.calculation_set[col]);
             overlapMatrix(row, col) = value;
             overlapMatrix(col, row) = value;
         }
@@ -41,7 +41,7 @@ void IntegralEngine::computeKinetic(cxx_Calculator &planckCalculator, Eigen::Mat
     {
         for (std::uint64_t col = 0; col <= row; col++)
         {
-            std::double_t value = Huzinaga::Kinetic::computeContracted(planckCalculator.calculation_set[row], planckCalculator.calculation_set[col]);
+            std::double_t value = Hermite::Kinetic::computeContracted(planckCalculator.calculation_set[row], planckCalculator.calculation_set[col]);
             kineticMatrix(row, col) = value;
             kineticMatrix(col, row) = value;
         }

@@ -12,7 +12,7 @@ def factorial2(number: int) -> int:
     else:
         fact = 1
         for i in range(number, 1, -2):
-            fact = fact * 1
+            fact = fact * i
         return fact
 
 class Basis(object):
@@ -92,9 +92,9 @@ def readbasis(filename: str) -> list[Basis]:
                 
             elif "D" in line and "+" not in line:
                 _nprims = int(line.split()[1])
+                _shells = [x.replace("D","E").split() for x in totaldata[lnumber + 2: lnumber + 2 + _nprims]]
                 _exponents       =   [float(x[0]) for x in _shells]
                 _coefficients    =   [float(x[1]) for x in _shells]
-                _shells = [x.replace("D","E").split() for x in totaldata[lnumber + 2: lnumber + 2 + _nprims]]
                 shell20         =   [2, 0, 0]
                 _shell.append(Basis(shell = shell20, exponents = _exponents, coeffs = _coefficients, name = "dx2"))
                 shell21         =   [1, 1, 0]

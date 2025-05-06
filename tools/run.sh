@@ -2,5 +2,5 @@
 
 for file in ./basissets/*/*.basis
 do
-    python gbs_xml_converter.py $file
+    python generate_basis.py $file
 done

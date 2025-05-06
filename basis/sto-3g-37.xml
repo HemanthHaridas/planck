@@ -86,7 +86,7 @@
 		<PGTO Exponent="0.1158254875" Coefficient="0.6662832742493329" Normalization="0.09631529493820798" Index="50"/>
 	</CGTO>
 	<CGTO AngularMomentumX="2" AngularMomentumY="0" AngularMomentumZ="0" OrbitalType="dx2">
-		<PGTO Exponent="23.50534097" Coefficient="0.21976795079230818" Normalization="413.0008336365736" Index="51"/>
+		<PGTO Exponent="23.50534097" Coefficient="0.21976795079230818" Normalization="413.00083363657365" Index="51"/>
 		<PGTO Exponent="7.169878201" Coefficient="0.655547362677056" Normalization="51.70768183779321" Index="52"/>
 		<PGTO Exponent="2.766361909" Coefficient="0.28657325898997005" Normalization="9.766752879149063" Index="53"/>
 	</CGTO>
@@ -101,7 +101,7 @@
 		<PGTO Exponent="2.766361909" Coefficient="0.28657325898997005" Normalization="16.916512211655792" Index="59"/>
 	</CGTO>
 	<CGTO AngularMomentumX="0" AngularMomentumY="2" AngularMomentumZ="0" OrbitalType="dy2">
-		<PGTO Exponent="23.50534097" Coefficient="0.21976795079230818" Normalization="413.0008336365736" Index="60"/>
+		<PGTO Exponent="23.50534097" Coefficient="0.21976795079230818" Normalization="413.00083363657365" Index="60"/>
 		<PGTO Exponent="7.169878201" Coefficient="0.655547362677056" Normalization="51.70768183779321" Index="61"/>
 		<PGTO Exponent="2.766361909" Coefficient="0.28657325898997005" Normalization="9.766752879149063" Index="62"/>
 	</CGTO>
@@ -111,7 +111,7 @@
 		<PGTO Exponent="2.766361909" Coefficient="0.28657325898997005" Normalization="16.916512211655792" Index="65"/>
 	</CGTO>
 	<CGTO AngularMomentumX="0" AngularMomentumY="0" AngularMomentumZ="2" OrbitalType="dz2">
-		<PGTO Exponent="23.50534097" Coefficient="0.21976795079230818" Normalization="413.0008336365736" Index="66"/>
+		<PGTO Exponent="23.50534097" Coefficient="0.21976795079230818" Normalization="413.00083363657365" Index="66"/>
 		<PGTO Exponent="7.169878201" Coefficient="0.655547362677056" Normalization="51.70768183779321" Index="67"/>
 		<PGTO Exponent="2.766361909" Coefficient="0.28657325898997005" Normalization="9.766752879149063" Index="68"/>
 	</CGTO>

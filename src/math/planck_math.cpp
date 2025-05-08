@@ -26,7 +26,7 @@ std::uint64_t factorial(std::int64_t number)
     }
 
     std::double_t result = 1.0;
-    for (std::int64_t ii = 1; ii < number; ii++)
+    for (std::int64_t ii = 1; ii <= number; ii++)
     {
         result = result * ii;
     }
@@ -55,7 +55,7 @@ std::uint64_t doublefactorial(std::int64_t number)
     }
 
     std::double_t result = 1.0;
-    for (std::int64_t ii = number; ii > 1; ii-=2)
+    for (std::int64_t ii = number; ii >= 1; ii-=2)
     {
         result = result * ii;
     }

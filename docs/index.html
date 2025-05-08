@@ -23,21 +23,22 @@
         <main class="content">
             <h2 class="introduction" id="introduction"> Introduction </h2>
             <p>
-                Planck is a rewrite of the previous project <a
-                    href="https://github.com/HemanthHaridas/plank.py">plank.py</a>, which was a mixture of CPython and
-                Cython. The older version suffered from poor performance due to its design and my limited programming
-                skills at the time of its creation. Planck, on the other hand, is written entirely in C++ and
-                incorporates OpenMP parallelism to improve performance in critical sections. However, it is important to
-                note that Planck is not intended to replace commercially available software like Gaussian, GAMESS, or
-                NWChem. Instead, it serves as a set of programs suitable for educational purposes. Planck is distributed
-                under the GPL3 License.
+                Planck is a rewrite of the previous project <a href="https://github.com/HemanthHaridas/plank.py">plank.py</a>, which was a mixture of CPython and Cython. The older version suffered from poor performance due to its design and my limited programming skills at the time of its creation. Planck, on the other hand, is written entirely in C++ and incorporates OpenMP parallelism to improve performance in critical sections. However, it is important to note that Planck is not intended to replace commercially available software like Gaussian, GAMESS, or NWChem. Instead, it serves as a set of programs suitable for educational purposes. Planck is distributed under the GPL3 License.
+            </p>
+            <p>
+                <!-- Planck supports the evaluation of molecular integrals using three separate algorithms: 
+                <ul>
+                    <li>Algorithm described by Taketa, Huzinaga and O-omata : Implemented in Planck as Huzinaga</li>
+                    <li>Algorithm based on Hermite Gaussians : Implemented in Planck as Hermite</li>
+                    <li>Algorithm described by Taketa, Huzinaga and O-omata : Implemented in Planck as Huzinaga</li>
+                </ul> -->
             </p>
             <h2 class="installation-instructions" id="installation-instructions"> Installation Instructions </h2>
             <p>
-                Planck uses the library Boost in the backend for parsing the basis set files and to keep track of the
-                process times. Therefore it is mandatory to install Boost before installing Planck. You can find
-                instructions on how to install Boost based on your OS in the official Boost website. Planck also uses
-                libmsym library for detection of molecular symmetry and orbital symmetries, and Eigen for matrix operations.
+                Planck uses the library Boost in the backend for parsing the basis set files and to keep track of the process times. Therefore it is mandatory to install Boost before installing Planck. You can find instructions on how to install Boost based on your OS in the official Boost website. Planck also uses libmsym library for detection of molecular symmetry and orbital symmetries, and Eigen for matrix operations.
+            </p>
+            <p>
+                If your machine does not have Boost and (or) Eigen pre-installed, the build process would try to build a version of Boost and Eigen packaged with the the Planck source code.
             </p>
             <div class="installation-instructions-block">
                 <p>git clone https://github.com/HemanthHaridas/planck.git</p>
@@ -48,32 +49,39 @@
                 <p>make install</p>
             </div>
             <p>
-                A set of basis sets (sto-3g, 3-21g and 6-31g) are bundled with the code, and would be installed in the
-                same directory as the executable. A Python code is provided to convert a gaussian basis set (.gbs) file
-                to the corresponding .xml file (which is the file format used in Planck). The generated files can then
-                be placed in the /basis folder in the installation directory.
+                A set of basis sets [sto-3g, 3-21g, 6-31g and 6-311g++(d,p)] are bundled with the code, and would be installed in the same directory as the executable. A Python code [create_basis.py] is provided in /tools to convert a gaussian basis set (.gbs) file to the corresponding .xml file (which is the file format used in Planck). The generated files can then be placed in the /basis folder in the installation directory.
             </p>
             <h2 class="example-input" id="example-input"> Example Input </h2>
             <div class="input-block">
                 <pre>
-                    energy rhf sto-3g ang 1
+                    [SETUP]
+                    CALC_TYPE   ENERGY
+                    THEORY      RHF
+                    BASIS       6-311++G(D,P)
+                    COOR_TYPE   ANG
+                    USE_SYMM    ON
+                    USE_DIIS    ON
+                    [END_SETUP]
+                    
+                    [GEOM]
                     3
                     0   1
-                    H     -5.508900    3.032300   -0.572100
-                    H     -4.562600    3.625900    0.796100
-                    O     -4.568400    2.888400   -0.020100
+                    H                     0.866811829        0.601435779   0.000000
+                    H                    -0.866811829        0.601435779   0.000000
+                    O                     0.000000000       -0.075791844   0.000000
+                    [END_GEOM]
                     
                     [CONTROL]
-                    MAXSCF 10
-                    MAXITER 10
-                    TOLSCF 1.0E-10
+                    MAXSCF      100
+                    MAXITER     120
+                    TOLSCF      1.0E-10
+                    TOLERI      1.0E-14
+                    DIIS_DIM    20
+                    [END_CONTROL]
                 </pre>
             </div>
             <p>
-                This would perform a single point calculation on a water molecule using sto-3g basis set at a Restricted
-                Hartee-Fock level. You have the option to provide the coordinates in units of angstroem or in units of
-                Bohr. You can also set the detection of molecular symmetry to be on or off by setting the value to be 1
-                (on) or 0 (off).
+                This would perform a single point calculation on a water molecule using 6-311g++(d,p) basis set at a Restricted Hartee-Fock level. You have the option to provide the coordinates in units of angstroem or in units of Bohr. You can also set the detection of molecular symmetry to be on or off by setting the value of USE_SYMM to be ON or OFF.
             </p>
             <h2 class="types-of-calculations" id="types-of-calculations"> Supported Calculations </h2>
             <p>
